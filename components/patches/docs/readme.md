@@ -1,5 +1,9 @@
 # Patches.
 
+Here, we document the patches for user convenience. If there is some patch you think should not be applied, just edit the patches.2da file and turn the value in the patch column from 1 to 0.
+
+Do note that the ultimate authority is the code, which is even commented in fair detail; there is always the chance that this doc is not 100% synched with the code, so bear that in mind (if that bothers you, patches are welcomed).
+
 ## Arcane spells.
 
 ### Level 1.
