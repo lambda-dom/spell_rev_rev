@@ -45,13 +45,24 @@ note(s):
 3. Fireball: use EE damage opcode features.
 4. Hold Person: added display string "Held" opcode.
 5. Lightning Bolt: use EE damage opcode features.
-6. Monster Summoning III: hobarcsu.eff power 6 -> 0.
+6. Monster Summoning III: summoning eff power 6 -> 0.
 7. Non-detection: protection from spell opcodes power 0 -> 3.
 8. Slow: The second Remove Spell Type Protections has a spurious save bonus. The first play sound opcode has no save and timing mode 0 -> 1.
 9. Skull Trap: use EE damage opcode features.
 10. Wraitform: dispel_resistance 1 -> 3. It also blocks innate abilities, but this is undocumented so it is removed. Display String opcode power 0 -> 3.
 11. Minor Spell Deflection: spurious repeated modify proficiency and set spell state opcodes. The first spell deflection spell opcode also has resource a subspell that is supposed to remove spell deflection effects, but it is spurious. The latter is added and the former changed.
 12. Spell Thrust: made trigger radius equal to explosion. See Kjeron's comments in the [SR fixes questions](https://www.gibberlings3.net/forums/topic/30963-sr-fixes-questions/) thread.
+
+### Level 4.
+
+1. Ice Sorm: fix duration of movement rate penalty 24 -> 7. See Kjeron's comments in the [SR fixes questions](https://www.gibberlings3.net/forums/topic/30963-sr-fixes-questions/) thread.
+2. Minor Globe of Invulnerability: remove double fireball protection. Change description to mention correct duration of 2 turns.
+3. Contagion: Opcode's power 3 -> 4. Casting spell opcodes cast non-existent "sppr311d" -- clone aux spell from cleric version and patch it in.
+4. Break Enchantment: add remove charmed icon opcodes. Clarified description to mention it removes petrification.
+5. Greater Malison: Change description to mention correct duration of 2 turns.
+6. Teleport Field: mention in description it bypasses mr.
+7. Farsight: clairvoyance opcode power 3 -> 4. Clairvoyance and farsight opcodes resist/dispel -> 2.
+8. Monster Summoning IV: summoning eff power 8 -> 0.
 
 ## Divine spells.
 

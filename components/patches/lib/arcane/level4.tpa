@@ -1,0 +1,99 @@
+//Includes.
+//Libraries.
+//Arcane spell patches: level 4.
+//Ice Storm.
+DEFINE_PATCH_FUNCTION WIZARD_ICE_STORM
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 126                  //Movement rate bonus.
+        duration = 7                        //24 -> 7.
+    END
+END
+
+//Minor Globe of Invulnerability.
+DEFINE_PATCH_FUNCTION WIZARD_MINOR_GLOBE_OF_INVULNERABILITY
+BEGIN
+    //Remove double protection from fireball.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_FIREBALL" RET res = spell_res END
+    LPF DELETE_EFFECT INT_VAR
+        multi_match = 1
+        match_opcode = 206                  //Protection from spell.
+    STR_VAR
+        match_resource = ~%res%~
+    END
+END
+
+//Contagion.
+DEFINE_PATCH_FUNCTION WIZARD_CONTAGION
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 4
+    END
+    //Copy new resource.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_CONTAGION" RET spell_res = spell_res END
+    TEXT_SPRINT res "%spell_res%a"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~dvpr311d.spl~ ~override/%res%.spl~
+            //Patch resource per CLERIC_CONTAGION patch -- function must be in scope.
+            LPF CLERIC_CONTAGION_AUX END
+        END
+    //Patch in new resource.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 206                  //Protection from spell
+    STR_VAR
+        resource = ~%res%~
+    END
+END
+
+//Break Enchantment.
+DEFINE_PATCH_FUNCTION WIZARD_BREAK_ENCHANTMENT
+BEGIN
+    //Icons charm, dire charm, domination.
+    PATCH_FOR_EACH icon IN ~0~ ~1~ ~45~ BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 240                    //Remove portrait icon.
+            target = 2
+            timing = 1
+            parameter2 = icon
+            power = 4
+            resist_dispel = 3
+            insert_point = 9
+        END
+    END
+END
+
+//Greater Malison.
+DEFINE_PATCH_FUNCTION WIZARD_GREATER_MALISON
+BEGIN
+END
+
+//Teleport field.
+DEFINE_PATCH_FUNCTION WIZARD_TELEPORT_FIELD
+BEGIN
+END
+
+//Farsight.
+DEFINE_PATCH_FUNCTION WIZARD_FAR_SIGHT
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 117                  //Clairvoyance.
+        power = 4
+        resist_dispel = 2
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 239                  //Farsight.
+        resist_dispel = 2
+    END
+END
+
+//Monster Summoning IV.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_4
+BEGIN
+    TEXT_SPRINT res "spidgisu"
+    INNER_ACTION BEGIN
+        //power 8 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END

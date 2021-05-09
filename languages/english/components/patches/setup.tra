@@ -12,6 +12,51 @@ Saving Throw: None
 
 When this spell is cast, the wizard's eyes glow with magical energy, enabling him to read the aura of a creature, and determine the creature's strengths and weaknesses. For the duration of the spell, the target's physical resistances are lowered by 10% and all attacks against the target creature are made with a +2 bonus to the attack roll. Certain magical devices negate the power of the Know Opponent spell, and the spell has no effect on creatures who don't emanate auras, such as constructs. Magic resistance does not affect this spell.~
 
+//Level 4.
+@1400 = ~Minor Globe of Invulnerability
+Level: 4
+School: Abjuration
+Range: Personal
+Duration: 2 turns
+Casting Time: 4
+Area of Effect: Caster
+Saving Throw: None
+
+This spell creates a faintly shimmering magical sphere around the caster that prevents any 1st-, 2nd-, or 3rd-level spell effects from penetrating (i.e., the area of effect of any such spells does not include the area of the globe of invulnerability). This includes innate abilities and effects from devices. However, any type of spell can be cast out of the magical sphere, and these pass from the caster of the globe to their subject without affecting the globe. Fourth and higher level spells are not affected by the globe. The globe can be brought down by a successful dispel magic.~
+
+@1401 = ~Greater Malison
+Level: 4
+School: Enchantment
+Range: Long
+Duration: 2 rounds/level
+Casting Time: 4
+Area of Effect: 30' radius
+Saving Throw: None
+
+The spell allows the caster to adversely affect the saving throws of his enemies. The effect is applied to all hostile creatures within the area of effect. Those under the influence of this spell make all their saving throws at a penalty of -2, and take an extra point of spell damage for each die rolled. Multiple castings of this spell are not cumulative.~
+
+@1402 = ~Teleport Field
+Level: 4
+School: Alteration
+Range: Long
+Duration: 1 turn
+Casting Time: 4
+Area of Effect: 30' radius
+Saving Throw: Spell negates
+
+With this spell, the wizard instigates a teleportation effect as far as the wizard can see. All enemies in this area are randomly teleported for the duration of the spell unless they save vs. spell at -4. Magic resistance does not effect this spell. This spell is best used against multiple enemies, serving to confuse them and allowing the wizard to concentrate on activating her defenses.~
+
+@1405 = ~Break Enchantment
+Level: 4
+School: Abjuration
+Range: Short
+Duration: Permanent
+Casting Time: 5
+Area of Effect: 1 creature
+Saving Throw: None
+
+Upon casting this spell, the mage is able to free a victim from enchantments and curses. The spell can reverse the effects of confusion and feeblemindedness, free a victim from petrification, magical sleep or charm, and break the effects of a curse. Note that Break Enchantment cannot remove the curse from a cursed shield, weapon, or suit of armor, for example, but allows those afflicted with any such cursed item to get rid of it. Certain special curses may not be countered by this spell, or may be countered only by a caster of a certain level or through a particular ritual.~
+
 //Divine spells.
 //Level 1.
 @2100 = ~Sunscorch

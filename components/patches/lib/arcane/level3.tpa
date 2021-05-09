@@ -221,14 +221,11 @@ END
 //Spell Thrust.
 DEFINE_PATCH_FUNCTION WIZARD_SPELL_THRUST
 BEGIN
-    //Read projectile res.
-    LPF GET_SPELL_HEADER_OFFSET RET header_offset = offset END
-    READ_SHORT (header_offset + $SPELL_HEADER_OFFSETS("projectile")) projectile
-    LOOKUP_IDS_SYMBOL_OF_INT res "projectl" projectile
+    TEXT_SPRINT res "dvsplthr"
     INNER_ACTION BEGIN
-        //Change area radius of projectile.
+        //Change area radius of projectile -> 15'.
         COPY_EXISTING ~%res%.pro~ ~override~
-            WRITE_SHORT 0x204 150           //Trigger radius -> 15'
+            WRITE_SHORT 0x204 150
     END
 END
 

@@ -87,6 +87,15 @@ BEGIN
 END
 
 //Contagion.
+//Defer patching of auxiliary spell to a function to use it elsewhere.
+DEFINE_PATCH_FUNCTION CLERIC_CONTAGION_AUX
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 78
+        match_parameter2 = 10               //Slow.
+    END
+END
+
 DEFINE_PATCH_FUNCTION CLERIC_CONTAGION
 BEGIN
     LPF DELETE_SPELL_EFFECT INT_VAR
@@ -95,10 +104,7 @@ BEGIN
     TEXT_SPRINT res "dvpr311d"
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.spl~ ~override~
-            LPF DELETE_EFFECT INT_VAR
-                match_opcode = 78
-                match_parameter2 = 10       //Slow.
-            END
+            LPF CLERIC_CONTAGION_AUX END
     END
 END
 

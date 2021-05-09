@@ -34,6 +34,14 @@ WIZARD_SKULL_TRAP                       1       0
 WIZARD_WRAITH_FORM                      1       0
 WIZARD_MINOR_SPELL_DEFLECTION           1       0
 WIZARD_SPELL_THRUST                     1       0
+WIZARD_ICE_STORM                        1       0
+WIZARD_MINOR_GLOBE_OF_INVULNERABILITY   1       1400
+WIZARD_CONTAGION                        1       0
+WIZARD_BREAK_ENCHANTMENT                1       1405
+WIZARD_GREATER_MALISON                  1       1401
+WIZARD_TELEPORT_FIELD                   1       1402
+WIZARD_FAR_SIGHT                        1       0
+WIZARD_MONSTER_SUMMONING_LEVEL_4        1       0
 CLERIC_COMMAND                          1       0
 CLERIC_CURE_LIGHT_WOUNDS                1       0
 CLERIC_ENTANGLE                         1       0
