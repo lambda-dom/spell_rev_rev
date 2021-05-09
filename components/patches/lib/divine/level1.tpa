@@ -1,0 +1,112 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+
+//Divine spell patches: level 1.
+//Command.
+DEFINE_PATCH_FUNCTION CLERIC_COMMAND
+BEGIN
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    //Change save type of first 275 opcode = third opcode.
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 174              //Play sound.
+            savingthrow = 1
+            savebonus = 1 - i
+        END
+    END
+    //Use EE sleep opcode features.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep
+        parameter2 = 0                      //Wake on damage.
+        special = 14                        //Sleep icon and string.
+    END
+    //resist_dispel -> 3 in self-targeted play visual opcode.
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual.
+        match_target = 1
+        resist_dispel = 3
+    END
+END
+
+//Cure Light Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_CURE_LIGHT_WOUNDS
+BEGIN
+    //Add remove intoxicated icon opcode.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 240                        //Remove Portrait Icon.
+        target = 2
+        timing = 1
+        parameter2 = 5                      //Intoxicated.
+        power = 1
+        resist_dispel = 3
+        insert_point = 4
+    END
+END
+
+//Entangle.
+DEFINE_PATCH_FUNCTION CLERIC_ENTANGLE
+BEGIN
+    //Durations 8 -> 7.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        duration_high = 7
+    END
+END
+
+//Sanctuary.
+DEFINE_PATCH_FUNCTION CLERIC_SANCTUARY
+BEGIN
+    //Duration 60 -> 36.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 174                  //Play sound.
+        duration = 36
+    END
+END
+
+//Shillelagh.
+DEFINE_PATCH_FUNCTION CLERIC_SHILLELAGH
+BEGIN
+    //Change amount 0 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 111                  //Create Item.
+        parameter1 = 1
+    END
+END
+
+//Good berries.
+DEFINE_PATCH_FUNCTION CLERIC_GOOD_BERRIES
+BEGIN
+    //Change power 2 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 1
+    END
+END
+
+//Cause Light Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_CAUSE_LIGHT_WOUNDS
+BEGIN
+    //Change power 4 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 1
+    END
+END
+
+//Sunscorch.
+DEFINE_PATCH_FUNCTION CLERIC_SUNSCORCH
+BEGIN
+END
+
+//Regenerate Light Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_REGENERATE_LIGHT_WOUNDS
+BEGIN
+    //resist_dispel 0 -> 3.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 3
+    END
+    //Undo changes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321                  //Remove Effects by Resource.
+        resist_dispel = 0
+    END
+END

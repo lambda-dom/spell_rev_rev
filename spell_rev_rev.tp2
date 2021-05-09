@@ -1,9 +1,6 @@
 BACKUP ~spell_rev_rev/backup~
 AUTHOR "lambda_dom"
-VERSION "v1.0"
-
-//Readme
-README ~%MOD_FOLDER%/readme.md~
+VERSION "1.0"
 
 //Flags.
 AUTO_EVAL_STRINGS
@@ -18,6 +15,7 @@ END
 //Languages
 LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/languages/english/setup.tra~
 
+//Components.
 BEGIN @0 DESIGNATED 0
 LABEL "gr#-spell_rev_rev-patches"
 REQUIRE_PREDICATE (GAME_IS "bgee bg2ee eet") @10

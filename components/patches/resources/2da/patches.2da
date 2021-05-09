@@ -7,3 +7,12 @@ WIZARD_TRUE_STRIKE                      1       0
 WIZARD_SHIELD                           1       0
 WIZARD_SLEEP                            1       0
 WIZARD_CHILL_TOUCH                      1       0
+CLERIC_COMMAND                          1       0
+CLERIC_CURE_LIGHT_WOUNDS                1       0
+CLERIC_ENTANGLE                         1       0
+CLERIC_SANCTUARY                        1       0
+CLERIC_SHILLELAGH                       1       0
+CLERIC_GOOD_BERRIES                     1       0
+CLERIC_CAUSE_LIGHT_WOUNDS               1       0
+CLERIC_SUNSCORCH                        1       2100
+CLERIC_REGENERATE_LIGHT_WOUNDS          1       0
