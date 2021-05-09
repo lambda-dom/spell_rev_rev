@@ -1,0 +1,31 @@
+//Includes.
+//Libraries.
+INCLUDE "%LIBRARY_DIR%/arrays/main.tpa"
+
+//Patches.
+INCLUDE ~%MOD_FOLDER%/components/%component%/lib/patches.tpa~
+
+
+//Read table of spells to patch.
+COPY - ~%MOD_FOLDER%/components/%component%/resources/2da/patches.2da~ ~override~
+    READ_2DA_ENTRIES_NOW rows 3
+    FOR (i = 0; i < rows; ++i) BEGIN
+        //Collect data.
+        READ_2DA_ENTRY_FORMER rows i 0 spell
+        READ_2DA_ENTRY_FORMER rows i 1 patch
+        READ_2DA_ENTRY_FORMER rows i 2 descr
+        PATCH_IF NOT (~%patch%~ = 0) BEGIN
+            //Fetch and copy resource.
+            LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell%~ RET res = spell_res END
+            INNER_ACTION BEGIN
+                COPY_EXISTING ~%res%.spl~ ~override~
+                    //Set description if any.
+                    PATCH_IF NOT (descr = 0) BEGIN
+                        ref = RESOLVE_STR_REF ((AT descr))
+                        WRITE_LONG $SPELL_OFFSETS("descr") ref
+                    END
+                    //Call patch function.
+                    LPF ~%spell%~ END
+            END
+        END
+    END

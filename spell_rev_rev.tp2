@@ -1,0 +1,25 @@
+BACKUP ~spell_rev_rev/backup~
+AUTHOR "lambda_dom"
+VERSION "v1.0"
+
+//Readme
+README ~%MOD_FOLDER%/readme.md~
+
+//Flags.
+AUTO_EVAL_STRINGS
+//Component preamble.
+ALWAYS
+    //Set library dir.
+    OUTER_TEXT_SPRINT LIBRARY_DIR "gr-lib"
+    //Library includes.
+    INCLUDE ~%LIBRARY_DIR%/installers/main.tpa~
+END
+
+//Languages
+LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/languages/english/setup.tra~
+
+BEGIN @0 DESIGNATED 0
+LABEL "gr#-spell_rev_rev-patches"
+REQUIRE_PREDICATE (GAME_IS "bgee bg2ee eet") @10
+REQUIRE_PREDICATE (MOD_IS_INSTALLED "spell_rev.tp2" 0) @11
+LAF INSTALL_COMPONENT STR_VAR component = "patches" END
