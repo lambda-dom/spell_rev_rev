@@ -1,0 +1,133 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+
+//Arcane spell patches: level 1.
+//Grease.
+DEFINE_PATCH_FUNCTION WIZARD_GREASE
+BEGIN
+    //Delete spurious extra 324 opcode.
+    LPF DELETE_EFFECT INT_VAR
+        header = 0
+        multi_match = 1
+        match_opcode = 324                  //Immunity to resource
+    END
+END
+
+//Monster Summoning I.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_1
+BEGIN
+    TEXT_SPRINT res "gibbersu"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 6 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Protection from Petrification.
+DEFINE_PATCH_FUNCTION WIZARD_PROTECTION_FROM_PETRIFICATION
+BEGIN
+    //Clean opcode.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 267                      //Protection from String.
+        parameter2 = 0
+    END
+    //"Gaze Reflection" -> "Protection from Petrification".
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 139                      //Display string.
+        parameter1 = 7266
+    END
+END
+
+//True Strike.
+DEFINE_PATCH_FUNCTION WIZARD_TRUE_STRIKE
+BEGIN
+    //Change target 2 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        target = 1
+    END
+    //Delete spurious 321 opcode.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_SHIELD" RET res = spell_res END
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 321
+    STR_VAR
+        match_resource = ~%res%~
+    END
+    //Delete spurious 206 opcodes.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 206
+    END
+END
+
+//Shield.
+DEFINE_PATCH_FUNCTION WIZARD_SHIELD
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 174
+        resist_dispel = 3
+    END
+    //Add missing spell protection.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "TRAP_MAGIC_MISSILE" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 206                        //Protection from spell.
+        target = 1
+        timing = 0
+        duration = 300
+        power = 1
+        resist_dispel = 3
+        insert_point = 12                   //Before 206 vs. Shield.
+    STR_VAR
+        resource = ~%res%~
+    END
+    //Change stacking -> refresh.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_SHIELD" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 321                        //Remove Effects by Resource
+        target = 1
+        insert_point = 0
+    STR_VAR
+        resource = ~%res%~
+    END
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 206                  //Protection from spell.
+    STR_VAR
+        match_resource = ~%res%~
+    END
+    //Remove useless protection.
+    TEXT_SPRINT res "wand03"
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 206                  //Protection from spell.
+    STR_VAR
+        match_resource = ~%res%~
+    END
+END
+
+//Sleep.
+DEFINE_PATCH_FUNCTION WIZARD_SLEEP
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep
+        parameter2 = 0                      //Wake on damage.
+        special = 14                        //Sleep icon and string.
+    END
+    //Remove obsoleted opcodes.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 232                  //Cast spell on condition.
+    END
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 142                  //Display portrait.
+        parameter2 = 14
+    END
+END
+
+//Chill touch.
+DEFINE_PATCH_FUNCTION WIZARD_CHILL_TOUCH
+BEGIN
+    //Change amount 0 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 111                  //Create Item.
+        parameter1 = 1                      //0 -> 1.
+    END
+END

@@ -1,4 +1,3 @@
 //Includes.
-//Libraries.
-INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
-INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+//Divide the patches in files for ease of maintenance.
+INCLUDE ~%MOD_FOLDER%/components/%component%/lib/arcane/level1.tpa~
