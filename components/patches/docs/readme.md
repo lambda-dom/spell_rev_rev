@@ -1,8 +1,8 @@
-# Patches.
+# A. Patches.
 
-Here, we document the patches for user convenience. If there is some patch you think should not be applied, just edit the patches.2da file and turn the value in the patch column from 1 to 0.
+In this section we document the patches for the user's convenience. If there is some patch you think should not be applied, just edit the patches.2da file and turn the value in the patch column from 1 to 0.
 
-Do note that the ultimate authority is the code, which is even commented in fair detail; there is always the chance that this doc is not 100% synched with the code, so bear that in mind (if that bothers you, patches are welcomed).
+Do note that the ultimate authority is the code, which is even commented in reasonable detail; there is always the chance that this doc is not 100% synched with the code, so bear that in mind (if that bothers you, patches are welcomed).
 
 ## Arcane spells.
 
@@ -37,6 +37,21 @@ note(s):
 13. Ray of Enfeeblement: both the first play sound and character pulse opcodes lack save.
 14. Chaos Shield: play visual and second protection from spell have target preset (2) instead of self (1).
 15. Sound Burst: use EE damage opcode features on aux spell.
+
+### Level 3.
+
+1. Clairvoyance: save vs. breath bonus power 0 -> 2.
+2. Dispel Magic: timing of Remove spell type protections opcode 3 -> 1. Power of Play Visual 3 -> 0 for consistency with other opcodes.
+3. Fireball: use EE damage opcode features.
+4. Hold Person: added display string "Held" opcode.
+5. Lightning Bolt: use EE damage opcode features.
+6. Monster Summoning III: hobarcsu.eff power 6 -> 0.
+7. Non-detection: protection from spell opcodes power 0 -> 3.
+8. Slow: The second Remove Spell Type Protections has a spurious save bonus. The first play sound opcode has no save and timing mode 0 -> 1.
+9. Skull Trap: use EE damage opcode features.
+10. Wraitform: dispel_resistance 1 -> 3. It also blocks innate abilities, but this is undocumented so it is removed. Display String opcode power 0 -> 3.
+11. Minor Spell Deflection: spurious repeated modify proficiency and set spell state opcodes. The first spell deflection spell opcode also has resource a subspell that is supposed to remove spell deflection effects, but it is spurious. The latter is added and the former changed.
+12. Spell Thrust: made trigger radius equal to explosion. See Kjeron's comments in the [SR fixes questions](https://www.gibberlings3.net/forums/topic/30963-sr-fixes-questions/) thread.
 
 ## Divine spells.
 

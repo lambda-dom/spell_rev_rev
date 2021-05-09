@@ -1,0 +1,234 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+
+//Arcane spell patches: level 3.
+//Clairvoyance.
+DEFINE_PATCH_FUNCTION WIZARD_CLAIRVOYANCE
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 36                   //Save vs. breath.
+        power = 2
+    END
+    //Cleaning.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321
+        target = 1
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 141
+        target = 1
+    END
+END
+
+//Dispel Magic.
+DEFINE_PATCH_FUNCTION WIZARD_REMOVE_MAGIC
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 221                  //Remove Spell Type Protections.
+        timing = 1
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215                  //Play Visual.
+        power = 0
+    END
+END
+
+//Fireball.
+DEFINE_PATCH_FUNCTION WIZARD_FIREBALL
+BEGIN
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        match_savingthrow = 16777218        //Save vs. breath + EEx MI.
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 4
+            savingthrow = 16777218          //Save vs. breath + EEx MI.
+            savebonus = 0 - 2
+            special = 256                   //Save for half.
+        END
+    END
+END
+
+//Hold Person.
+DEFINE_PATCH_FUNCTION WIZARD_HOLD_PERSON
+BEGIN
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 139                        //Display string.
+        target = 2
+        power = 3
+        timing = 1
+        parameter1 = 14102                  //Held.
+        resist_dispel = 1
+        savingthrow = 1
+        savebonus = 0 - 2
+        insert_point = 2
+    END
+END
+
+//Lightning Bolt.
+DEFINE_PATCH_FUNCTION WIZARD_LIGHTNING_BOLT
+BEGIN
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        match_savingthrow = 2               //Save vs. breath.
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 4
+            savingthrow = 2                 //Save vs. breath.
+            savebonus = 0 - 4
+            special = 256                   //Save for half.
+        END
+    END
+END
+
+//Monster Summoning III.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_3
+BEGIN
+    TEXT_SPRINT res "hobarcsu"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END
+
+//Non-detection.
+DEFINE_PATCH_FUNCTION WIZARD_NON_DETECTION
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 206                  //Protection from Spell.
+        power = 3
+    END
+END
+
+//Slow.
+DEFINE_PATCH_FUNCTION WIZARD_SLOW
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 221                  //Remove Spell Type Protections.
+        match_savebonus = 0 - 2                   
+        savebonus = 0
+    END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 174                  //Play Sound.
+        timing = 1
+        savingthrow = 16                    //save vs. polymorph
+        savebonus = 0 - 2
+    STR_VAR
+        match_resource = "eff_m29"
+    END
+END
+
+//Skull Trap.
+DEFINE_PATCH_FUNCTION WIZARD_SKULL_TRAP
+BEGIN
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        match_savingthrow = 2               //Save vs. breath.
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 4
+            savingthrow = 2                 //Save vs. breath.
+            savebonus = 0 - 2
+            special = 256                   //Save for half.
+        END
+    END
+END
+
+//Wraithform.
+DEFINE_PATCH_FUNCTION WIZARD_WRAITH_FORM
+BEGIN
+    //resist_dispel 1 -> 3
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321                  //Remove Effects by Resource.
+        resist_dispel = 0
+    END
+    //Delete spurious innate blocking opcodes.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 145                  //Disable spellcasting.
+        match_parameter2 = 2                //Innate.
+    END
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 144                  //Disable Button.
+        match_parameter2 = 13               //Special abilities.
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 139                  //Display string.
+        power = 3
+    END
+END
+
+//Minor Spell Deflection.
+DEFINE_PATCH_FUNCTION WIZARD_MINOR_SPELL_DEFLECTION
+BEGIN
+    //Delete spurious duplicate opcodes.
+    LPF DELETE_EFFECT INT_VAR
+        multi_match = 1
+        match_opcode = 328                  //Set Spell State
+    END
+    LPF DELETE_EFFECT INT_VAR
+        multi_match = 1
+        match_opcode = 233                  //Modify Proficiencies
+    END
+    //Alter Spell Deflection -> Remove Effects by Resource.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~WIZARD_MINOR_SPELL_DEFLECTION~ RET res = spell_res END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 201                  //Spell Deflection.
+        opcode = 321                        //Remove Effects by Resource.
+        parameter1 = 0
+        parameter2 = 0
+        timing = 1
+        duration = 0
+    STR_VAR
+        match_resource = "spwi318b"
+        res = ~%res%~
+    END
+    //Add Spell Deflection opcode.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 201                        //Spell Deflection.
+        target = 1
+        power = 3
+        parameter1 = 6                      //Levels.
+        parameter2 = 1                      //Spell level.
+        timing = 0
+        resist_dispel = 2
+        duration = 300
+        insert_point = 1
+    END
+END
+
+//Spell Thrust.
+DEFINE_PATCH_FUNCTION WIZARD_SPELL_THRUST
+BEGIN
+    //Read projectile res.
+    LPF GET_SPELL_HEADER_OFFSET RET header_offset = offset END
+    READ_SHORT (header_offset + $SPELL_HEADER_OFFSETS("projectile")) projectile
+    LOOKUP_IDS_SYMBOL_OF_INT res "projectl" projectile
+    INNER_ACTION BEGIN
+        //Change area radius of projectile.
+        COPY_EXISTING ~%res%.pro~ ~override~
+            WRITE_SHORT 0x204 150           //Trigger radius -> 15'
+    END
+END
+
