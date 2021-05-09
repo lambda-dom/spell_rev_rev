@@ -102,5 +102,5 @@ note(s):
 * uses Attack Nearest opcode instead of fear. Bug?
 
 8. Contagion: aux spell had 5th disease opcode (slow) probability1 0. The opcode is undocumented, so it is deleted. Remove spurious protection against chaotic commands.
-9. Cause Serious Wounds: opcodes power 4 -> 3.
-10. Regenerate Serious Wounds: opcodes power 1 -> 3.
+9. Cause Serious Wounds: opcode's power 4 -> 3.
+10. Regenerate Serious Wounds: opcode's power 1 -> 3.
