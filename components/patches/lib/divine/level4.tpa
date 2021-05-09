@@ -1,0 +1,174 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+
+//Divine spell patches: level 4.
+//Cure Critical Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_CURE_SERIOUS_WOUNDS
+BEGIN
+    //Add remove intoxicated icon opcode.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 240                        //Remove Portrait Icon.
+        target = 2
+        timing = 1
+        parameter2 = 5                      //Intoxicated.
+        power = 4
+        resist_dispel = 3
+        insert_point = 4
+    END
+END
+
+//Animal Summoning IV.
+DEFINE_PATCH_FUNCTION CLERIC_ANIMAL_SUMMONING_LEVEL_4
+BEGIN
+    TEXT_SPRINT res "catjagsu"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 8 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Free Action.
+DEFINE_PATCH_FUNCTION CLERIC_FREE_ACTION
+BEGIN
+    //Fix spell protections of first header.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_WEB" RET res = spell_res END
+    LPF ALTER_EFFECT INT_VAR
+        header = 0
+        multi_match = 1
+        match_opcode = 206                  //Protection from spell.
+    STR_VAR
+        match_resource = "spwm164"
+        resource = ~%res%~
+    END
+    //Add missing spell protections in headers other than the first.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 2 ; i <= headers_count ; ++i) BEGIN
+        //wish slow, spin983 slow and web
+        PATCH_FOR_EACH res IN ~spwi215~ ~spin983~ ~spwish25~ BEGIN
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 206                //Protection from spell.
+                target = 2
+                timing = 0
+                power = 4
+                resist_dispel = 3
+                duration = (6 + i) * 60
+                header = i
+                insert_point = 0 - 1
+            STR_VAR
+                resource = ~%res%~
+            END
+        END
+    END
+    //Add missing protections against display string: paralyzed and slowed.
+    FOR (j = 1 ; j <= headers_count ; ++j) BEGIN
+        PATCH_FOR_EACH sref IN ~14650~ ~14668~ BEGIN
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 267                //Disable display string.
+                target = 2
+                timing = 0
+                parameter1 = sref
+                power = 4
+                resist_dispel = 3
+                duration = (6 + j) * 60
+                header = j
+                insert_point = 28
+            END
+        END
+    END
+    //Remove spurious opcodes.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 240              //Remove portrait icon.
+    END
+END
+
+DEFINE_PATCH_FUNCTION CLERIC_NEUTRALIZE_POISON
+BEGIN
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 267                    //Disable display string.
+            target = 2
+            timing = 0
+            parameter1 = 14662              //Poisoned.
+            power = 4
+            resist_dispel = 3
+            duration = (6 + i) * 60
+            header = i
+            insert_point = 9
+        END
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 240                   //Remove Portrait Icon.
+            target = 2
+            timing = 1
+            parameter2 = 6                 //Poisoned.
+            power = 4
+            resist_dispel = 3
+            header = i
+            insert_point = 1
+        END
+    END
+END
+
+//Domination.
+DEFINE_PATCH_FUNCTION CLERIC_MENTAL_DOMINATION
+BEGIN
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 139                        //Display string.
+        target = 2
+        timing = 1
+        parameter1 = 8364                   //Dominated.
+        power = 4
+        resist_dispel = 1
+        savingthrow = 1
+        savebonus = 0 - 2
+        insert_point = 3
+    END
+END
+
+//Far sight.
+DEFINE_PATCH_FUNCTION CLERIC_FAR_SIGHT
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 117                  //Clairvoyance.
+        power = 4
+        resist_dispel = 2
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 174                  //Play Sound.
+        power = 4
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 239                  //Far sight.
+        power = 4
+    END
+END
+
+//Ice Storm.
+DEFINE_PATCH_FUNCTION CLERIC_ICE_STORM
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        parameter1 = 0
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 126                  //Movement rate bonus.
+        duration = 7                        //24 -> 7: wrong math in SR.
+    END
+END
+
+//Regenerate Critical Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_REGENERATE_CRITICAL_WOUNDS
+BEGIN
+    //power 1 -> 4.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 4
+    END
+    //Undo changes for 321 opcodes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321
+        power = 0
+    END
+END

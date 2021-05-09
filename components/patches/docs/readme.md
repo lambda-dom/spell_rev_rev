@@ -108,10 +108,22 @@ note(s):
 * contrary to the druid version, it does *not* dispel insect swarms. It also has a *documented* penalty of -2 to the saves.
 
 7. Summon Insects: panic on failed save vs. poison is not referred to in the description. Added it to description.
+8. Animal Summoning III: summoning eff power 8 -> 0.
+9. Contagion: aux spell had 5th disease opcode (slow) probability1 0. The opcode is undocumented, so it is deleted. Remove spurious protection against chaotic commands.
+10. Cause Serious Wounds: opcode's power 4 -> 3.
+11. Regenerate Serious Wounds: opcode's power 1 -> 3.
 
-note(s):
-* uses Attack Nearest opcode instead of fear. Bug?
+### Level 4.
 
-8. Contagion: aux spell had 5th disease opcode (slow) probability1 0. The opcode is undocumented, so it is deleted. Remove spurious protection against chaotic commands.
-9. Cause Serious Wounds: opcode's power 4 -> 3.
-10. Regenerate Serious Wounds: opcode's power 1 -> 3.
+1. Cure Critical Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
+2. Animal Summoning IV: summoning eff power 8 -> 0.
+3. Free Action: first header repeated protection against spell spwm164, but missing protection against web so altering the resource in the opcode. Second and subsequent headers miss protection against spells wish slow, spin983 slow and web. All headers missing protection against strings 14650 = "Paralyzed" and 14668 = "Slowed". Remove spurious 240 opcodes.
+
+notes(s):
+* 240 opcodes are not spurious *if* Free Action removes the corresponding statuses.
+
+4. Neutralize Poison: misses protection against string 14662 = "Poisoned". Add remove poisoned icon opcode.
+5. Domination: misses opcode display string 8364 = "Dominated"
+6. Farsight: errors in several opcode's power and resist_dispel.
+7. Ice Sorm: fix duration of movement rate penalty 24 -> 7. Damage opcode has an undocumented +2 damage.
+8. Regenerate Critical Wounds: power of opcodes 1 -> 4.

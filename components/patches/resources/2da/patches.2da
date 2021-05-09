@@ -72,6 +72,15 @@ CLERIC_UNHOLY_BLIGHT                    1       0
 CLERIC_CURE_MEDIUM_WOUNDS               1       0
 CLERIC_GUST_OF_WIND                     1       0
 CLERIC_SUMMON_INSECTS                   1       2300
+CLERIC_ANIMAL_SUMMONING_LEVEL_3         1       0
 CLERIC_CONTAGION                        1       0
 CLERIC_CAUSE_MEDIUM_WOUNDS              1       0
 CLERIC_REGENERATE_SERIOUS_WOUNDS        1       0
+CLERIC_CURE_SERIOUS_WOUNDS              1       0
+CLERIC_ANIMAL_SUMMONING_LEVEL_4         1       0
+CLERIC_FREE_ACTION                      1       0
+CLERIC_NEUTRALIZE_POISON                1       0
+CLERIC_MENTAL_DOMINATION                1       0
+CLERIC_FAR_SIGHT                        1       0
+CLERIC_ICE_STORM                        1       0
+CLERIC_REGENERATE_CRITICAL_WOUNDS       1       0

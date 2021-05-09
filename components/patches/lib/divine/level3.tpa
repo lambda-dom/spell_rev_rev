@@ -86,6 +86,18 @@ DEFINE_PATCH_FUNCTION CLERIC_SUMMON_INSECTS
 BEGIN
 END
 
+//Animal Summoning III.
+DEFINE_PATCH_FUNCTION CLERIC_ANIMAL_SUMMONING_LEVEL_3
+BEGIN
+    TEXT_SPRINT res "wolfsu"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 8 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
 //Contagion.
 //Defer patching of auxiliary spell to a function to use it elsewhere.
 DEFINE_PATCH_FUNCTION CLERIC_CONTAGION_AUX
