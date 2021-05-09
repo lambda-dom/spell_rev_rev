@@ -26,6 +26,6 @@ note(s):
 4. Sanctuary: play sound opcode duration 60 -> 36.
 5. Shilellagh: create item opcode amount 0 -> 1.
 6. Good Berry: power of opcodes 2 -> 1.
-7. Cause Light Wounds: power of opcodes 4 -> 1.
+7. Cause Light Wounds: power of opcodes 4 -> 1. This implies it *does* not bypass MGoI.
 8. Sunscorch: change documentation to explicitly mention that a save vs. spell (not vs. breath, as rolled to halve the damage) will avoid blindness.
 9. Regenerate Light Wounds: resist_dispel -> 3.
