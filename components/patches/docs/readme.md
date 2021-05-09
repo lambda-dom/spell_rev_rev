@@ -20,6 +20,24 @@ note(s):
 6. Sleep: changed implementation to use EE features of sleep code. This meant the deletion of the cast spell on condition and display portrait icon opcodes.
 7. Chill Touch: create item opcode amount 0 -> 1.
 
+### Level 2.
+
+1. Blur: power of opcodes 3 -> 2.
+2. Detect Invisibility: opcode Invisibility Detection resistance_dispel 2 -> 3.
+3. Battering Ram: Sleep opcode gained special = 14 for icon and strref.
+4. Know Opponent: fix casting time 9 -> 2 to synch with cleric's version. Description fix.
+5. Luck: detect illusion resistance_dispel 0 -> 3.
+6. Resist Fear: harmless, but reset morale duration 40 -> 0.
+7. Melf's Acid Arrow: remove 324 opcode as with it, missile damage is also blocked by acid immunity.
+8. Mirror Image: change non-stacking to EE refreshing and added protection against Reflected Image.
+9. Monster Summoning II: corrected power of summoning effect.
+10. Ghoul Touch: create item opcode amount 0 -> 1.
+11. Vocalize: play visual effect opcode power 1 -> 2.
+12. Power Word Sleep: Sleep opcode gained EE special = 14 for icon and strref.
+13. Ray of Enfeeblement: both the first play sound and character pulse opcodes lack save.
+14. Chaos Shield: play visual and second protection from spell have target preset (2) instead of self (1).
+15. Sound Burst: use EE damage opcode features on aux spell.
+
 ## Divine spells.
 
 ### Level 1.

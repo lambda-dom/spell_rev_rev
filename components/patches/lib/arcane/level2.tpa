@@ -1,0 +1,187 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+
+//Arcane spell patches: level 2.
+//Blur.
+DEFINE_PATCH_FUNCTION WIZARD_BLUR
+BEGIN
+    //Power of opcodes 3 -> 2.
+    LPF ALTER_SPELL_EFFECT INT_VAR 
+        power = 2
+    END
+    //Undo changes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321                  //Remove Effects by Resource.
+        power = 0
+    END
+END
+
+//Detect Invisibility.
+DEFINE_PATCH_FUNCTION WIZARD_DETECT_INVISIBILITY
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 193                  //Invisibility Detection.
+        resist_dispel = 3
+    END
+END
+
+//Battering Ram.
+DEFINE_PATCH_FUNCTION WIZARD_BATTERING_RAM
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep
+        special = 14                        //Sleep icon and string.
+    END
+END
+
+//Know opponent.
+DEFINE_PATCH_FUNCTION WIZARD_KNOW_OPPONENT
+BEGIN
+    LPF ALTER_SPELL_HEADER INT_VAR 
+        speed = 2                           //Casting speed 9 -> 2.
+    END
+END
+
+//Luck.
+DEFINE_PATCH_FUNCTION WIZARD_LUCK
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 276                  //Detect Illusion Bonus
+        resist_dispel = 3
+    END
+END
+
+//Resist Fear.
+DEFINE_PATCH_FUNCTION WIZARD_RESIST_FEAR
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 23                   //Reset morale.
+        duration = 0
+    END
+END
+
+//Melf's Acid Arrow.
+DEFINE_PATCH_FUNCTION WIZARD_MELF_ACID_ARROW
+BEGIN
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 324              //Immunity to resource.
+    END
+END
+
+//Mirror Image.
+DEFINE_PATCH_FUNCTION WIZARD_MIRROR_IMAGE
+BEGIN
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_MIRROR_IMAGE" RET res_new = spell_res END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_REFLECTED_IMAGE" RET res_old = spell_res END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 321                  //Remove effect by resource.
+    STR_VAR
+        match_resource = ~%res_old%~
+        resource = ~%res_new%~
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 206                        //Protection from spell.
+        target = 1
+        power = 2
+        resist_dispel = 3
+        timing = 0
+        duration = 300
+        insert_point = 0 - 1
+    STR_VAR
+        resource = ~%res_old%~
+    END
+END
+
+//Monster Summoning II.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_2
+BEGIN
+    TEXT_SPRINT res "jellgrsu"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 6 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Ghoul Touch.
+DEFINE_PATCH_FUNCTION WIZARD_GHOUL_TOUCH
+BEGIN
+    //Change amount 0 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 111                  //Create Item.
+        parameter1 = 1
+    END
+END
+
+//Vocalize.
+DEFINE_PATCH_FUNCTION WIZARD_VOCALIZE
+BEGIN
+    //Change power 1 -> 2.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215                  //Play Visual Effect.
+        power = 2
+    END
+END
+
+//Power Word Sleep.
+DEFINE_PATCH_FUNCTION WIZARD_POWER_WORD_SLEEP
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep
+        special = 14                        //Sleep icon and string.
+    END
+END
+
+//Ray of Enfeeblement.
+DEFINE_PATCH_FUNCTION WIZARD_RAY_OF_ENFEEBLEMENT
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 50                   //Character pulse.
+        savingthrow = 1
+        savebonus = 0 - 2
+    END
+    //Alter first play sound opcode.
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 174                  //Play sound.
+        match_timing = 1
+        savingthrow = 1
+        savebonus = 0 - 2
+    END
+END
+
+//Chaos Shield.
+DEFINE_PATCH_FUNCTION WIZARD_CHAOS_SHIELD
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        target = 1
+    END
+END
+
+//Sound Burst.
+DEFINE_PATCH_FUNCTION WIZARD_SOUND_BURST
+BEGIN
+    TEXT_SPRINT res "spwi223d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                match_savingthrow = 2       //Save vs. breath.
+            END
+            //Alter damage opcode.
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                power = 2
+                timing = 1
+                resist_dispel = 1
+                dicenumber = 4
+                savingthrow = 2             //Save vs. breath.
+                savebonus = 0 - 2
+                special = 256               //Save for half.
+            END
+        BUT_ONLY
+    END
+END
