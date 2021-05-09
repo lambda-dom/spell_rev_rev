@@ -83,3 +83,24 @@ note(s):
 12. Gust of Wind: sleep opcode resist_dispel 0 -> 1. Add to description that it dispels insect swarms. Sleep opcode gained special = 14 for icon and strref.
 13. Cause Moderate Wounds: power 0 -> 2.
 14. Animal Summoning II: summoning eff power 8 -> 0.
+
+### Level 3.
+
+1. Break Enchantment: add remove charm icon opcodes. Add to description that it also removes petrification.
+2. Remove Paralysis: delete spurious prevent portrait opcode.
+3. Holy Smite: first header has a spurious Use Eff mask_evil opcode. Holy Smite no longer targets only evils.
+4. Unholy Blight: first header has a spurious Use Eff mask_good opcode. Unholy Blight no longer targets only goody two-shoes. Base thac0 penalty, Lighting Effects and Play Sound opcodes lack saves. All the save penalty opcodes have an undocumented penalty -2. I am assuming this is an error and fixed it, all the more because Holy Smite does not have this penalty for its blindness effect.
+5. Cure Serious Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
+6. Gust of Wind: sleep opcode resist_dispel 0 -> 1. 
+
+note(s):
+* contrary to the druid version, it does *not* dispel insect swarms. It also has a *documented* penalty of -2 to the saves.
+
+7. Summon Insects: panic on failed save vs. poison is not referred to in the description. Added it to description.
+
+note(s):
+* uses Attack Nearest opcode instead of fear. Bug?
+
+8. Contagion: aux spell had 5th disease opcode (slow) probability1 0. The opcode is undocumented, so it is deleted. Remove spurious protection against chaotic commands.
+9. Cause Serious Wounds: opcodes power 4 -> 3.
+10. Regenerate Serious Wounds: opcodes power 1 -> 3.

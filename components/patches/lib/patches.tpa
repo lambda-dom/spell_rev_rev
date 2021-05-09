@@ -5,3 +5,4 @@ INCLUDE ~%MOD_FOLDER%/components/%component%/lib/arcane/level2.tpa~
 INCLUDE ~%MOD_FOLDER%/components/%component%/lib/arcane/level3.tpa~
 INCLUDE ~%MOD_FOLDER%/components/%component%/lib/divine/level1.tpa~
 INCLUDE ~%MOD_FOLDER%/components/%component%/lib/divine/level2.tpa~
+INCLUDE ~%MOD_FOLDER%/components/%component%/lib/divine/level3.tpa~

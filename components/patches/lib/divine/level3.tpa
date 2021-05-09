@@ -1,0 +1,126 @@
+//Includes.
+//Divine spell patches: level 3.
+//Break Enchantment.
+DEFINE_PATCH_FUNCTION CLERIC_BREAK_ENCHANTMENT
+BEGIN
+    //Remove portrait icons corresponding to charm.
+    PATCH_FOR_EACH icon IN ~0~ ~1~ ~43~ BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 240                    //Remove portrait icon.
+            target = 2
+            timing = 1
+            parameter2 = icon
+            power = 3
+            resist_dispel = 3
+            insert_point = 9
+        END
+    END
+END
+
+//Remove Paralysis.
+DEFINE_PATCH_FUNCTION CLERIC_REMOVE_PARALYSIS 
+BEGIN
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 169              //Prevent icon.
+    END
+END
+
+//Holy Smite.
+DEFINE_PATCH_FUNCTION CLERIC_HOLY_SMITE
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        header = 0
+        match_opcode = 177                  //Use Eff.
+    END
+END
+
+//Unholy Blight.
+DEFINE_PATCH_FUNCTION CLERIC_UNHOLY_BLIGHT
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        header = 0
+        match_opcode = 177                  //Use Eff.
+    END
+    //Add saves to Lighting Effects, Base Thac0 penalty, Play Sound.
+    PATCH_FOR_EACH opcode IN ~141~ ~54~ ~174~ BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            match_opcode = opcode
+            savingthrow = 1
+        END
+    END
+    //Kill penalty in save penalty opcodes.
+    PATCH_FOR_EACH opcode IN ~33~ ~34~ ~35~ ~36~ ~37~ BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            match_opcode = opcode
+            savebonus = 0
+        END
+    END
+END
+
+//Cure Serious Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_CURE_MEDIUM_WOUNDS
+BEGIN
+    //Add remove intoxicated icon opcode.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 240                        //Remove Portrait Icon.
+        target = 2
+        timing = 1
+        parameter2 = 5                      //Intoxicated.
+        power = 3
+        resist_dispel = 3
+        insert_point = 4
+    END
+END
+
+//Cleric's Gust of Wind.
+DEFINE_PATCH_FUNCTION CLERIC_GUST_OF_WIND
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep.
+        resist_dispel = 1
+    END
+END
+
+//Summon Insects.
+DEFINE_PATCH_FUNCTION CLERIC_SUMMON_INSECTS
+BEGIN
+END
+
+//Contagion.
+DEFINE_PATCH_FUNCTION CLERIC_CONTAGION
+BEGIN
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 324              //Immunity to resource.
+    END
+    TEXT_SPRINT res "dvpr311d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 78
+                match_parameter2 = 10       //Slow.
+            END
+    END
+END
+
+//Cause Serious Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_CAUSE_MEDIUM_WOUNDS
+BEGIN
+    //Change power 4 -> 3.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 3
+    END
+END
+
+//Regenerate Serious Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_REGENERATE_SERIOUS_WOUNDS
+BEGIN
+    //Change power 1 -> 3.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 3
+    END
+    //Undo changes for 321 opcodes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321
+        power = 0
+    END
+END
