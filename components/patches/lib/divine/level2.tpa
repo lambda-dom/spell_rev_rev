@@ -1,0 +1,222 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+
+//Divine spell patches: level 2.
+//Chant.
+DEFINE_PATCH_FUNCTION CLERIC_CHANT
+BEGIN
+    //Prevent stacking saves.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "CLERIC_CHANT" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 321                        //Protection from spell
+        target = 2
+        insert_point = 0
+    STR_VAR
+        resource = ~%res%~
+    END
+    //Remove spurious 321 opcode in aux spell.
+    TEXT_SPRINT res "sppr203d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 321          //Remove Effects by Resource.
+            STR_VAR
+                match_resource = "sppr203e"
+                resource = ~%res%~
+            END
+        BUT_ONLY
+    END
+END
+
+//Charm Person or Animal.
+DEFINE_PATCH_FUNCTION CLERIC_CHARM_PERSON
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 324                  //Immunity to Resource and Message.
+    STR_VAR
+        match_resource = "sppr102"
+    END
+END
+
+//Find Traps.
+DEFINE_PATCH_FUNCTION CLERIC_FIND_TRAPS
+BEGIN
+    //Clean cast opcodes.
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 146                  //Cast spell.
+        power = 0
+        dicesize = 0
+    END
+    //Fix Find Traps opcode in aux spell.
+    TEXT_SPRINT res "sppr205d"
+    INNER_ACTION BEGIN
+        //Find Traps aux spell.
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 150          //Find Traps
+                target = 1
+                duration = 6
+            END
+        BUT_ONLY
+    END
+END
+
+//Flame Blade.
+DEFINE_PATCH_FUNCTION CLERIC_FLAME_BLADE
+BEGIN
+    //Change amount 0 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 111                  //Create Item.
+        parameter1 = 1
+    END
+END
+
+//Hold Person.
+DEFINE_PATCH_FUNCTION CLERIC_HOLD_PERSON
+BEGIN
+    //Change save bonus -1 -> 0.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 174                  //Play Sound.
+        savebonus = 0
+    END
+    //Add opcode display string held. 
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 139                        //Display string.
+        target = 2
+        timing = 1
+        parameter1 = 14102                  //Held.
+        power = 2
+        resist_dispel = 1
+        savingthrow = 1
+        insert_point = 5
+    END
+    //Remove spurious 321 opcodes.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 321              //Remove effects by resource.
+    END
+END
+
+//Know opponent.
+DEFINE_PATCH_FUNCTION CLERIC_KNOW_OPPONENT
+BEGIN
+END
+
+//Slow Poison.
+DEFINE_PATCH_FUNCTION CLERIC_SLOW_POISON
+BEGIN
+    //Intoxicated and poison icons.
+    PATCH_FOR_EACH icon IN ~5~ ~6~ BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 240                    //Remove Portrait Icon.
+            target = 2
+            timing = 1
+            parameter2 = icon
+            power = 2
+            resist_dispel = 3
+            insert_point = 0 - 1
+        END
+    END
+END
+
+//Spiritual Hammer.
+DEFINE_PATCH_FUNCTION CLERIC_SPIRITUAL_HAMMER
+BEGIN
+    //Change amount 0 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 111                  //Create Item.
+        parameter1 = 1
+    END
+END
+
+//Cure Moderate Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_CURE_MODERATE_WOUNDS
+BEGIN
+    //Add remove intoxicated icon opcode.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 240                        //Remove Portrait Icon.
+        target = 2
+        timing = 1
+        parameter2 = 5                      //Intoxicated.
+        power = 2
+        resist_dispel = 3
+        insert_point = 4
+    END
+END
+
+//Fire Trap.
+DEFINE_PATCH_FUNCTION CLERIC_FIRE_TRAP
+BEGIN
+    //Change implementation to take advantage of EE.
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        match_savingthrow = 16777218        //Save vs. breath + EEx MI.
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 2
+            savingthrow = 16777218          //Save vs. breath + EEx MI.
+            special = 256                   //Save for half.
+        END
+    END
+END
+
+//Regenerate Moderate Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_REGENERATE_MODERATE_WOUNDS
+BEGIN
+    //Change power 1 -> 2.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 2
+        resist_dispel = 3
+    END
+    //Undo change to 321 opcodes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321
+        power = 0
+        resist_dispel = 0
+    END
+END
+
+//Gust of Wind.
+DEFINE_PATCH_FUNCTION CLERIC_GUST_OF_WIND_DRUID_VERSION
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep.
+        resist_dispel = 1
+    END
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 146              //Cast spell.
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep.
+        resist_dispel = 1
+        special = 14
+    END
+END
+
+//Cause Moderate Wounds.
+DEFINE_PATCH_FUNCTION CLERIC_CAUSE_MODERATE_WOUNDS
+BEGIN
+    //Change power 0 -> 2.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 2
+    END
+END
+
+//Animal Summoning II.
+DEFINE_PATCH_FUNCTION CLERIC_ANIMAL_SUMMONING_LEVEL_2
+BEGIN
+    TEXT_SPRINT res "dogwasu"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 8 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END

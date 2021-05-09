@@ -51,3 +51,20 @@ note(s):
 7. Cause Light Wounds: power of opcodes 4 -> 1. This implies it *does* not bypass MGoI.
 8. Sunscorch: change documentation to explicitly mention that a save vs. spell (not vs. breath, as rolled to halve the damage) will avoid blindness.
 9. Regenerate Light Wounds: resist_dispel -> 3.
+
+### Level 2.
+
+1. Chant: Added 321 opcode to prevent stacking saves and removed spurious 321 opcode from aux spell.
+2. Charm Person or Animal: the second 324 opcode is spurious.
+3. Find Traps: auxiliary spell duration 20 -> 6 and target 2 (preset) -> 1 (self).
+4. Flame Blade: create item opcode amount 0 -> 1.
+5. Hold Person: play sound opcode has a save bonus of -1. Added display string 14102 = "Held" opcode. Remove spurious 321 opcodes targeting know opponent.
+6. Know Opponent: Description changed casting speed 1 round -> 2.
+7. Slow Poison: add remove intoxicated icon opcode since the spell also cures intoxication. Add remove poisoned icon opcode.
+8. Spiritual Hammer: create item opcode amount 0 -> 1.
+9. Cure Moderate Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
+10. Fire Trap: changed implementation to use EE features, namely the save for half flag.
+11. Regenerate Moderate Wounds: power of opcodes 1 -> 2, resist_dispel 0 -> 3.
+12. Gust of Wind: sleep opcode resist_dispel 0 -> 1. Add to description that it dispels insect swarms. Sleep opcode gained special = 14 for icon and strref.
+13. Cause Moderate Wounds: power 0 -> 2.
+14. Animal Summoning II: summoning eff power 8 -> 0.

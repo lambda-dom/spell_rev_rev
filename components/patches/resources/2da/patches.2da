@@ -31,3 +31,17 @@ CLERIC_GOOD_BERRIES                     1       0
 CLERIC_CAUSE_LIGHT_WOUNDS               1       0
 CLERIC_SUNSCORCH                        1       2100
 CLERIC_REGENERATE_LIGHT_WOUNDS          1       0
+CLERIC_CHANT                            1       0
+CLERIC_CHARM_PERSON                     1       0
+CLERIC_FIND_TRAPS                       1       0
+CLERIC_FLAME_BLADE                      1       0
+CLERIC_HOLD_PERSON                      1       0
+CLERIC_KNOW_OPPONENT                    1       2200
+CLERIC_SLOW_POISON                      1       0
+CLERIC_SPIRITUAL_HAMMER                 1       0
+CLERIC_CURE_MODERATE_WOUNDS             1       0
+CLERIC_FIRE_TRAP                        1       0
+CLERIC_REGENERATE_MODERATE_WOUNDS       1       0
+CLERIC_GUST_OF_WIND_DRUID_VERSION       1       2201
+CLERIC_CAUSE_MODERATE_WOUNDS            1       0
+CLERIC_ANIMAL_SUMMONING_LEVEL_2         1       0

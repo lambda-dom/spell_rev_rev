@@ -25,3 +25,28 @@ Area of Effect: 1 creature
 Saving Throw: Breath partial
 
 When this spell is cast, a brilliant ray of scorching heat slants down from the sky and strikes one target of the caster's choice. The creature struck by the ray sustains 2d6 points of fire damage plus 1d6 every two extra levels of experience (up to a maximum of 6d6). Undead creatures and monsters vulnerable to bright light suffer double damage (up to a maximum of 12d6). If the target successfully rolls a saving throw vs. breath he will receive only half damage. In addition to sustaining damage, victims who fail their save vs. spell are blinded for 1 round.~
+
+//Level 2.
+@2200 = ~Know Opponent
+Level: 2
+School: Divination
+Sphere: Divination
+Range: Long
+Duration: 2 turns
+Casting Time: 2
+Area of Effect: 1 creature
+Saving Throw: None
+
+When this spell is cast, the caster's eyes glow with magical energy, enabling him to read the aura of a creature, and determine the creature's strengths and weaknesses. For the duration of the spell, the target's physical resistances are lowered by 10% and all attacks against the target creature are made with a +2 bonus to the attack roll. Certain magical devices negate the power of the Know Opponent spell, and the spell has no effect on creatures who don't emanate auras, such as constructs. Magic resistance does not affect this spell.~
+
+@2201 = ~Gust of Wind
+Level: 2
+School: Evocation
+Sphere: Elemental (Air)
+Range: Personal
+Duration: Instant
+Casting Time: 1
+Area of Effect: Special
+Saving Throw: Special
+
+This spell creates a severe blast of air that originates from the caster, affecting all enemies in its path. Those within 6 feet must save vs. breath or be blown back by the force of the gust and knocked unconscious for 1 round. In addition, this spell will disperse all clouds in the caster's current area, including magically created vapors such as Cloudkill, as well as dispersing any insect swarms in the area.~
