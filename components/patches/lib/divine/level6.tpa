@@ -1,0 +1,102 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+
+//Divine spell patches: level 6.
+//Animal Summoning VI.
+DEFINE_PATCH_FUNCTION CLERIC_ANIMAL_SUMMONING_LEVEL_6
+BEGIN
+    TEXT_SPRINT res "bearcasu"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 8 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Heal.
+DEFINE_PATCH_FUNCTION CLERIC_HEAL
+BEGIN
+    //Add remove poisoned icon opcode.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 240                    //Remove Portrait Icon.
+        target = 2
+        timing = 1
+        parameter2 = 6                  //Poisoned.
+        power = 6
+        resist_dispel = 3
+        insert_point = 0 - 1
+    END
+END
+
+//Dolorous Decay.
+DEFINE_PATCH_FUNCTION CLERIC_DOLOROUS_DECAY
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215              //Play visual effect.
+        savebonus = 0 - 4
+    END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 78               //Disease.
+        match_parameter2 = 2            //Damage per second.
+        parameter1 = 1                  //2 -> 1.
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215              //Play visual effect.
+        timing = 1
+    END
+END
+
+//Physical Mirror.
+DEFINE_PATCH_FUNCTION CLERIC_PHYSICAL_MIRROR
+BEGIN
+    TEXT_SPRINT res "sppr613d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                power = 6
+            END
+    END
+END
+
+//Regeneration.
+DEFINE_PATCH_FUNCTION CLERIC_REGENERATION_DRUID_VERSION
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 3
+    END
+    //Undo changes for 321 opcodes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321
+        resist_dispel = 3
+    END
+END
+
+//Banishment.
+DEFINE_PATCH_FUNCTION CLERIC_BANISHMENT
+BEGIN
+    //Remove spurious 177 opcodes in spell and aux spell.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 177                  //Use Eff.
+        match_parameter1 = 20
+    END
+    TEXT_SPRINT res "dvbanish"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 177          //Use Eff.
+                match_parameter1 = 20
+            END
+    END
+END
+
+//Animate Skeleton Warrior.
+DEFINE_PATCH_FUNCTION CLERIC_ANIMATE_SKELETON_WARRIOR
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 177              //Use Eff.
+        power = 6
+        resist_dispel = 2
+    END
+END

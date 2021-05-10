@@ -29,7 +29,7 @@
 1. Cone of Cold: use EE damage opcode features.
 2. Fireburst: use EE damage opcode features on aux spell.
 3. Mestil's Acid Shield: same problem as Fire Shield.
-4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it, so not adding it.
+4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it.
 
 ### Level 6.
 
@@ -62,11 +62,15 @@
 
 ### Level 4.
 
-1. Free Action: 240 opcodes are not spurious *if* Free Action removes the corresponding statuses.
+1. Free Action: 240 opcodes are not spurious *if* Free Action removes the corresponding icon opcodes.
 
 ### Level 5.
 
 1. True Seeing: since resist_dispel on casting opcodes 3 -> 2 should resist_dispel of opcodes in subspell -> 3? The protection from spell is against the cloak's reflected image, shouldn't it be remove resource opcode instead?
 2. Insect Plague: same issue with Summon Insects.
 3. Flame Strike: use EE features of damage opcode.
-4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it, so not adding it.
+4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it.
+
+### Level 6.
+
+1. False Dawn: all but the first cast spell opcodes have magic resist 3. But these are delayed cast spell opcodes so it is at least plausible that they be dispellable, even though the subspell opcodes are themselves dispellable.

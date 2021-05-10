@@ -11,3 +11,4 @@ INCLUDE ~%MOD_FOLDER%/components/%component%/lib/divine/level2.tpa~
 INCLUDE ~%MOD_FOLDER%/components/%component%/lib/divine/level3.tpa~
 INCLUDE ~%MOD_FOLDER%/components/%component%/lib/divine/level4.tpa~
 INCLUDE ~%MOD_FOLDER%/components/%component%/lib/divine/level5.tpa~
+INCLUDE ~%MOD_FOLDER%/components/%component%/lib/divine/level6.tpa~
