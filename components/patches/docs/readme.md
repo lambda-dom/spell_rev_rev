@@ -90,6 +90,12 @@ note(s):
 12. Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2.
 13. Monster Summoning VI: summoning eff power -> 0.
 
+### Level 7.
+
+1. Chaos: Opcodes have save penalty -6 instead of -4 and hold opcode has no save. Add display icon for Hold, Sleep and Berserk effects, and string for Hold. Misses immunity by chaotic commands.
+2. Finger of Death: damage is 2d8 + level not 6d8 as advertized. Here I am going by the implementation instead of the docs.
+3. Power Word Stun: has an undocumented one-round stun with a save -2.
+
 ## Divine spells.
 
 ### Level 1.

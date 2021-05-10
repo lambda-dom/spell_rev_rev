@@ -62,6 +62,9 @@ WIZARD_CONJURE_AIR_ELEMENTAL            1       0
 WIZARD_CONJURE_EARTH_ELEMENTAL          1       0
 WIZARD_ANIMATE_SKELETON_WARRIOR         1       0
 WIZARD_MONSTER_SUMMONING_LEVEL_6        1       0
+WIZARD_CHAOS                            1       0
+WIZARD_FINGER_OF_DEATH                  1       1700
+WIZARD_POWER_WORD_STUN                  1       0
 CLERIC_COMMAND                          1       0
 CLERIC_CURE_LIGHT_WOUNDS                1       0
 CLERIC_ENTANGLE                         1       0

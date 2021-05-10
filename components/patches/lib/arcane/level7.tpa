@@ -1,0 +1,94 @@
+//Includes.
+//Libraries.
+//Arcane spell patches: level 7.
+//Chaos.
+DEFINE_PATCH_FUNCTION WIZARD_CHAOS
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        savingthrow = 1
+        savebonus = 0 - 4
+    END
+    //Held remaining opcodes.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 142                        //Display Icon.
+        target = 2
+        timing = 0
+        parameter2 = 13                     //Held.
+        power = 7
+        resist_dispel = 1
+        duration = 6
+        probability1 = 100
+        probability2 = 81
+        savingthrow = 1
+        savebonus = 0 - 4
+        insert_point = 0 - 1
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 139                        //Display string.
+        target = 2
+        timing = 1
+        parameter1 = 14102                  //Held.
+        power = 7
+        resist_dispel = 1
+        probability1 = 100
+        probability2 = 81
+        savingthrow = 1
+        savebonus = 0 - 4
+        insert_point = 0 - 1
+    END
+    //Sleep remaining opcodes.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 142                        //Display Icon.
+        target = 2
+        timing = 0
+        parameter2 = 14                     //Sleep.
+        power = 7
+        resist_dispel = 1
+        duration = 6
+        probability1 = 80
+        probability2 = 61
+        savingthrow = 1
+        savebonus = 0 - 4
+        insert_point = 9
+    END
+    //Berserk remaining opcode.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 142                        //Display Icon.
+        target = 2
+        timing = 0
+        parameter2 = 4                      //Berserk.
+        power = 7
+        resist_dispel = 1
+        duration = 6
+        probability1 = 20
+        probability2 = 0
+        savingthrow = 1
+        savebonus = 0 - 4
+        insert_point = 1
+    END
+    //Immunity from Chaotic Commands.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_CHAOS" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 324                        //Immunity to Effect.
+        target = 2
+        timing = 0
+        parameter1 = 41
+        parameter2 = 110
+        duration = 1
+    STR_VAR
+        resource = ~%res%~
+    END
+END
+
+//Finger of Death.
+DEFINE_PATCH_FUNCTION WIZARD_FINGER_OF_DEATH
+BEGIN
+END
+
+//Power Word Stun.
+DEFINE_PATCH_FUNCTION WIZARD_POWER_WORD_STUN
+BEGIN
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 45               //Stun.
+    END
+END

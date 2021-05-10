@@ -1,5 +1,7 @@
 //Includes.
 //Libraries.
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+
 //Arcane spell patches: level 4.
 //Ice Storm.
 DEFINE_PATCH_FUNCTION WIZARD_ICE_STORM
