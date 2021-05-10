@@ -118,10 +118,6 @@ note(s):
 1. Cure Critical Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
 2. Animal Summoning IV: summoning eff power 8 -> 0.
 3. Free Action: first header repeated protection against spell spwm164, but missing protection against web so altering the resource in the opcode. Second and subsequent headers miss protection against spells wish slow, spin983 slow and web. All headers missing protection against strings 14650 = "Paralyzed" and 14668 = "Slowed". Remove spurious 240 opcodes.
-
-notes(s):
-* 240 opcodes are not spurious *if* Free Action removes the corresponding statuses.
-
 4. Neutralize Poison: misses protection against string 14662 = "Poisoned". Add remove poisoned icon opcode.
 5. Domination: misses opcode display string 8364 = "Dominated"
 6. Farsight: errors in several opcode's power and resist_dispel.

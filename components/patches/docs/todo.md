@@ -46,3 +46,7 @@
 5. Glyph of Warding: use EE features of damage opcode.
 6. Storm Shield: same problem with Protection from Missiles.
 7. Summon Insects: uses Attack Nearest opcode instead of fear. Bug?
+
+### Level 4.
+
+1. Free Action: 240 opcodes are not spurious *if* Free Action removes the corresponding statuses.

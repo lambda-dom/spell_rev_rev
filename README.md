@@ -8,7 +8,7 @@ First, download and install the gr-lib WeiDU library -- consult the [readme](htt
 
 ## B. Requirements.
 
-[Spell Revisions](https://github.com/Gibberlings3/SpellRevisions) is obviously necessary; use the latest v4 beta 18 release. The mod uses EE features, so it does not work on classical editions or platforms like BGT that rely on it. It is also tested with the game patched to version v2.6.
+[Spell Revisions](https://github.com/Gibberlings3/SpellRevisions) is obviously necessary; use the latest v4 beta 18 release. The mod uses EE features, so it does not work on classical editions or platforms like BGT that rely on it. It was also tested with the game patched to version v2.6, so if you have an earlier version you might see some differences.
 
 As far as load order, it should be installed right after Spell Revisions. The mod was also tested with all SR components installed with the exception of Update NPC Schoolbooks, which is irrelevant as far as this mod is concerned, and Spell Protections protect against AoE spells. I do not use use this component myself, but I expect it should not introduce any major complications -- if you find that it does, patches are welcomed.
 
