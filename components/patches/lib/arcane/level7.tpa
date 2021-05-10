@@ -1,6 +1,32 @@
 //Includes.
 //Libraries.
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+
 //Arcane spell patches: level 7.
+//Monster Summoning VII.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_7
+BEGIN
+    TEXT_SPRINT res "otyughsu"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END
+
+//Summon Death Knight.
+DEFINE_PATCH_FUNCTION WIZARD_SUMMON_DEATH_KNIGHT
+BEGIN
+    TEXT_SPRINT res "spcaco"
+    INNER_ACTION BEGIN
+        //power 7 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END
+
 //Chaos.
 DEFINE_PATCH_FUNCTION WIZARD_CHAOS
 BEGIN

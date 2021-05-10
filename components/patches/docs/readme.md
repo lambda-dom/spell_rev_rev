@@ -92,9 +92,11 @@ note(s):
 
 ### Level 7.
 
-1. Chaos: Opcodes have save penalty -6 instead of -4 and hold opcode has no save. Add display icon for Hold, Sleep and Berserk effects, and string for Hold. Misses immunity by chaotic commands.
-2. Finger of Death: damage is 2d8 + level not 6d8 as advertized. Here I am going by the implementation instead of the docs.
-3. Power Word Stun: has an undocumented one-round stun with a save -2.
+1. Monster Summoning VII: summoning eff power 6 -> 0.
+2. Summon Death Knight: summoning eff power 7 -> 0.
+3. Chaos: Opcodes have save penalty -6 instead of -4 and hold opcode has no save. Add display icon for Hold, Sleep and Berserk effects, and string for Hold. Misses immunity by chaotic commands.
+4. Finger of Death: damage is 2d8 + level not 6d8 as advertized. Here I am going by the implementation instead of the docs.
+5. Power Word Stun: has an undocumented one-round stun with a save -2.
 
 ## Divine spells.
 
