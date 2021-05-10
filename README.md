@@ -16,7 +16,7 @@ The mod is pure WeiDU, so it should be safe from operating system variations. Wh
 
 ## C. Documentation.
 
-User-convenient documentation for the patches applied can be found in the [readme](components/patches/docs/readme.md), while a list of to-dos can be found in the [todo](components/patches/docs/todo.md) file.
+User-convenient documentation for the patches applied can be found in the [readme](components/patches/docs/readme.md), while a list of to-dos can be found in the [todo](components/patches/docs/todo.md) file. Consult this file before submitting an issue or patch.
 
 ## D. Contributing.
 
