@@ -64,6 +64,16 @@ note(s):
 7. Farsight: clairvoyance opcode power 3 -> 4. Clairvoyance and farsight opcodes resist/dispel -> 2.
 8. Monster Summoning IV: summoning eff power 8 -> 0.
 
+### Level 5.
+
+1. Shadow Door: opcode 215 resist_dispel 0 -> 3.
+2. Monster Summoning V: summoning eff power 6 -> 0.
+3. Hold Monster: lacks portrait icon and display string opcodes.
+4. Conjure Lesser Fire Elemental: The first play visual effect opcode (that should play on a successful summon) has the wrong probability 86 - 100 -> 0 - 85.
+5. Phantom Blade: create weapon opcode amount 0 -> 1.
+6. Conjure Lesser Air Elemental: same problem as Conjure Lesser Fire Elemental.
+7. Conjure Lesser Earth Elemental: same problem as Conjure Lesser Fire Elemental.
+
 ## Divine spells.
 
 ### Level 1.

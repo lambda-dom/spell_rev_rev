@@ -42,6 +42,13 @@ WIZARD_GREATER_MALISON                  1       1401
 WIZARD_TELEPORT_FIELD                   1       1402
 WIZARD_FAR_SIGHT                        1       0
 WIZARD_MONSTER_SUMMONING_LEVEL_4        1       0
+WIZARD_SHADOW_DOOR                      1       0
+WIZARD_MONSTER_SUMMONING_LEVEL_5        1       0
+WIZARD_HOLD_MONSTER                     1       0
+WIZARD_CONJURE_LESSER_FIRE_ELEMENTAL    1       0
+WIZARD_PHANTOM_BLADE                    1       0
+WIZARD_CONJURE_LESSER_AIR_ELEMENTAL     1       0
+WIZARD_CONJURE_LESSER_EARTH_ELEMENTAL   1       0
 CLERIC_COMMAND                          1       0
 CLERIC_CURE_LIGHT_WOUNDS                1       0
 CLERIC_ENTANGLE                         1       0

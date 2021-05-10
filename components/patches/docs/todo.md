@@ -24,6 +24,13 @@
 5. Protection from Electricity: power of opcodes 5 -> 4. Level 5 -> 4. Being coded as a level 5 spell, it misses two headers and the durations of the first header have to be fixed. Description level 4, not 5.
 6. Protection from Acid: power of opcodes 5 -> 4. Level 5 -> 4. Same as Protection from Electricity.
 
+### Level 5.
+
+1. Cone of Cold: use EE damage opcode features.
+2. Fireburst: use EE damage opcode features on aux spell.
+3. Mestil's Acid Shield: same problem as Fire Shield.
+4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it, so not adding it.
+
 ## Divine spells.
 
 ### Level 1.

@@ -1,0 +1,97 @@
+//Includes.
+//Libraries.
+//Arcane spell patches: level 5.
+//Shadow Door.
+DEFINE_PATCH_FUNCTION WIZARD_SHADOW_DOOR
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        resist_dispel = 3
+    END
+END
+
+//Monster Summoning V.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_5
+BEGIN
+    TEXT_SPRINT res "ogregrsu"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END
+
+//Hold Monster.
+DEFINE_PATCH_FUNCTION WIZARD_HOLD_MONSTER
+BEGIN
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 142                        //Display icon.
+        target = 2
+        timing = 0
+        parameter2 = 13                     //Held.
+        power = 5
+        resist_dispel = 1
+        duration = 60
+        savingthrow = 1
+        savebonus = 0 - 2
+        insert_point = 2
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 139                        //Display string.
+        target = 2
+        timing = 1
+        parameter1 = 14102                  //Held.
+        power = 5
+        resist_dispel = 1
+        savingthrow = 1
+        savebonus = 0 - 2
+        insert_point = 2
+    END
+END
+
+//Conjure Lesser Fire Elemental.
+DEFINE_PATCH_FUNCTION WIZARD_CONJURE_LESSER_FIRE_ELEMENTAL
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        probability1 = 85
+        probability2 = 0
+    STR_VAR
+        match_resource = "spportal"
+    END
+END
+
+//Phantom Blade.
+DEFINE_PATCH_FUNCTION WIZARD_PHANTOM_BLADE
+BEGIN
+    //Change amount 0 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 111                  //Create Item.
+        parameter1 = 1                      //0 -> 1.
+    END
+END
+
+//Conjure Lesser Air Elemental.
+DEFINE_PATCH_FUNCTION WIZARD_CONJURE_LESSER_AIR_ELEMENTAL
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        probability1 = 85
+        probability2 = 0
+    STR_VAR
+        match_resource = "spportal"
+    END
+END
+
+//Conjure Lesser Earth Elemental.
+DEFINE_PATCH_FUNCTION WIZARD_CONJURE_LESSER_EARTH_ELEMENTAL
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        probability1 = 85
+        probability2 = 0
+    STR_VAR
+        match_resource = "spportal"
+    END
+END
