@@ -74,6 +74,22 @@ note(s):
 6. Conjure Lesser Air Elemental: same problem as Conjure Lesser Fire Elemental.
 7. Conjure Lesser Earth Elemental: same problem as Conjure Lesser Fire Elemental.
 
+### Level 6.
+
+1. Globe of Invulnerability: fix description that duration is 2 turns. Missing spell protections: Ice Storm.
+2. Tenser's Transformation: play visual effect resist/dispel 2 -> 3.
+3. Banishment: Use Eff against non-existent row in gender.ids removed from spell and aux spell.
+4. Protection from Magic Energy: contrary to what is stated, no creatures are immune to this spell; fixed description.
+5. Pierce Magic: duration of display portrait and play sound opcodes.
+6. True Seeing: fixes as in the cleric version.
+7. Improved Haste: repeated protection against slow removed and protection against non-existent spwi545 -> changed to spwm164.
+8. Contingency: three headers why? Removed. Last cast spell opcode for what? It does nothing. Removed.
+9. Conjure Fire Elemental: same problem as Conjure Lesser Fire Elemental, with wrong probabilities in first visual opcode.
+10. Conjure Air Elemental: see Conjure Fire Elemental.
+11. Conjure Earth Elemental: see Conjure Fire Elemental.
+12. Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2.
+13. Monster Summoning VI: summoning eff power -> 0.
+
 ## Divine spells.
 
 ### Level 1.
@@ -145,4 +161,4 @@ note(s):
 7. Repulsion: aux spell sppr515d play visual opcode 215 power 2 -> 5.
 8. Insect Plague: mention that on a failed save vs. poison the victim panics for the round.
 9. Mass Regeneration: power of opcodes 0 -> 5.
-10. Animal growth: Use EFF opcode calls wrong eff. aux spell dvpr525d has undocumented strength and constitution bonuses opcodes, with wrong duration to boot. Deleted. If the strength bonuses are to be kept then they must be documented; the constitution bonus does not make not much sense though, because the hps are already being raised.
+10. Animal growth: Use EFF opcode calls wrong eff. Aux spell dvpr525d has undocumented strength and constitution bonuses opcodes, with wrong duration to boot. Deleted. If the strength bonuses are to be kept then they must be documented; the constitution bonus does not make not much sense though, because the hps are already being raised.

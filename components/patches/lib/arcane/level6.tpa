@@ -1,0 +1,200 @@
+//Includes.
+//Libraries.
+//Arcane spell patches: level 6.
+//Globe of Invulnerability.
+DEFINE_PATCH_FUNCTION WIZARD_GLOBE_OF_INVULNERABILITY
+BEGIN
+    PATCH_FOR_EACH spell IN "CLERIC_ICE_STORM" BEGIN
+        LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell%~ RET res = spell_res END
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 206                    //Protection from spell.
+            target = 1
+            power = 6
+            timing = 0
+            duration = 120
+            resist_dispel = 3
+            insert_point = 1
+        STR_VAR
+            resource = ~%res%~
+        END
+    END
+END
+
+//Tenser's Transformation.
+DEFINE_PATCH_FUNCTION WIZARD_TENSERS_TRANSFORMATION
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        resist_dispel = 3
+    END
+END
+
+//Banishment.
+DEFINE_PATCH_FUNCTION WIZARD_BANISHMENT
+BEGIN
+    //Remove spurious 177 opcodes in spell and aux spell.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 177                  //Use Eff.
+        match_parameter1 = 20
+    END
+    TEXT_SPRINT res "dvbanish"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 177          //Use Eff.
+                match_parameter1 = 20
+            END
+    END
+END
+
+//Protection from Magic Energy.
+DEFINE_PATCH_FUNCTION WIZARD_PROTECTION_FROM_MAGIC_ENERGY
+BEGIN
+END
+
+//Pierce Magic.
+DEFINE_PATCH_FUNCTION WIZARD_PIERCE_MAGIC
+BEGIN
+    TEXT_SPRINT res "spwi608b"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 142          //Display portrait icon.
+                duration = 12
+            END
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 174          //Play sound.
+                duration = 12
+            END
+    END
+END
+
+//True Seeing.
+DEFINE_PATCH_FUNCTION WIZARD_TRUE_SIGHT
+BEGIN
+    //Uniform resist_dispel -> 2.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 2
+    END
+    //Adding missing defenses against blindness.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 169                        //Immunity to portrait icon.
+        target = 1
+        timing = 0
+        parameter2 = 8                      //Blinded.
+        power = 0
+        resist_dispel = 2
+        duration = 60
+        insert_point = 3
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 267                        //Immunity to text.
+        target = 1
+        timing = 5
+        parameter1 = 1474                   //Blinded.
+        power = 0
+        resist_dispel = 2
+        duration = 60
+        insert_point = 4
+    END
+    //Protection against Cleric's obscuring mist.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "CLERIC_OBSCURING_MIST" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 206                        //Immunity to spell.
+        target = 1
+        timing = 0
+        power = 5
+        resist_dispel = 2
+        duration = 60
+    STR_VAR
+        resource = ~%res%~
+    END
+END
+
+//Improved Haste.
+DEFINE_PATCH_FUNCTION WIZARD_IMPROVED_HASTE
+BEGIN
+    //Remove double protection.
+    LPF DELETE_EFFECT INT_VAR
+        multi_match = 1
+        match_opcode = 206                  //Protection from spell.
+    STR_VAR
+        match_resource = "spwi312"
+    END
+    //Change protection.
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 206                  //Protection from spell.
+    STR_VAR
+        match_resource = "spwi545"
+        resource = "spwm164"
+    END
+END
+
+//Contingency.
+DEFINE_PATCH_FUNCTION WIZARD_CONTINGENCY
+BEGIN
+    LPF DELETE_SPELL_HEADER INT_VAR
+        min_level = 2
+    END
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 146              //Cast spell.
+    END
+END
+
+//Conjure Fire Elemental
+DEFINE_PATCH_FUNCTION WIZARD_CONJURE_FIRE_ELEMENTAL
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        probability1 = 85
+        probability2 = 0
+    STR_VAR
+        match_resource = "spportal"
+    END
+END
+
+//Conjure Air Elemental
+DEFINE_PATCH_FUNCTION WIZARD_CONJURE_AIR_ELEMENTAL
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        probability1 = 85
+        probability2 = 0
+    STR_VAR
+        match_resource = "spportal"
+    END
+END
+
+//Conjure Earth Elemental
+DEFINE_PATCH_FUNCTION WIZARD_CONJURE_EARTH_ELEMENTAL
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        probability1 = 85
+        probability2 = 0
+    STR_VAR
+        match_resource = "spportal"
+    END
+END
+
+//Animate Skeleton Warrior.
+DEFINE_PATCH_FUNCTION WIZARD_ANIMATE_SKELETON_WARRIOR
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 177                  //Use Eff.
+        power = 6
+        resist_dispel = 2
+    END
+END
+
+//Monster Summoning VI.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_6
+BEGIN
+    TEXT_SPRINT res "wyvbabsu"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END

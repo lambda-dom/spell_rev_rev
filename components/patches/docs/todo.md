@@ -31,6 +31,12 @@
 3. Mestil's Acid Shield: same problem as Fire Shield.
 4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it, so not adding it.
 
+### Level 6.
+
+1. Flesh to Stone: Main spell: the second remove spell type opcode for k1#haste has inconsistent resist_dispel, timing mode limited and a duration. In the aux spell all opcodes have permanent timing, but with a duration 12, which is harmless, but technically incorrect. Contrary to what is explicitly stated in the docs, all opcodes have resist_dispel 1. The limited duration effects still have resist_dispel 1 => still dispellable and do not bypass mr. This includes the delayed cast opcode spell, which implies that the impending petrification can be prevented by a dispel. I assume this is what the developers intended.
+2. Chain Lightning: use EE damage opcode features.
+3. Disintegrate: use EE damage opcode features.
+
 ## Divine spells.
 
 ### Level 1.
