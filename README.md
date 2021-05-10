@@ -14,11 +14,15 @@ As far as load order, it should be installed right after Spell Revisions. The mo
 
 The mod is pure WeiDU, so it should be safe from operating system variations. While it was tested in linux, using a case-insensitive ext4 partition -- see [here](https://www.gibberlings3.net/forums/topic/28516-the-linux-users-guide-to-installing-mods-on-the-enhanced-editions/) for details on how to set it up -- it should work just fine on Windows or MacOS. If it does not, patches are welcomed.
 
-## C. Contributing.
+## C. Documentation.
+
+User-convenient documentation for the patches applied can be found in the [readme](components/patches/docs/readme.md), while a list of to-dos can be found in the [todo](components/patches/docs/todo.md) file.
+
+## D. Contributing.
 
 If you want to contribute patches, an overview of the code is useful. The mod is designed to only patch spells that have entries in the spell.ids file. Each such patched spell has an entry in patches.2da with the symbolic name, a patch flag (that the user can toggle for fine-grain selection of patches) and a tra reference for the new spell description. The code iterates through the table, and for each entry, if the patch flag is enabled it copies the new description if any (e.g. tra reference is different from 0) and applies the patch function with the same spell symbolic name. The function is found in the relevant tpa file, organized by arcane/divine and level for ease of maintenance. Everything is done in the patch function, including the copying of any needed resources, patching of auxiliary resources, etc.
 
-## D. Tools used.
+## E. Tools used.
 
 * [WeiDU](https://github.com/WeiDUorg/weidu)
 * [Near Infinity](https://github.com/Argent77/NearInfinity)
