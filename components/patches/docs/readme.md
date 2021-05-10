@@ -180,3 +180,17 @@ note(s):
 5. Regeneration: the description explicitly mentions the possibility of dispellability but opcodes have resist_dispel 0 -> 3. Description fix that duration is 3 turns.
 6. Banishment: same problems as wizard's Banishment.
 7. Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2, power 0 -> 6.
+
+### Level 7.
+
+1. Summon Shambling Mound: summoning eff power 8 -> 0.
+2. Summon Death Knight: summoning eff power 7 -> 0.
+3. Nature's Beauty: removed undocumented slay opcode. Added display string "Charmed" opcode.
+4. Finger of Death: damage is 2d8 + level not 6d8 as advertized. Here I am going by the implementation instead of the docs.
+5. Chaos: Add display icon for Hold, Sleep and Berserk effects, and string for Hold.
+6. Holy Word: second visual opcode has probability1 0 while first has resist_dispel 2 -> 1. Added missing display icon for stun. Did *not* add display string opcodes.
+7. Regeneration: description explicitly mentions the possibility of dispellability but opcodes have resist_dispel 0 -> 3. Description fix that duration is 3 turns.
+8. Greater Restoration: added missing remove portrait icons: entangled = 144, grease = 145, poison = 6, panic = 36, berserk = 4.
+9. Unholy Word: second visual opcode has probability1 0 while first has resist_dispel 2 -> 1. Neither the display portrait icon for confusion nor the cast spell scale their maximum levels but rather stay constant (at 0 and 13 respectively). Auxiliary spell implementing slow has a spurious remove illusionary protections opcode. Last play sound opcode, marking the end of slow has duration 0 -> 30.
+10. Animal Summoning VII: summoning eff power 8 -> 0.
+11. Creeping Doom: mention that on a failed save vs. poison at -2 the victim panics for the round.

@@ -197,3 +197,40 @@ Area of Effect: 1 creature
 Saving Throw: None
 
 This powerful spell enables the caster to imbue a creature with the ability to regenerate. This regeneration will heal any wounds and even regenerate lost limbs. The creature affected will regain 1 hit point per second (up to a maximum of 180 hit points within 3 turns at level 10). The effect lasts for the duration of the spell or until dispelled. Multiple castings of this spell are not cumulative.~
+
+//Level 7.
+@2700 = ~Finger of Death
+Level: 7
+School: Necromancy
+Sphere: War
+Range: Long
+Duration: Permanent
+Casting Time: 5
+Area of Effect: 1 creature
+Saving Throw: Death partial
+
+The Finger of Death spell snuffs out the victim's life force. The caster points his finger at the victim after the incantation is complete and death occurs, unless a save vs. death at -2 is made. A creature successfully saving still receives 2d8 + level points of damage, up to a maximum of 2d8 + 20.~
+
+@2701 = ~Regeneration
+Level: 7
+School: Necromancy
+Sphere: Healing
+Range: Touch
+Duration: 3 turns
+Casting Time: 6
+Area of Effect: 1 creature
+Saving Throw: None
+
+This powerful spell enables the caster to imbue a creature with the ability to regenerate. This regeneration will heal any wounds and even regenerate lost limbs. The creature affected will regain 1 hit point per second (up to a maximum of 180 hit points within 3 turns at level 10). The effect lasts for the duration of the spell or until dispelled. Multiple castings of this spell are not cumulative.~
+
+@2702 = ~Creeping Doom
+Level: 7
+School: Conjuration
+Sphere: Animal
+Range: Long
+Duration: 6 rounds
+Casting Time: 5
+Area of Effect: Target, and enemies within 30'
+Saving Throw: Special
+
+For the duration of the spell, those affected fight with a -2 penalty to attack rolls and armor class. In addition, each round the victims suffer 2d3 points of damage from insect bites, have a 100% chance of spell failure, and must make saving throws vs. death at -2 or be poisoned and panic. If a successful save vs. breath at -4 is made, the target manages to avoid most of the swarm, reducing damage from bites by half and completely negating the spell failure penalty. Poisoned creatures suffer additional 6 points of damage each round for 3 rounds or until cured. Magic resistance does not affect this spell.~

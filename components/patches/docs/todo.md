@@ -40,10 +40,11 @@
 ### Level 7.
 
 1. Ruby Ray of Reversal and Khelben's Warding Whip: power of opcodes -> 0.
-2. Khelben's warding whip: change to delayed cast subspell 4 times.
-3. Prismatic Mantle: it has no protection from weapons opcode and yet the Modify Prof opcode seems to indicate otherwise. More generally, the description seems to be a complete mess. It is misleading; blindness always applies to creatures less than 8HD, etc.
-4. Delayed Blast Fireball: use EE damage opcode features.
-5. Several spells miss or have too many headers (and therefore have wrong durations in first header): Protection from Elements, Summon Nishruu, Control Undead. There may be other examples.
+2. Prismatic Mantle: it has no protection from weapons opcode and yet the Modify Prof opcode seems to indicate otherwise. More generally, the description seems to be a complete mess. It is misleading; blindness always applies to creatures less than 8HD, etc.
+3. Delayed Blast Fireball: use EE damage opcode features.
+4. Several spells miss or have too many headers (and therefore have wrong durations in first header): Protection from Elements, Summon Nishruu, Control Undead. There may be other examples.
+5. Khelben's warding whip: change to delayed cast subspell 4 times.
+6. Spell Thrust (level 3), Secret Word (level 4), Pierce Magic (level 6), Ruby Ray of Reversal (level 7), Khelben's Warding Whip (level 7) are advertized as removing Dispelling Screen, but this is not true. For to remove it, they would have to, for example, have an opcode to remove spell by sectype for k1#dispel which they do not have, nor anything similar -- k1#dispel is set by k1#scre spell, an aux spell of Dispelling Screen that is *not* a spell protection. This is also hinted at the wording of Dispelling Screen, that only high-powered spell protection removal spells bring down dispelling screen. Furthermore, Pierce Shield *explicitly* dispels k1#dispel in the last opcode in the first spell it casts.
 
 ## Divine spells.
 
@@ -74,7 +75,7 @@
 
 ### Level 5.
 
-1. True Seeing: since resist_dispel on casting opcodes 3 -> 2 should resist_dispel of opcodes in subspell -> 3? The protection from spell is against the cloak's reflected image, shouldn't it be remove resource opcode instead?
+1. True Seeing: since resist_dispel on casting opcodes 3 -> 2 should resist_dispel of opcodes in subspell -> 3? The protection from spell is against the IR cloak's reflected image, shouldn't it be remove resource opcode instead?
 2. Insect Plague: same issue with Summon Insects.
 3. Flame Strike: use EE features of damage opcode.
 4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it.
@@ -82,3 +83,9 @@
 ### Level 6.
 
 1. False Dawn: all but the first cast spell opcodes have magic resist 3. But these are delayed cast spell opcodes so it is at least plausible that they be dispellable, even though the subspell opcodes are themselves dispellable.
+
+### Level 7.
+
+1. Fire Storm: use EE features of damage opcode.
+2. Sunray: use EE features of damage opcode.
+3. Creeping Doom: in the aux spell that actually implements the insect swarm effects all opcodes have power 0. Same problem as other insect spells.

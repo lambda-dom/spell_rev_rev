@@ -1,0 +1,242 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+
+//Divine spell patches: level 7.
+//Summon Shambling Mound.
+DEFINE_PATCH_FUNCTION CLERIC_STALKER
+BEGIN
+    TEXT_SPRINT res "mound"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 8 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Summon Death Knight.
+DEFINE_PATCH_FUNCTION CLERIC_SUMMON_DEATH_KNIGHT
+BEGIN
+    TEXT_SPRINT res "spcaco"
+    INNER_ACTION BEGIN
+        //power 7 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END
+
+//Nature's Beauty.
+DEFINE_PATCH_FUNCTION CLERIC_NATURE_BEAUTY
+BEGIN
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 139                    //Display string.
+        target = 2
+        timing = 1
+        parameter1 = 14672              //Charmed.
+        power = 7
+        resist_dispel = 1
+        savingthrow = 1
+        savebonus = 0 - 4
+        insert_point = 5
+    END
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 55           //Slay.
+    END
+END
+
+//Finger of Death.
+DEFINE_PATCH_FUNCTION CLERIC_FINGER_OF_DEATH
+BEGIN
+END
+
+//Chaos.
+DEFINE_PATCH_FUNCTION CLERIC_CHAOS
+BEGIN
+    //Held remaining opcodes.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 142                    //Display Icon.
+        target = 2
+        timing = 0
+        parameter2 = 13                 //Held.
+        power = 7
+        resist_dispel = 1
+        duration = 6
+        probability1 = 100
+        probability2 = 81
+        savingthrow = 1
+        savebonus = 0 - 4
+        insert_point = 0 - 1
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 139                    //Display string.
+        target = 2
+        timing = 1
+        parameter1 = 14102              //Held.
+        power = 7
+        resist_dispel = 1
+        probability1 = 100
+        probability2 = 81
+        savingthrow = 1
+        savebonus = 0 - 4
+        insert_point = 0 - 1
+    END
+    //Sleep remaining opcodes.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 142                    //Display Icon.
+        target = 2
+        timing = 0
+        parameter2 = 14                 //Sleep.
+        power = 7
+        resist_dispel = 1
+        duration = 6
+        probability1 = 80
+        probability2 = 61
+        savingthrow = 1
+        savebonus = 0 - 4
+        insert_point = 10
+    END
+    //Berserk remaining opcode.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 142                    //Display Icon.
+        target = 2
+        timing = 0
+        parameter2 = 4                  //Berserk.
+        power = 7
+        resist_dispel = 1
+        duration = 6
+        probability1 = 20
+        probability2 = 0
+        savingthrow = 1
+        savebonus = 0 - 4
+        insert_point = 2
+    END
+END
+
+//Holy Word.
+DEFINE_PATCH_FUNCTION CLERIC_HOLY_WORD
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215              //Play visual effect.
+        resist_dispel = 1
+    STR_VAR
+        match_resource = "spholy"
+    END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215              //Play visual effect.
+        probability1 = 100
+    STR_VAR
+        match_resource = "sppowwrd"
+    END
+    //Stun.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 142                //Display Icon.
+            target = 2
+            timing = 0
+            parameter2 = 55             //Stun.
+            power = 7
+            resist_dispel = 1
+            duration = 6
+            dicenumber = 8 + i
+            header = i
+            insert_point = 7
+        END
+    END
+END
+
+//Regeneration.
+DEFINE_PATCH_FUNCTION CLERIC_REGENERATE
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 3
+    END
+    //Undo changes for 321 opcodes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321
+        resist_dispel = 0
+    END
+END
+
+//Greater Restoration.
+DEFINE_PATCH_FUNCTION CLERIC_RESTORATION
+BEGIN
+    PATCH_FOR_EACH icon IN ~4~ ~6~ ~36~ ~144~ ~145~ BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 240                //Remove portrait icon
+            target = 2
+            timing = 1
+            parameter2 = icon
+            power = 7
+            resist_dispel = 3
+            insert_point = 38
+        END
+    END
+END
+
+//Unholy Word.
+DEFINE_PATCH_FUNCTION CLERIC_UNHOLY_WORD
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215              //Play visual effect.
+        resist_dispel = 1
+    STR_VAR
+        match_resource = "spholy"
+    END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 215              //Play visual effect.
+        probability1 = 100
+    STR_VAR
+        match_resource = "sppowwrd"
+    END
+    //Fix max level of display confused icon and cast spell opcodes.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (j = 0 ; j < headers_count ; ++j) BEGIN
+        LPF ALTER_EFFECT INT_VAR
+            header = j
+            match_opcode = 128          //Confusion.
+            dicenumber = 9 + j
+        END
+        LPF ALTER_EFFECT INT_VAR
+            header = j
+            match_opcode = 142          //Display portrait icon.
+            match_parameter2 = 3        //Confused.
+            dicenumber = 9 + j
+        END
+    END
+    //Unholy Word aux slow spell
+    TEXT_SPRINT res "sppr715e"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_EFFECT INT_VAR
+                match_opcode = 174      //Play sound.
+                duration = 30
+            STR_VAR
+                match_resource = "eff_m28"
+            END
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 221      //Remove spell protections.
+                match_parameter2 = 3
+            END
+    END
+END
+
+//Animal Summoning VII.
+DEFINE_PATCH_FUNCTION CLERIC_ANIMAL_SUMMONING_LEVEL_7
+BEGIN
+    TEXT_SPRINT res "bearposu"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 8 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Creeping Doom.
+DEFINE_PATCH_FUNCTION CLERIC_CREEPING_DOOM
+BEGIN
+END

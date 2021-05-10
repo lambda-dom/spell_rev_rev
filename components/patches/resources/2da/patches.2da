@@ -126,3 +126,14 @@ CLERIC_PHYSICAL_MIRROR                  1       0
 CLERIC_REGENERATION_DRUID_VERSION       1       2601
 CLERIC_BANISHMENT                       1       0
 CLERIC_ANIMATE_SKELETON_WARRIOR         1       0
+CLERIC_STALKER                          1       0
+CLERIC_SUMMON_DEATH_KNIGHT              1       0
+CLERIC_NATURE_BEAUTY                    1       0
+CLERIC_FINGER_OF_DEATH                  1       2700
+CLERIC_CHAOS                            1       0
+CLERIC_HOLY_WORD                        1       0
+CLERIC_REGENERATE                       1       2701
+CLERIC_RESTORATION                      1       0
+CLERIC_UNHOLY_WORD                      1       0
+CLERIC_ANIMAL_SUMMONING_LEVEL_7         1       0
+CLERIC_CREEPING_DOOM                    1       2702
