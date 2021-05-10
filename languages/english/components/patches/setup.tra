@@ -122,3 +122,18 @@ Area of Effect: 1 creature
 Saving Throw: None
 
 Upon casting this spell, the priest is able to free a victim from enchantments and curses. The spell can reverse the effects of confusion and feeblemindedness, free a victim from petrification, magical sleep or charm, and break the effects of a curse. Note that Break Enchantment cannot remove the curse from a cursed shield, weapon, or suit of armor, for example, but allows those afflicted with any such cursed item to get rid of it. Certain special curses may not be countered by this spell, or may be countered only by a caster of a certain level or through a particular ritual.~
+
+//Level 5.
+@2500 = ~Insect Plague
+Level: 5
+School: Conjuration
+Sphere: Animal
+Range: Long
+Duration: 6 rounds
+Casting Time: 5
+Area of Effect: Target, and enemies within 30'
+Saving Throw: Special
+
+When this spell is cast, a mass of creeping, hopping, and flying insects gather and swarm, first attacking the target, and then moving on to all enemies of the caster within the spell's radius.
+
+For the duration of the spell, those affected fight with a -2 penalty to attack rolls and armor class. In addition, each round the victims suffer 2d3 points of damage from insect bites, have a 100% chance of spell failure and on a failed save vs. poison will panic for that round. If a successful save vs. breath at -2 is made, the target manages to avoid most of the swarm, reducing damage from bites by half and completely negating the spell failure penalty. Magic resistance does not affect this spell.~

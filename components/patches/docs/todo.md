@@ -57,3 +57,10 @@
 ### Level 4.
 
 1. Free Action: 240 opcodes are not spurious *if* Free Action removes the corresponding statuses.
+
+### Level 5.
+
+1. True Seeing: since resist_dispel on casting opcodes 3 -> 2 should resist_dispel of opcodes in subspell -> 3? The protection from spell is against the cloak's reflected image, shouldn't it be remove resource opcode instead?
+2. Insect Plague: same issue with Summon Insects.
+3. Flame Strike: use EE features of damage opcode.
+4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it, so not adding it.

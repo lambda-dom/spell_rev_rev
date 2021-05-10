@@ -91,3 +91,13 @@ CLERIC_MENTAL_DOMINATION                1       0
 CLERIC_FAR_SIGHT                        1       0
 CLERIC_ICE_STORM                        1       0
 CLERIC_REGENERATE_CRITICAL_WOUNDS       1       0
+CLERIC_ANIMAL_SUMMONING_LEVEL_5         1       0
+CLERIC_RAISE_DEAD                       1       0
+CLERIC_TRUE_SIGHT                       1       0
+CLERIC_CHAOTIC_COMMANDS                 1       0
+CLERIC_GREATER_COMMAND                  1       0
+CLERIC_MASS_CURE                        1       0
+CLERIC_REPULSION                        1       0
+CLERIC_INSECT_PLAGUE                    1       2500
+CLERIC_MASS_REGENERATE                  1       0
+CLERIC_ANIMAL_GROWTH                    1       0
