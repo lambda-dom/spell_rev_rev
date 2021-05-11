@@ -74,6 +74,15 @@ WIZARD_SUMMON_FIEND                     1       0
 WIZARD_SYMBOL_WEAKNESS                  1       0
 WIZARD_ABI_DALZIMS_HORRID_WILTING       1       0
 WIZARD_SYMBOL_DEATH                     1       0
+WIZARD_SPELL_TRAP                       1       1900
+WIZARD_GATE                             1       0
+WIZARD_METEOR_SWARM                     1       0
+WIZARD_WAIL_OF_THE_BANSHEE              1       0
+WIZARD_ENERGY_DRAIN                     1       0
+WIZARD_BLACK_BLADE_OF_DISASTER          1       0
+WIZARD_SHAPECHANGE                      1       0
+WIZARD_FREEDOM                          1       0
+WIZARD_BIGBYS_CRUSHING_HAND             1       0
 CLERIC_COMMAND                          1       0
 CLERIC_CURE_LIGHT_WOUNDS                1       0
 CLERIC_ENTANGLE                         1       0

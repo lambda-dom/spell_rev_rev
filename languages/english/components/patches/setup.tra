@@ -92,6 +92,18 @@ Saving Throw: Death partial
 
 The Finger of Death spell snuffs out the victim's life force. The caster points his finger at the victim after the incantation is complete and death occurs, unless a save vs. death at -2 is made. A creature successfully saving still receives 2d8 + level points of damage, up to a maximum of 2d8 + 20.~
 
+//Level 9.
+@1900 = ~Spell Trap
+Level: 9
+School: Abjuration
+Range: Personal
+Duration: 2 turns
+Casting Time: 1 round
+Area of Effect: Caster
+Saving Throw: None
+
+This abjuration spell causes any spells cast against the wizard to be absorbed and consumed. This affects a total of 99 spell levels, but having 1 level left of protection means a 1st level spell would get absorbed, as well as a 9th level spell. This spell will not protect the caster from a dispel magic. However, it will not be affected by a dispel magic, either.~
+
 //Divine spells.
 //Level 1.
 @2100 = ~Sunscorch

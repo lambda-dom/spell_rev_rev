@@ -56,6 +56,13 @@
 6. Power Word Blind: Protection from obscuring mist and power word blind lack the minimum level. Only the 1 turn version of protection from spells exist, with the exception of Power Word Blind.
 7. Bigby's Icy Grasp: in aux spell, opcodes hold and play visual have wrong saves (-4 and 0) -> -2. The resist_dispel in setting up hold are also inconsistent: put all at 1, but this is something of a guess. The play visual and damage opcodes are applied before setting up immunities, is this correct? At any rate, description should also mention that a whole bunch of critters are immune to the hold effect.
 
+### Level 9.
+
+1. Wail of the Banshee: should the slay opcode change position with lighting effects?
+2. Spellstrike: power level of opcodes 0?
+3. Meteor Swarm: use EE damage opcode features.
+4. Imprisonment: kills the victim after 5 rounds. The killing should be advertized in the docs.
+
 ## Divine spells.
 
 ### Level 1.

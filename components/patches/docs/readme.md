@@ -108,6 +108,18 @@ note(s):
 6. Horrid Wilting: undocumented protection for elemental creatures; removed it.
 7. Symbol of Death: opcode save penalty -6 -> -4.
 
+### Level 9.
+
+1. Spell Trap: duration is fixed 2 turns.
+2. Gate: summoning eff power 8 -> 0.
+3. Meteor Swarm: second damage opcode save -6 -> -4.
+4. Wail of the Banshee: Misses display icon deaf opcode.
+5. Larloch's Drain: resist_dispel in several self-targeted opcodes 1 -> 3.
+6. Black Blade of Disaster: amount 0 -> 1 in create item opcode.
+7. Shapechange: Remove spurious natural abilities. Play visual opcodes power 4 -> 9.
+8. Freedom: lacks remove icons: 4 = Berserk, 130 = unconscious, 144 = entangle and 145 = grease.
+9. Bigby's Crushing Hand: add display stun icon opcode to aux spell.
+
 ## Divine spells.
 
 ### Level 1.

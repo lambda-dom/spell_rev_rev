@@ -1,0 +1,136 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+
+//Arcane spell patches: level 9.
+//Spell Trap.
+DEFINE_PATCH_FUNCTION WIZARD_SPELL_TRAP
+BEGIN
+END
+
+//Gate.
+DEFINE_PATCH_FUNCTION WIZARD_GATE
+BEGIN
+    TEXT_SPRINT res "spgate"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END
+
+//Meteor Swarm.
+DEFINE_PATCH_FUNCTION WIZARD_METEOR_SWARM
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        match_savingthrow = 16777218        //Breath + bypass MI.
+        save_bonus = 0 - 4
+    END
+END
+
+//Wail of the Banshee.
+DEFINE_PATCH_FUNCTION WIZARD_WAIL_OF_THE_BANSHEE
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 80                   //Deafness.
+        savebonus = 0
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 142                        //Display portrait.
+        target = 2
+        power = 9
+        parameter2 = 112                    //Deaf.
+        timing = 0
+        resist_dispel = 1
+        duration = 12
+        insert_point = 0 - 1
+    END
+END
+
+//Larloch's Energy Drain.
+DEFINE_PATCH_FUNCTION WIZARD_ENERGY_DRAIN
+BEGIN
+    PATCH_FOR_EACH opcode IN ~141~ ~59~ ~90~ ~91~ ~92~ ~275~ ~276~ ~277~ BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            match_opcode = opcode
+            resist_dispel = 3
+        END
+    END
+END
+
+//Black Blade of Disaster.
+DEFINE_PATCH_FUNCTION WIZARD_BLACK_BLADE_OF_DISASTER
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 111                  //Create Item.
+        parameter1 = 1                      //0 -> 1.
+    END
+END
+
+//Shapechange.
+DEFINE_PATCH_FUNCTION WIZARD_SHAPECHANGE
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 171                  //Give innate ability.
+    STR_VAR
+        match_resource = "spwi971"
+    END
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 171                  //Give innate ability.
+    STR_VAR
+        match_resource = "spwi972"
+    END
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 172                  //Remove spell.
+    STR_VAR
+        match_resource = "spwi971"
+    END
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 172                  //Remove spell.
+    STR_VAR
+        match_resource = "spwi972"
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual.
+        power = 9                           //4 -> 9.
+    END
+END
+
+//Freedom.
+DEFINE_PATCH_FUNCTION WIZARD_FREEDOM
+BEGIN
+    PATCH_FOR_EACH icon IN ~4~ ~130~ ~144~ ~145~ BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 240                    //Remove icon
+            target = 3                      //Party
+            power = 9
+            parameter2 = icon
+            timing = 1
+            resist_dispel = 3
+            insert_point = ~-1~
+        END
+    END
+END
+
+//Bigby's Crushing Hand.
+DEFINE_PATCH_FUNCTION WIZARD_BIGBYS_CRUSHING_HAND
+BEGIN
+    TEXT_SPRINT res "spwi918d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 142                //Display icon
+                target = 2
+                power = 9
+                parameter2 = 55             //Stun
+                timing = 0
+                duration = 6
+                resist_dispel = 1
+                savingthrow =  4
+                savebonus = 0 - 4
+                insert_point = 3
+            END
+    END
+END
