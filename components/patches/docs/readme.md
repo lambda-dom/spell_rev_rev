@@ -1,10 +1,28 @@
-# A. Patches.
+# A. Spell Revisions.
+
+[Spell Revisions](https://github.com/Gibberlings3/SpellRevisions) is a spell mod overhaul for the Baldur's Gate saga, and in my view an essential mod, as it overhauls and balances the whole spectrum of available spells, making the game much more enjoyable. Another major plus, is that it is taken into account of by [SCS](https://github.com/Gibberlings3/SwordCoastStratagems), which is in my view *the* essential mod for any Baldur's Gate playthrough, as it is the only usable, and fairly competent at that, AI mod.
+
+## A. 1. State of the mod.
+
+As of this writing (May, 2021), the mod has not had a single commit since April 2020. My list of patches is sitting there since January 2020. This is not a complaint, is just an acknowledgment of the situation. The BG community is small with few developers, and the few there are eventually move on and have better things to do. What this means is that the mod is stuck at the beta v18. It is a solid general principle of life, that if one wants anything fixed, one must do it oneself; if you consult the list of patched spells, there are at this moment (May 2021) over then 150 entries. In all fairness, most of the fixes are of the Harmless category, but it is still a very large number.
+
+Bartimeus, has single-handedly tried to patch and fix the mod -- consult the [thread](https://www.gibberlings3.net/forums/topic/29618-sr-revised-v13200-2020-august-22nd). There are however two major problems with his work. First, his mod is to be copied over and override the SR mod, which means that the specific fixes are either documented or get lost in memory's sinkhole. And we all know how documentation goes. The second problem is that Bartimeus has added on top of his fixes a whole sleuth of tweaks. The problem are not the tweaks themselves; while I can quibble with some of them, I actually like the general direction he has taken with the mod. The problem is rather that we end up without a base mod in a usable state, with no clear separation between what is a fix and what is a tweak.
+
+## A. 2. State of the tools.
+
+There are two main tools used. The first is the WeiDU program, whose most important component is the programming language for batch programming of the game's data files. It is the de-facto tool for patching and the only game in town. Having stated my thanks, the plain matter of fact is that programming in WeiDU is an exercise in sustained masochism. The language, as a programming language, is one ginormous clustercrap. The ideal would be to use a well-tested, extensive, newbie-friendly language, [Python](https://www.python.org) say, on top of a solid API, and with cross-compatibility with WeiDU. But ideals are ideals and reality is what it is; while I have started such a project it is far from completion, so WeiDU it is (and then mutter insults at the screen).
+
+The second major tool is the editor [NearInfinity](https://github.com/Argent77/NearInfinity). It is a good editor, very useful for testing and special-purpose file editing. My only complaint, and not a small one sad to say, is that the UI is clunky and not very friendly. The looks are also ugly, but that is a fairly minor gripe.
+
+# B. Patches.
 
 In this section we document the patches for the user's convenience. If there is some patch you think should not be applied, just edit the patches.2da file and turn the value in the patch column from 1 to 0.
 
 Do note that the ultimate authority is the code, which is even commented in reasonable detail; there is always the chance that this doc is not 100% synched with the code, so bear that in mind (if that bothers you, patches are welcomed).
 
-## Arcane spells.
+## B. 1. Patch classification.
+
+## B. 2. Arcane spells.
 
 ### Level 1.
 
@@ -120,7 +138,7 @@ note(s):
 8. Freedom: lacks remove icons: 4 = Berserk, 130 = unconscious, 144 = entangle and 145 = grease.
 9. Bigby's Crushing Hand: add display stun icon opcode to aux spell.
 
-## Divine spells.
+## B. 3. Divine spells.
 
 ### Level 1.
 
