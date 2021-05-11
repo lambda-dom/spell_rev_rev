@@ -164,7 +164,7 @@ note(s):
 6. [Harmless] Good Berry: power of opcodes 2 -> 1.
 7. [Major] Cause Light Wounds: power of opcodes 4 -> 1. This implies it *does* not bypass MGoI.
 8. [Major] Sunscorch: change documentation to explicitly mention that a save vs. spell (not vs. breath, as rolled to halve the damage) will avoid blindness.
-9. [Major] Regenerate Light Wounds: resist_dispel -> 3.
+9. [Major] Regenerate Light Wounds: resist_dispel -> 3. Only headers 7 and higher have Display String "Regenerating" -- added missing opcodes.
 
 ### Level 2.
 

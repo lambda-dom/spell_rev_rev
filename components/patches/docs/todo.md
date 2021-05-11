@@ -68,7 +68,7 @@
 ### Level 1.
 
 1. Sunscorch: use EE features of damage opcode.
-2. Regenerate Light Wounds: Only headers 7 and higher have Display String "Regenerating". Duration scales with levels contrary to other regeneration spells.
+2. Regenerate Light Wounds: Duration scales with levels contrary to other regeneration spells.
 
 ### Level 2.
 
