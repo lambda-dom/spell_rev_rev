@@ -26,11 +26,11 @@ Since the list of patches is very long, it is useful to classify them, so the us
 
 * Harmless: while technically incorrect, the fix does not change the behavior in any noticeable way. A typical example is the power level of summoning effects. The power level is important for the interaction with spell protections, but obviously these are quite irrelevant for summoning spells. The reason these are include are, besides a general OCD desire for completeness and perfectionism, is that when first making the fix it is usually not clear that the bug is not harmless.
 
-* Minor: the bug does not affect gameplay; this includes aesthetics, e.g. display strings have wrong saves, whose only effect is that you will probably see a line on the log that should nopt be there.
+* Minor: the bug does not affect gameplay; this includes aesthetics, e.g. display strings have wrong saves, whose only effect is that you will probably see a line on the log that should not be there.
 
-* Major: the bug affects gameplay, e.g. important spell opcodes have the wrong save penalties, or the wrong resist_dispel flag or power level, so that they are/are not blocked when they should be, they interact incorrectly with spell protections; have the wrong durations, etc. Other major problems include misleading or flat-out wrong spell descriptions.
+* Major: the bug affects gameplay in some way, e.g. important spell opcodes have the wrong save penalties, or the wrong resist_dispel flag or power level, so that they are/are not blocked when they should be, they interact incorrectly with spell protections, have the wrong durations, etc. Other major problems include misleading or flat-out wrong spell descriptions.
 
-* Severe: more major than major. Do the math.
+* Severe: more majorly major than major.
 
 This classification is not a hard and fast rule, it is just meant as a guide. Parallel, there are a few other tags that can be added to a spell patch.
 
