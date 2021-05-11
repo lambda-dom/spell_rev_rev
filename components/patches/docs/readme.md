@@ -34,7 +34,7 @@ Since the list of patches is very long, it is useful to classify them, so the us
 
 This classification is not a hard and fast rule, it is just meant as a guide. Parallel, there are a few other tags that can be added to a spell patch.
 
-* Implementation: we change the implementation, usually to take advantage of EE features, while keeping the functional behavior intact or mostly intact. A typical example is the new EE features for the spell and damage opcodes, or using 321 opcodes to make a spell refresh and non-stacking instead of just non-stacking.
+* Implementation: we change the implementation, usually to take advantage of EE features, while keeping the functional behavior intact or mostly intact. A typical example is the new EE features for the sleep and damage opcodes, or using 321 opcodes to make a spell refresh and non-stacking instead of just non-stacking.
 
 ## B. 2. Arcane spells.
 
