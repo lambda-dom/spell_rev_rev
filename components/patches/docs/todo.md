@@ -67,9 +67,8 @@
 
 ### Level 1.
 
-1. Sleep: immunities for half-elf and elf missing. Use 324 opcodes with race type and values 19 and 15 with appropriate probabilities.
-2. Sunscorch: use EE features of damage opcode.
-3. Regenerate Light Wounds: Only headers 7 and higher have Display String "Regenerating". Duration scales with levels contrary to other regeneration spells.
+1. Sunscorch: use EE features of damage opcode.
+2. Regenerate Light Wounds: Only headers 7 and higher have Display String "Regenerating". Duration scales with levels contrary to other regeneration spells.
 
 ### Level 2.
 
