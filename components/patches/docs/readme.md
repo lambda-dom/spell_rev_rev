@@ -103,7 +103,7 @@ note(s):
 1. Ghostform: play sound opcodes have power 6 -> 8. Misses protection from strings 54337 = "Diseased", 17398 = "Nauseated", 14662 = "Poisoned".
 2. Mind Blank: misses immunity to berserk, protection from icons: 2 = Rigid Thinking, 4 = Berserk, and strings: 14672 = "Charmed", 14780 = "Dire Charmed", 14102 = "Held", 14650 = "Paralyzed", 23744 = "Feebleminded", 14665 = "Petrified", 340 = "Held", 1473 = "Held"
 3. Monster Summoning VIII: summoning eff power 6 -> 0.
-4. Monster Summoning VIII: summoning eff power 8 -> 0.
+4. Summon Fiend: summoning eff power 8 -> 0.
 5. Symbol of Weakness: save penalty -6 -> -4.
 6. Horrid Wilting: undocumented protection for elemental creatures; removed it.
 7. Symbol of Death: opcode save penalty -6 -> -4.
