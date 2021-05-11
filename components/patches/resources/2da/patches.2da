@@ -67,6 +67,13 @@ WIZARD_SUMMON_DEATH_KNIGHT              1       0
 WIZARD_CHAOS                            1       0
 WIZARD_FINGER_OF_DEATH                  1       1700
 WIZARD_POWER_WORD_STUN                  1       0
+WIZARD_GHOSTFORM                        1       0
+WIZARD_MIND_BLANK                       1       0
+WIZARD_MONSTER_SUMMONING_LEVEL_8        1       0
+WIZARD_SUMMON_FIEND                     1       0
+WIZARD_SYMBOL_WEAKNESS                  1       0
+WIZARD_ABI_DALZIMS_HORRID_WILTING       1       0
+WIZARD_SYMBOL_DEATH                     1       0
 CLERIC_COMMAND                          1       0
 CLERIC_CURE_LIGHT_WOUNDS                1       0
 CLERIC_ENTANGLE                         1       0

@@ -1,0 +1,151 @@
+//Includes.
+//Libraries.
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+
+//Arcane spell patches: level 8.
+//Ghostform.
+DEFINE_PATCH_FUNCTION WIZARD_GHOSTFORM
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 174                  //Play sound.
+        power = 8
+    END
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 267                    //Prevent display string.
+            target = 1
+            power = 8
+            parameter1 = 14662              //Poisoned
+            timing = 0
+            duration = (15 + i) * 6
+            resist_dispel = 3
+            header = i
+            insert_point = 26
+        END
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 267                    //Prevent display string.
+            target = 1
+            power = 8
+            parameter1 = 17398              //Nauseated
+            timing = 0
+            duration = (15 + i) * 6
+            resist_dispel = 3
+            header = i
+            insert_point = 17
+        END
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 267                    //Prevent display string.
+            target = 1
+            power = 8
+            parameter1 = 54337              //Diseased
+            timing = 0
+            duration = (15 + i) * 6
+            resist_dispel = 3
+            header = i
+            insert_point = 17
+        END
+    END
+END
+
+//Mind Blank.
+DEFINE_PATCH_FUNCTION WIZARD_MIND_BLANK
+BEGIN
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        PATCH_FOR_EACH opcode IN ~2~ ~4~ BEGIN
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 169                //Immunity to portrait icon.
+                target = 1
+                timing = 0
+                parameter2 = opcode
+                power = 8
+                resist_dispel = 3
+                duration = 2400
+                header = i
+                insert_point = 28
+            END
+        END
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 101                    //Immunity to opcode.
+            target = 1
+            timing = 0
+            parameter2 = 3
+            power = 8
+            resist_dispel = 3
+            duration = 2400
+            header = i
+            insert_point = 18
+        END
+        PATCH_FOR_EACH opcode IN ~340~ ~1473~ ~14102~ ~14650~ ~14665~ ~14672~ ~14780~ ~23744~ BEGIN
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 267                //Immunity to display string.
+                target = 1
+                timing = 0
+                parameter1 = opcode
+                power = 8
+                resist_dispel = 3
+                duration = 2400
+                header = i
+                insert_point = 10
+            END
+        END
+        //Delete spurious opcodes.
+        LPF DELETE_EFFECT INT_VAR
+            header = i - 1
+            match_opcode = 169              //Immunity to portrait icon.
+            match_parameter3 = 0
+        END
+    END
+END
+
+//Monster Summoning VIII.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_8
+BEGIN
+    TEXT_SPRINT res "umbhulsu"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END
+
+//Summon Fiend.
+DEFINE_PATCH_FUNCTION WIZARD_SUMMON_FIEND
+BEGIN
+    TEXT_SPRINT res "spfiend"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END
+
+//Symbol of Weakness.
+DEFINE_PATCH_FUNCTION WIZARD_SYMBOL_WEAKNESS
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        savebonus = 0 - 4
+    END
+END
+
+//Horrid Wilting.
+DEFINE_PATCH_FUNCTION WIZARD_ABI_DALZIMS_HORRID_WILTING
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 177                  //Use Eff.
+        match_parameter = 145
+    END
+END
+
+//Symbol of Death.
+DEFINE_PATCH_FUNCTION WIZARD_SYMBOL_DEATH
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 209                  //Power word kill.
+        savebonus = 0 - 4
+    END
+END

@@ -46,6 +46,16 @@
 5. Khelben's warding whip: change to delayed cast subspell 4 times.
 6. Spell Thrust (level 3), Secret Word (level 4), Pierce Magic (level 6), Ruby Ray of Reversal (level 7), Khelben's Warding Whip (level 7) are advertized as removing Dispelling Screen, but this is not true. For to remove it, they would have to, for example, have an opcode to remove spell by sectype for k1#dispel which they do not have, nor anything similar -- k1#dispel is set by k1#scre spell, an aux spell of Dispelling Screen that is *not* a spell protection. This is also hinted at the wording of Dispelling Screen, that only high-powered spell protection removal spells bring down dispelling screen. Furthermore, Pierce Shield *explicitly* dispels k1#dispel in the last opcode in the first spell it casts.
 
+### Level 8.
+
+1. Mind Blank: protects against power word stun but not stun.
+2. Pierce Shield: all but 1 opcode in the first aux spell have power 0. There is an inconsistency here as spell thrust, secret word and pierce magic have the same 0 power while RRoR and Khelben's Warding Whip have power 7.
+3. Moment of Prescience: mention that is not dispellable.
+4. Incendiary Cloud: use EE damage opcode features.
+5. Horrid Wilting: use EE damage opcode features.
+6. Power Word Blind: Protection from obscuring mist and power word blind lack the minimum level. Only the 1 turn version of protection from spells exist, with the exception of Power Word Blind.
+7. Bigby's Icy Grasp: in aux spell, opcodes hold and play visual have wrong saves (-4 and 0) -> -2. The resist_dispel in setting up hold are also inconsistent: put all at 1, but this is something of a guess. The play visual and damage opcodes are applied before setting up immunities, is this correct? At any rate, description should also mention that a whole bunch of critters are immune to the hold effect.
+
 ## Divine spells.
 
 ### Level 1.
