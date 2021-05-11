@@ -6,7 +6,7 @@
 
 As of this writing (May, 2021), the mod has not had a single commit since April 2020. My list of patches is sitting there since January 2020. This is not a complaint, is just an acknowledgment of the situation. The BG community is small with few developers, and the few there are eventually move on and have better things to do. What this means is that the mod is stuck at the beta v18. It is a solid general principle of life, that if one wants anything fixed, one must do it oneself; if you consult the list of patched spells, there are at this moment (May 2021) over then 150 entries. In all fairness, most of the fixes are of the Harmless category, but it is still a very large number.
 
-Bartimaeus, has single-handedly tried to patch and fix the mod -- consult the [thread](https://www.gibberlings3.net/forums/topic/29618-sr-revised-v13200-2020-august-22nd). There are however two major problems with his work. First, his mod is to be copied over and override the SR mod, which means that the specific fixes are either documented or get lost in memory's sinkhole. And we all know how documentation goes. The second problem is that Bartimaeus has added on top of his fixes a whole sleuth of tweaks. The problem are not the tweaks themselves; while I can quibble with some of them, I actually like the general direction he has taken with the mod. The problem is rather that we end up without a base mod in a usable state, with no clear separation between what is a fix and what is a tweak.
+Bartimaeus has single-handedly tried to patch and fix the mod -- consult the [thread](https://www.gibberlings3.net/forums/topic/29618-sr-revised-v13200-2020-august-22nd). There are however two major problems with his work. First, his mod is to be copied over and override the SR mod, which means that the specific fixes are either documented or get lost in memory's sinkhole. And we all know how documentation goes. The second problem is that Bartimaeus has added on top of his fixes a whole sleuth of tweaks. The problem are not the tweaks themselves; while I can quibble with some of them, I actually like the general direction he has taken with the mod. The problem is rather that we end up without a base mod in a usable state, with no clear separation between what is a fix and what is a tweak.
 
 ## A. 2. State of the tools.
 
@@ -44,7 +44,7 @@ This classification is not a hard and fast rule, it is just meant as a guide. Pa
 2. [Harmless] Monster Summoning I: corrected power 6 -> 0 of summoning effect.
 3. [Minor] Protection from Petrification: display string "Gaze Reflection" -> "Protection from Petrification".
 4. [Minor] True Strike: opcodes' target preset (2) -> self (1). Spurious 321 and 206 opcodes removed.
-5. [Minor, Implementation] Shield: play sound resist_dispel 1 -> 3. Added protection against TRAP_MAGIC_MISSILE. Changed spell from non stacking to EE refresh. Remove protection against wand03 as spell does not even exist.
+5. [Major, Implementation] Shield: play sound resist_dispel 1 -> 3. Added protection against TRAP_MAGIC_MISSILE. Changed spell from non stacking to EE refresh. Remove protection against wand03 as spell does not even exist.
 
 note(s):
 * wand03 does not exist in vanilla but IR may introduce it. In vanilla, wand03 item sets up protection by toggling state WIZARD_SHIELD.
