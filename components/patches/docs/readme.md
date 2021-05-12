@@ -41,16 +41,21 @@ This classification is not a hard and fast rule, it is just meant as a guide. Pa
 ### Level 1.
 
 1. [Harmless] Grease: delete spurious 324 opcode.
-2. [Harmless] Monster Summoning I: corrected power 6 -> 0 of summoning effect.
-3. [Minor] Protection from Petrification: display string "Gaze Reflection" -> "Protection from Petrification".
-4. [Minor] True Strike: opcodes' target preset (2) -> self (1). Spurious 321 and 206 opcodes removed.
-5. [Major, Implementation] Shield: play sound resist_dispel 1 -> 3. Added protection against TRAP_MAGIC_MISSILE. Changed spell from non stacking to EE refresh. Remove protection against wand03 as spell does not even exist.
+2. [Minor] Charm Person: add Display String 1476 = Charmed.
+3. [Minor] Obscuring Mist: same fixes as Cleric's version.
+3. [Harmless] Monster Summoning I: corrected power 6 -> 0 of summoning effect.
+4. [Minor] Protection from Petrification: display string "Gaze Reflection" -> "Protection from Petrification".
+5. [Major] Expeditious Retreat: resist_dispel is all over the place. Standardized -> 3.
+6. [Harmless] True Strike: opcodes' target preset (2) -> self (1). Spurious 321 and 206 opcodes removed.
+7. [Major, Implementation] Shield: play sound resist_dispel 1 -> 3. Added protection against TRAP_MAGIC_MISSILE. Changed spell from non stacking to EE refresh. Remove protection against wand03 as spell does not even exist. Add set state WIZARD_SHIELD opcode.
 
 note(s):
 * wand03 does not exist in vanilla but IR may introduce it. In vanilla, wand03 item sets up protection by toggling state WIZARD_SHIELD.
 
-6. [Implementation] Sleep: changed implementation to use EE features of sleep code. This meant the deletion of the cast spell on condition and display portrait icon opcodes.
-7. [Harmless] Chill Touch: create item opcode amount 0 -> 1.
+8. [Minor, Implementation] Sleep: changed implementation to use EE features of sleep code. This meant the deletion of the cast spell on condition and display portrait icon opcodes. All headers but first and last lack display string opcode.
+9. [Harmless] Chill Touch: create item opcode amount 0 -> 1.
+10. [Major, Implementation] Larloch's Minor Drain: use EE drain features of damage opcode for correct implementation (e.g. correct interaction with mr).
+11. [Minor] Spook: display string opcode resist_dispel 0 -> 1.
 
 ### Level 2.
 
@@ -167,7 +172,7 @@ note(s):
 9. [Major] Cause Light Wounds: power of opcodes 4 -> 1. This implies it *does* not bypass MGoI.
 10. [Major, Implementation] Sunscorch: change documentation to explicitly mention that a save vs. spell (not vs. breath, as rolled to halve the damage) will avoid blindness. Use EE features of damage opcode.
 11. [Major] Regenerate Light Wounds: resist_dispel -> 3. Only headers 7 and higher have Display String "Regenerating" -- added missing opcodes.
-12. [Harmless] Obscuring mist: remove spurious 284 opcode with probability 0.
+12. [Minor] Obscuring mist: remove spurious 284 opcode with probability 0. resist dispel -> 2 for 0 and 164 opcodes, as the penalties are from critters being inside the cloud and thus not blocked by mr or dispellable.
 
 ### Level 2.
 

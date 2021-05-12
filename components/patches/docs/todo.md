@@ -2,11 +2,6 @@
 
 ## Arcane spells.
 
-### Level 1.
-
-1. Charm Person: add Display String 1476 = Charmed.
-2. Larloch's Minor Drain: use EE drain features of damage opcode for correct implementation. Damage opcode with normal parameter and magic damage type, instantaneous mode, duration 60, resist_dispel 3, special flags 8 + 64. Play sound opcodes to mark application (on target) and end of extra hps (on self). Since we have different mr on self and target, these have to be deferred to a subspell so we might as well use vanilla implementation.
-
 ### Level 3.
 
 1. Vampiric Touch: see Larloch's Minor Drain.

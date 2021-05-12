@@ -1,12 +1,17 @@
 2DA V1.0
                                         patch   descr
 WIZARD_GREASE                           1       0
+WIZARD_CHARM_PERSON                     1       0
+WIZARD_OBSCURING_MIST                   1       0
 WIZARD_MONSTER_SUMMONING_LEVEL_1        1       0
 WIZARD_PROTECTION_FROM_PETRIFICATION    1       0
+WIZARD_EXPEDITIOUS_RETREAT              1       0
 WIZARD_TRUE_STRIKE                      1       0
 WIZARD_SHIELD                           1       0
 WIZARD_SLEEP                            1       0
 WIZARD_CHILL_TOUCH                      1       0
+WIZARD_LARLOCH_MINOR_DRAIN              1       0
+WIZARD_SPOOK                            1       0
 WIZARD_BLUR                             1       0
 WIZARD_DETECT_INVISIBILITY              1       0
 WIZARD_BATTERING_RAM                    1       0

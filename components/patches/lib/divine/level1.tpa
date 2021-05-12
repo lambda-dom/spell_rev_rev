@@ -207,4 +207,8 @@ BEGIN
         match_opcode = 284                  //Melee thac0 bonus.
         match_probability1 = 0
     END
+    //Change resist dispel -> 2.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 2
+    END
 END

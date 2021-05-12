@@ -1,5 +1,6 @@
 //Includes.
 //Libraries.
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
 
 //Arcane spell patches: level 1.
@@ -11,6 +12,35 @@ BEGIN
         header = 0
         multi_match = 1
         match_opcode = 324                  //Immunity to resource
+    END
+END
+
+//Charm person.
+DEFINE_PATCH_FUNCTION WIZARD_CHARM_PERSON
+BEGIN
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 139                        //Display string.
+        target = 2
+        power = 1
+        parameter1 = 1476                   //"Charmed"
+        timing = 1
+        resist_dispel = 1
+        savingthrow = 1
+        savebonus = 2
+        insert_point = 18
+    END
+END
+
+//Obscuring Mist.
+DEFINE_PATCH_FUNCTION WIZARD_OBSCURING_MIST
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 284                  //Melee thac0 bonus.
+        match_probability1 = 0
+    END
+    //Change resist dispel -> 2.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 2
     END
 END
 
@@ -31,13 +61,21 @@ DEFINE_PATCH_FUNCTION WIZARD_PROTECTION_FROM_PETRIFICATION
 BEGIN
     //Clean opcode.
     LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 267                      //Protection from String.
+        match_opcode = 267                  //Protection from String.
         parameter2 = 0
     END
     //"Gaze Reflection" -> "Protection from Petrification".
     LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 139                      //Display string.
+        match_opcode = 139                  //Display string.
         parameter1 = 7266
+    END
+END
+
+//Expeditious Retreat.
+DEFINE_PATCH_FUNCTION WIZARD_EXPEDITIOUS_RETREAT
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 3
     END
 END
 
@@ -95,6 +133,18 @@ BEGIN
     STR_VAR
         match_resource = ~%res%~
     END
+    //Add spell state.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 328                        //Set spell state.
+        target = 1
+        power = 1
+        parameter2 = IDS_OF_SYMBOL ("splstate" "WIZARD_SHIELD")
+        timing = 0
+        duration = 300
+        resist_dispel = 3
+        special = 1                         //IWD mode.
+        insert_point = 5
+    END
     //Remove useless protection.
     TEXT_SPRINT res "wand03"
     LPF DELETE_EFFECT INT_VAR
@@ -120,6 +170,21 @@ BEGIN
         match_opcode = 142                  //Display portrait.
         parameter2 = 14
     END
+    //Add missing display string opcodes.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 2; i < headers_count; ++i) BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 139                    //Display string.
+            target = 2
+            power = 1
+            parameter1 = 4742               //"Spell ineffective"
+            timing = 1
+            resist_dispel = 1
+            dicesize = i + 1
+            header = i
+            insert_point = 6
+        END
+    END
 END
 
 //Chill touch.
@@ -129,5 +194,70 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 111                  //Create Item.
         parameter1 = 1                      //0 -> 1.
+    END
+END
+
+//Larloch's Minor Drain.
+DEFINE_PATCH_FUNCTION WIZARD_LARLOCH_MINOR_DRAIN
+BEGIN
+    //Delete all spell headers but first.
+    //DELETE_SPELL_HEADER is currently bugged so we roll out our own deletion loop.
+    DEFINE_ASSOCIATIVE_ARRAY indices BEGIN END
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    //Gather spell header indices to delete.
+    FOR (i = headers_count - 1; i >= 0; --i) BEGIN
+        LPF GET_SPELL_HEADER_OFFSET INT_VAR header = i RET header_offset = offset END
+        READ_SHORT (header_offset + $SPELL_HEADER_OFFSETS("min_level")) level
+        PATCH_IF (level >= 2) BEGIN
+            TEXT_SPRINT $indices("%i%") "*"
+        END
+    END
+    //Delete spell headers.
+    PHP_EACH indices AS index => dummy BEGIN
+        LPF REMOVE_SPELL_HEADER INT_VAR header = index END
+    END
+    //Delete all opcodes except 177: damage, max hp bonus, lighting effects, play sound.
+    PATCH_FOR_EACH opcode IN ~12~ ~18~ ~141~ ~174~ BEGIN
+        LPF DELETE_SPELL_EFFECT INT_VAR
+            opcode_to_delete = opcode
+        END
+    END
+    //Patch in new payload.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_LARLOCH_MINOR_DRAIN" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to Resource
+        target = 2
+        parameter2 = 43                     //Source.
+        timing = 1
+        insert_point = 0
+    STR_VAR
+        resource = ~%res%~
+    END
+    //Copy aux spell, essentially a copy of vanilla aux spell.
+    TEXT_SPRINT res_aux "gr#lmd01"
+    INNER_ACTION BEGIN
+        LAF COPY_SPELL INT_VAR
+            spell_name = 10000
+        STR_VAR
+            res = "larloch_minor_drain"
+            name = ~%res_aux%~
+        END
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 146                        //Cast spell.
+        target = 2
+        parameter2 = 0                      //At caster level.
+        timing = 1
+        resist_dispel = 1
+    STR_VAR
+        resource = ~%res_aux%~
+    END
+END
+
+DEFINE_PATCH_FUNCTION WIZARD_SPOOK
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 139                  //Display string.
+        resist_dispel = 1
     END
 END
