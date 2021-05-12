@@ -3,11 +3,11 @@
 INCLUDE "%LIBRARY_DIR%/arrays/main.tpa"
 
 //Patches.
-INCLUDE ~%MOD_FOLDER%/components/%component%/lib/patches.tpa~
+INCLUDE ~%MOD_FOLDER%/components/%COMPONENT%/lib/patches.tpa~
 
 
 //Read table of spells to patch.
-COPY - ~%MOD_FOLDER%/components/%component%/resources/2da/patches.2da~ ~override~
+COPY - ~%MOD_FOLDER%/components/%COMPONENT%/resources/2da/patches.2da~ ~override~
     READ_2DA_ENTRIES_NOW rows 3
     FOR (i = 0; i < rows; ++i) BEGIN
         //Collect data.
