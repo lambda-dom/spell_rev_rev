@@ -86,12 +86,16 @@ WIZARD_BIGBYS_CRUSHING_HAND             1       0
 CLERIC_COMMAND                          1       0
 CLERIC_CURE_LIGHT_WOUNDS                1       0
 CLERIC_ENTANGLE                         1       0
+CLERIC_REMOVE_FEAR                      1       0
 CLERIC_SANCTUARY                        1       0
 CLERIC_SHILLELAGH                       1       0
+CLERIC_STRENGTH_OF_STONE                1       0
+CLERIC_SUNSCORCH                        1       0 
 CLERIC_GOOD_BERRIES                     1       0
 CLERIC_CAUSE_LIGHT_WOUNDS               1       0
 CLERIC_SUNSCORCH                        1       2100
 CLERIC_REGENERATE_LIGHT_WOUNDS          1       0
+CLERIC_OBSCURING_MIST                   1       0
 CLERIC_CHANT                            1       0
 CLERIC_CHARM_PERSON                     1       0
 CLERIC_FIND_TRAPS                       1       0

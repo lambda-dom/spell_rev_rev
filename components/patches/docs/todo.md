@@ -67,11 +67,7 @@
 
 ### Level 1.
 
-1. Sunscorch: use EE features of damage opcode.
-2. Regenerate Light Wounds: Duration scales with levels contrary to other regeneration spells.
-3. Resist Fear: sets protection from non-existent spell "mummydsp".
-4. Strength of Stone: misses protection from druid version of Gust of Wind.
-5. Obscuring mist: remove spurious 284 opcode with probability 0.
+1. Regenerate Light Wounds: Duration scales with levels contrary to other regeneration spells.
 
 ### Level 2.
 

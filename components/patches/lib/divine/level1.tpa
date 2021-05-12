@@ -1,6 +1,7 @@
 //Includes.
 //Libraries.
 INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
 
 //Divine spell patches: level 1.
 //Command.
@@ -66,6 +67,17 @@ BEGIN
     END
 END
 
+//Resist Fear.
+DEFINE_PATCH_FUNCTION CLERIC_REMOVE_FEAR
+BEGIN
+    //Remove spurious opcode.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 206                  //Protection from spell.
+    STR_VAR
+        match_resource = "mummydsp"
+    END
+END
+
 //Sanctuary.
 DEFINE_PATCH_FUNCTION CLERIC_SANCTUARY
 BEGIN
@@ -83,6 +95,71 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 111                  //Create Item.
         parameter1 = 1
+    END
+END
+
+//Strength of Stone.
+DEFINE_PATCH_FUNCTION CLERIC_STRENGTH_OF_STONE
+BEGIN
+    //Add protection against Druid version of Gust of Wind.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "CLERIC_GUST_OF_WIND_DRUID_VERSION" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 206                        //Protection from spell.
+        target = 1
+        power = 1
+        timing = 0
+        duration = 300
+        resistance_dispel = 3
+        insert_point = 5
+    STR_VAR
+        resource = ~%res%~
+    END
+END
+
+//Sunscorch.
+DEFINE_PATCH_FUNCTION CLERIC_SUNSCORCH
+BEGIN
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                       //Damage.
+        match_savingthrow = 2                   //Save vs. breath.
+    END
+    //Delete Use Eff opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 177                      //Use EFF.
+        match_savingthrow = 2                   //Save vs. breath.
+    END
+    //Add new effs.
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~dvsuns3.eff~ ~override/dvsuns4.eff~
+        COPY_EXISTING ~dvsuns3.eff~ ~override/dvsuns5.eff~
+    END
+    //Loop for altering.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        //Alter damage opcode.
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12                   //Damage.
+            dicenumber = i + 1
+            savingthrow = 2                     //Save vs. breath.
+            special = 256                       //Save for half.
+        END
+        //Alter resource in Use EFF.
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 177                  //Use EFF.
+        STR_VAR
+            resource = ~dvsuns%i%~
+        END
+        INNER_ACTION BEGIN
+            //Alter EFF's.
+            COPY_EXISTING ~dvsuns%i%.eff~ ~override~
+                WRITE_LONG $EFF_OFFSETS("dicenumber") (i + 1)
+                WRITE_LONG $EFF_OFFSETS("savingthrow") 2
+                WRITE_LONG $EFF_OFFSETS("special") 256
+            BUT_ONLY
+        END
     END
 END
 
@@ -120,5 +197,14 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 321                  //Remove Effects by Resource.
         resist_dispel = 0
+    END
+END
+
+//Obscuring Mist.
+DEFINE_PATCH_FUNCTION CLERIC_OBSCURING_MIST
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 284                  //Melee thac0 bonus.
+        match_probability1 = 0
     END
 END

@@ -158,13 +158,16 @@ note(s):
 
 1. [Minor, Implementation] Command: play sound opcode lacks save vs. spell and respective save penalty. Resist_dispel of first play visual opcode to dispel/bypass mr. Use EE features on sleep opcode.
 2. [Minor] Cure Light Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
-3. [Major] Entangle: duration of opcodes 8 -> 7 to conform with similar cloud spells. See Kjeron's comments in the thread [SR fixes questions](https://www.gibberlings3.net/forums/topic/30963-sr-fixes-questions).
-4. [Minor] Sanctuary: play sound opcode duration 60 -> 36.
-5. [Harmless] Shilellagh: create item opcode amount 0 -> 1.
-6. [Harmless] Good Berry: power of opcodes 2 -> 1.
-7. [Major] Cause Light Wounds: power of opcodes 4 -> 1. This implies it *does* not bypass MGoI.
-8. [Major] Sunscorch: change documentation to explicitly mention that a save vs. spell (not vs. breath, as rolled to halve the damage) will avoid blindness.
-9. [Major] Regenerate Light Wounds: resist_dispel -> 3. Only headers 7 and higher have Display String "Regenerating" -- added missing opcodes.
+3. [Harmless] Resist Fear: sets protection from non-existent spell "mummydsp".
+4. [Major] Entangle: duration of opcodes 8 -> 7 to conform with similar cloud spells. See Kjeron's comments in the thread [SR fixes questions](https://www.gibberlings3.net/forums/topic/30963-sr-fixes-questions).
+5. [Minor] Sanctuary: play sound opcode duration 60 -> 36.
+6. [Harmless] Shilellagh: create item opcode amount 0 -> 1.
+7. [Minor] Strength of Stone: misses protection from druid version of Gust of Wind.
+8. [Harmless] Good Berry: power of opcodes 2 -> 1.
+9. [Major] Cause Light Wounds: power of opcodes 4 -> 1. This implies it *does* not bypass MGoI.
+10. [Major, Implementation] Sunscorch: change documentation to explicitly mention that a save vs. spell (not vs. breath, as rolled to halve the damage) will avoid blindness. Use EE features of damage opcode.
+11. [Major] Regenerate Light Wounds: resist_dispel -> 3. Only headers 7 and higher have Display String "Regenerating" -- added missing opcodes.
+12. [Harmless] Obscuring mist: remove spurious 284 opcode with probability 0.
 
 ### Level 2.
 
