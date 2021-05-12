@@ -4,13 +4,13 @@
 
 ## A. 1. State of the mod.
 
-As of this writing (May, 2021), the mod has not had a single commit since April 2020. My list of patches is sitting there since January 2020. This is not a complaint, is just an acknowledgment of the situation. The BG community is small with few developers, and the few there are eventually move on and have better things to do. What this means is that the mod is stuck at the beta v18. It is a solid general principle of life, that if one wants anything fixed, one must do it oneself; if you consult the list of patched spells, there are at this moment (May 2021) over then 150 entries. In all fairness, most of the fixes are of the Harmless category, but it is still a very large number.
+As of this writing (May, 2021), the mod has not had a single commit since April 2020. My list of patches is sitting there since January 2020. This is not a complaint, just an acknowledgment of the situation. The BG community is small with few developers, and the few there are, eventually move on and have better things to do. What this means is that the mod is stuck at the beta v18. It is a solid general principle of life, that if one wants anything fixed, one must do it oneself; if you consult the list of patched spells, there are at this moment (May 2021) over 150 entries. In all fairness, most of the fixes are of the Harmless category, but it is still a very large number.
 
-Bartimaeus has single-handedly tried to patch and fix the mod -- consult the [thread](https://www.gibberlings3.net/forums/topic/29618-sr-revised-v13200-2020-august-22nd). There are however two major problems with his work. First, his mod is to be copied over and override the SR mod, which means that the specific fixes are either documented or get lost in memory's sinkhole. And we all know how documentation goes. The second problem is that Bartimaeus has added on top of his fixes a whole sleuth of tweaks. The problem are not the tweaks themselves; while I can quibble with some of them, I actually like the general direction he has taken with the mod. The problem is rather that we end up without a base mod in a usable state, with no clear separation between what is a fix and what is a tweak.
+Bartimaeus has single-handedly tried to patch and fix the mod -- consult the [thread](https://www.gibberlings3.net/forums/topic/29618-sr-revised-v13200-2020-august-22nd). There are however two major problems with his work. First, his mod is copied over and overrides the SR mod, which means that the specific fixes are either documented or get lost in memory's sinkhole. And we all know how documentation goes. The second problem is that Bartimaeus has added on top of his fixes a whole sleuth of tweaks. The problem are not the tweaks themselves; while I can quibble with some of them, I actually like the general direction he has taken with the mod. The problem is rather that we end up without a base mod in a usable state, with no clear separation between what is a fix and what is a tweak.
 
 ## A. 2. State of the tools.
 
-There are two main tools used. The first is the WeiDU program, whose most important component is the programming language for batch patching of the game's data files. It is the de-facto tool for patching and the only game in town. Having stated, in a rather subdued fashion, my thanks, the plain matter of fact is that programming in WeiDU is an exercise in sustained masochism. The language, as a programming language, is one ginormous clustercrap. The ideal would be to use a well-tested, extensive, newbie-friendly language, [Python](https://www.python.org) say, on top of a solid API, and with cross-compatibility with WeiDU. But ideals are ideals and reality is what it is; while I have started such a project it is far from completion, so WeiDU it is (and then mutter insults at the screen).
+There are two main tools used. The first is the WeiDU program, whose most important component is the programming language for batch patching of the game's data files. It is the de-facto tool for modding the game. Having stated, in a rather subdued fashion, my thanks, the plain matter of fact is that programming in WeiDU is an exercise in sustained masochism. The language, as a programming language, is one ginormous clustercrap. The ideal would be to use a well-tested, extensive, newbie-friendly language, [Python](https://www.python.org) say, on top of a solid API, and with cross-compatibility with WeiDU. But ideals are ideals and reality is what it is; while I have started such a project it is far from completion, so WeiDU it is (and then mutter insults at the screen).
 
 The second major tool is the editor [NearInfinity](https://github.com/Argent77/NearInfinity). It is a good editor, very useful for testing and special-purpose file editing. My only complaint, and not a small one sad to say, is that the UI is clunky and not very friendly. The looks are also ugly, but that is a fairly minor gripe.
 
@@ -24,17 +24,17 @@ Do note that the ultimate authority is the code, which is even commented in reas
 
 Since the list of patches is very long, it is useful to classify them, so the user can have a sense of the scale of the problems. We classify the problems in four categories, in increasing degree of severity.
 
-* Harmless: while technically incorrect, the fix does not change the behavior in any noticeable way. A typical example is the power level of summoning effects. The power level is important for the interaction with spell protections, but obviously these are quite irrelevant for summoning spells. The reason these are include are, besides a general OCD desire for completeness and perfectionism, is that when first making the fix it is usually not clear that the bug is not harmless.
+* Harmless: while technically incorrect, the fix does not change the behavior in any noticeable way. A typical example is the power level of summoning effects. The power level is important for the interaction with spell protections, but obviously these are quite irrelevant for summoning spells. The reason these are included are, besides a general OCD desire for completeness and perfectionism, is that when first making the fix it is usually not clear whether the bug is harmless or not.
 
 * Minor: the bug does not affect gameplay; this includes aesthetics, e.g. display strings have wrong saves, whose only effect is that you will probably see a line on the log that should not be there.
 
-* Major: the bug affects gameplay in some way, e.g. important spell opcodes have the wrong save penalties, or the wrong resist_dispel flag or power level, so that they are/are not blocked when they should be, they interact incorrectly with spell protections, have the wrong durations, etc. Other major problems include misleading or flat-out wrong spell descriptions.
+* Major: the bug affects gameplay in some way, e.g. important spell opcodes have the wrong save penalties, or the wrong resist_dispel flag or power level, so that they are/are not blocked when they should/should not be, interact incorrectly with spell protections, have the wrong durations, etc. Other major problems include misleading or flat-out wrong spell descriptions.
 
 * Severe: more majorly major than major.
 
 This classification is not a hard and fast rule, it is just meant as a guide. Parallel, there are a few other tags that can be added to a spell patch.
 
-* Implementation: we change the implementation, usually to take advantage of EE features, while keeping the functional behavior intact or mostly intact. A typical example is the new EE features for the sleep and damage opcodes, or using 321 opcodes to make a spell refresh and non-stacking instead of just non-stacking.
+* Implementation: implementation is changed, usually to take advantage of EE features, while keeping the functional behavior intact or mostly intact. A typical example is the new EE features for the sleep and damage opcodes, or using 321 opcodes to make a spell refresh and non-stacking instead of just non-stacking.
 
 ## B. 2. Arcane spells.
 
@@ -43,19 +43,19 @@ This classification is not a hard and fast rule, it is just meant as a guide. Pa
 1. [Harmless] Grease: delete spurious 324 opcode.
 2. [Minor] Charm Person: add Display String 1476 = Charmed.
 3. [Minor] Obscuring Mist: same fixes as Cleric's version.
-3. [Harmless] Monster Summoning I: corrected power 6 -> 0 of summoning effect.
-4. [Minor] Protection from Petrification: display string "Gaze Reflection" -> "Protection from Petrification".
-5. [Major] Expeditious Retreat: resist_dispel is all over the place. Standardized -> 3.
-6. [Harmless] True Strike: opcodes' target preset (2) -> self (1). Spurious 321 and 206 opcodes removed.
-7. [Major, Implementation] Shield: play sound resist_dispel 1 -> 3. Added protection against TRAP_MAGIC_MISSILE. Changed spell from non stacking to EE refresh. Remove protection against wand03 as spell does not even exist. Add set state WIZARD_SHIELD opcode.
+4. [Harmless] Monster Summoning I: corrected power 6 -> 0 of summoning effect.
+5. [Minor] Protection from Petrification: display string "Gaze Reflection" -> "Protection from Petrification".
+6. [Major] Expeditious Retreat: resist_dispel is all over the place. Standardized -> 3.
+7. [Harmless] True Strike: opcodes' target preset (2) -> self (1). Spurious 321 and 206 opcodes removed.
+8. [Major, Implementation] Shield: play sound resist_dispel 1 -> 3. Added protection against TRAP_MAGIC_MISSILE. Changed spell from non stacking to EE refresh. Remove protection against wand03 as spell does not even exist. Add set state WIZARD_SHIELD opcode.
 
 note(s):
-* wand03 does not exist in vanilla but IR may introduce it. In vanilla, wand03 item sets up protection by toggling state WIZARD_SHIELD.
+* wand03 does not exist in vanilla but IR may introduce it. In vanilla, wand03 item sets up protection by checking state WIZARD_SHIELD.
 
-8. [Minor, Implementation] Sleep: changed implementation to use EE features of sleep code. This meant the deletion of the cast spell on condition and display portrait icon opcodes. All headers but first and last lack display string opcode.
-9. [Harmless] Chill Touch: create item opcode amount 0 -> 1.
-10. [Major, Implementation] Larloch's Minor Drain: use EE drain features of damage opcode for correct implementation (e.g. correct interaction with mr).
-11. [Minor] Spook: display string opcode resist_dispel 0 -> 1.
+9. [Minor, Implementation] Sleep: changed implementation to use EE features of sleep code. This meant the deletion of the cast spell on condition and display portrait icon opcodes. All headers but first and last lack display string opcode.
+10. [Harmless] Chill Touch: create item opcode amount 0 -> 1.
+11. [Major, Implementation] Larloch's Minor Drain: use EE drain features of damage opcode for correct implementation (e.g. correct interaction with mr).
+12. [Minor] Spook: display string opcode resist_dispel 0 -> 1.
 
 ### Level 2.
 
