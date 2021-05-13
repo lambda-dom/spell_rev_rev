@@ -56,7 +56,7 @@ BEGIN
             resource = ~%res%~
         END
     END
-    //Add non-stacking.
+    //Non-stacking as in Cleric's version.
     LPF ADD_SPELL_EFFECT INT_VAR
         opcode = 321                        //Remove effects by resource.
         target = 2
@@ -64,13 +64,16 @@ BEGIN
     STR_VAR
         resource = ~%res%~
     END
-    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_KNOW_OPPONENT" RET res = spell_res END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "CLERIC_KNOW_OPPONENT" RET res = spell_res END
     LPF ADD_SPELL_EFFECT INT_VAR
         opcode = 321                        //Remove effects by resource.
         target = 2
         insert_point = 0
     STR_VAR
         resource = ~%res%~
+    END
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 206              //Protection from spell.
     END
 END
 

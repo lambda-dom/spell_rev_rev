@@ -2,7 +2,7 @@
 
 General points:
 
-1. In summoning spells, the Use Eff has the required duration but the eff itself is usually something like 2400. This is harmless, but synch up the durations?
+1. In summoning spells, the Use Eff has the required duration but the eff itself is usually something like 2400 and may even have timing = 1. This is harmless, but synch up the durations?
 
 ## Arcane spells.
 
@@ -63,15 +63,6 @@ General points:
 4. Imprisonment: kills the victim after 5 rounds. The killing should be advertized in the docs.
 
 ## Divine spells.
-
-### Level 1.
-
-1. Regenerate Light Wounds: Duration scales with levels contrary to other regeneration spells.
-
-### Level 2.
-
-1. Charm Person or Animal: add Display String 1476 = Charmed?
-2. Regenerate Moderate Wounds: add display string "Regenerate" opcode?
 
 ### Level 3.
 

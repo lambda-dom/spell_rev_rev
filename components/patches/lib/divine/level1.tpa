@@ -44,18 +44,6 @@ BEGIN
         resist_dispel = 3
         insert_point = 4
     END
-    //Add missing display string.
-    FOR (i = 1; i <= 7; ++i) BEGIN
-        LPF ADD_SPELL_EFFECT INT_VAR
-            opcode = 139                    //Display string.
-            target = 2
-            timing = 1
-            parameter1 = 11006              //Regenerating
-            power = 1
-            resist_dispel = 3
-            insert_point = 8
-        END
-    END
 END
 
 //Entangle.
@@ -197,6 +185,19 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 321                  //Remove Effects by Resource.
         resist_dispel = 0
+    END
+    //Add missing display string.
+    FOR (i = 1; i <= 7; ++i) BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            header = i
+            opcode = 139                    //Display string.
+            target = 2
+            timing = 1
+            parameter1 = 11006              //Regenerating
+            power = 1
+            resist_dispel = 3
+            insert_point = 8
+        END
     END
 END
 

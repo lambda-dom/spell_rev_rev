@@ -62,7 +62,7 @@ note(s):
 1. [Harmless] Blur: power of opcodes 3 -> 2.
 2. [Minor] Detect Invisibility: opcode Invisibility Detection resistance_dispel 2 -> 3.
 3. [Implementation] Battering Ram: Sleep opcode gained special = 130 (Unconscious) for icon and strref.
-4. [Major, Implementation] Know Opponent: fix casting time 9 -> 2 to synch with cleric's version. Description fix. Implementation, does not have to use an eff, as we can use 318 opcode. Add missing 321 opcodes to avoid stacking.
+4. [Major, Implementation] Know Opponent: fix casting time 9 -> 2 to synch with cleric's version. Description fix. Implementation of golem immunity has a spurious Use Eff and can use instead a 318 opcode. Prevent stacking as it is done in Cleric's version with 321 opcodes.
 5. [Major] Luck: detect illusion resistance_dispel 0 -> 3.
 6. [Harmless] Resist Fear: reset morale duration 40 -> 0. Removed protection from mummydsp, a non-existent spell.
 7. [Major] Melf's Acid Arrow: remove 324 opcode as with it, missile damage is also blocked by acid immunity.
@@ -178,19 +178,20 @@ note(s):
 ### Level 2.
 
 1. [Major] Chant: Added 321 opcode to prevent stacking saves and removed spurious 321 opcode from aux spell.
-2. [Harmless] Charm Person or Animal: the second 324 opcode is spurious.
+2. [Minor, Implementation] Charm Person or Animal: the second 324 opcode is spurious. Simplified racial immunities with 318 opcode. Add Display String 1476 = Charmed.
 3. [Major] Find Traps: auxiliary spell duration 20 -> 6 and target 2 (preset) -> 1 (self).
 4. [Harmless] Flame Blade: create item opcode amount 0 -> 1.
 5. [Major] Hold Person: play sound opcode has a save bonus of -1. Added display string 14102 = "Held" opcode. Remove spurious 321 opcodes targeting know opponent.
-6. [Major] Know Opponent: Description changed casting speed 1 round -> 2.
+6. [Major] Know Opponent: Description changed casting speed 1 round -> 2. Implementation of golem immunity as in wizard's version.
 7. [Minor] Slow Poison: add remove intoxicated icon opcode since the spell also cures intoxication. Add remove poisoned icon opcode.
 8. [Harmless] Spiritual Hammer: create item opcode amount 0 -> 1.
 9. [Minor] Cure Moderate Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
 10. [Implementation] Fire Trap: changed implementation to use EE features, namely the save for half flag.
-11. [Major] Regenerate Moderate Wounds: power of opcodes 1 -> 2, resist_dispel 0 -> 3.
-12. [Major] Gust of Wind: sleep opcode resist_dispel 0 -> 1. Add to description that it dispels insect swarms. Sleep opcode gained special = 14 for icon and strref.
+11. [Major] Regenerate Moderate Wounds: power of opcodes 1 -> 2, resist_dispel 0 -> 3. Add Display String "Regenerating" for consistency with Regenerate Light Wounds.
+12. [Major] Gust of Wind: sleep opcode resist_dispel 0 -> 1. Add to description that it dispels insect swarms. Sleep opcode gained special = 130 for icon and strref.
 13. [Major] Cause Moderate Wounds: power 0 -> 2.
 14. [Harmless] Animal Summoning II: summoning eff power 8 -> 0.
+15. [Major] Draw upon Divine Might: remove cast spell dvwinded. Winded at the end of DuDM is undocumented, a relic of earlier SR versions.
 
 ### Level 3.
 
