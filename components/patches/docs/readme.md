@@ -61,19 +61,20 @@ note(s):
 
 1. [Harmless] Blur: power of opcodes 3 -> 2.
 2. [Minor] Detect Invisibility: opcode Invisibility Detection resistance_dispel 2 -> 3.
-3. [Implementation] Battering Ram: Sleep opcode gained special = 14 for icon and strref.
-4. [Major] Know Opponent: fix casting time 9 -> 2 to synch with cleric's version. Description fix.
+3. [Implementation] Battering Ram: Sleep opcode gained special = 130 (Unconscious) for icon and strref.
+4. [Major, Implementation] Know Opponent: fix casting time 9 -> 2 to synch with cleric's version. Description fix. Implementation, does not have to use an eff, as we can use 318 opcode. Add missing 321 opcodes to avoid stacking.
 5. [Major] Luck: detect illusion resistance_dispel 0 -> 3.
-6. [Harmless] Resist Fear: reset morale duration 40 -> 0.
+6. [Harmless] Resist Fear: reset morale duration 40 -> 0. Removed protection from mummydsp, a non-existent spell.
 7. [Major] Melf's Acid Arrow: remove 324 opcode as with it, missile damage is also blocked by acid immunity.
 8. [Implementation] Mirror Image: change non-stacking to EE refreshing and added protection against Reflected Image.
 9. [Harmless] Monster Summoning II: corrected power of summoning effect.
 10. [Harmless] Ghoul Touch: create item opcode amount 0 -> 1.
-11. [Harmless] Vocalize: play visual effect opcode power 1 -> 2.
+11. [Harmless] Vocalize: play visual effect opcode power 1 -> 3.
 12. [Implementation] Power Word Sleep: Sleep opcode gained EE special = 14 for icon and strref.
 13. [Minor] Ray of Enfeeblement: both the first play sound and character pulse opcodes lack save.
 14. [Harmless] Chaos Shield: play visual and second protection from spell have target preset (2) instead of self (1).
 15. [Implementation] Sound Burst: use EE damage opcode features on aux spell.
+16. [Harmless] Glitterdust: remove spurious protection against non-existent sppr314f.
 
 ### Level 3.
 

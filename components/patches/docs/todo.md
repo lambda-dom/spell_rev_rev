@@ -1,5 +1,9 @@
 # A. Patches.
 
+General points:
+
+1. In summoning spells, the Use Eff has the required duration but the eff itself is usually something like 2400. This is harmless, but synch up the durations?
+
 ## Arcane spells.
 
 ### Level 3.

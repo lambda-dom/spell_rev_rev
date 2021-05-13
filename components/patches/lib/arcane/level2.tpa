@@ -31,7 +31,7 @@ DEFINE_PATCH_FUNCTION WIZARD_BATTERING_RAM
 BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 39                   //Sleep
-        special = 14                        //Sleep icon and string.
+        special = 130                       //Unconscious.
     END
 END
 
@@ -40,6 +40,37 @@ DEFINE_PATCH_FUNCTION WIZARD_KNOW_OPPONENT
 BEGIN
     LPF ALTER_SPELL_HEADER INT_VAR 
         speed = 2                           //Casting speed 9 -> 2.
+    END
+    //Change immunities implementation.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 177              //Use EFF.
+    END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_KNOW_OPPONENT" RET res = spell_res END
+    PATCH_FOR_EACH race IN ~GOLEM~ BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 318                    //Immunity to resource.
+            target = 2
+            parameter2 = 27                 //Race = Golem
+            insert_point = 0
+        STR_VAR
+            resource = ~%res%~
+        END
+    END
+    //Add non-stacking.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 321                        //Remove effects by resource.
+        target = 2
+        insert_point = 0
+    STR_VAR
+        resource = ~%res%~
+    END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_KNOW_OPPONENT" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 321                        //Remove effects by resource.
+        target = 2
+        insert_point = 0
+    STR_VAR
+        resource = ~%res%~
     END
 END
 
@@ -58,6 +89,11 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 23                   //Reset morale.
         duration = 0
+    END
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 206                  //Protection form spell.
+    STR_VAR
+        match_resource = "mummydsp"
     END
 END
 
@@ -163,6 +199,10 @@ END
 //Sound Burst.
 DEFINE_PATCH_FUNCTION WIZARD_SOUND_BURST
 BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 146                  //Cast spell.
+        parameter2 = 0                      //Cast normally at caster level.
+    END
     TEXT_SPRINT res "spwi223d"
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.spl~ ~override~
@@ -183,5 +223,15 @@ BEGIN
                 special = 256               //Save for half.
             END
         BUT_ONLY
+    END
+END
+
+//Glitterdust.
+DEFINE_PATCH_FUNCTION WIZARD_GLITTERDUST
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 206                  //Protection from spell.
+    STR_VAR
+        match_resource = "sppr114f"
     END
 END
