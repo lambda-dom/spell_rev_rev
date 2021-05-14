@@ -35,13 +35,32 @@ BEGIN
     END
 END
 
+//Flame Arrow.
+DEFINE_PATCH_FUNCTION WIZARD_FLAME_ARROW
+BEGIN
+    //Delete 324 opcodes blocking spell on fire immunity.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 324
+    END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_FLAME_ARROW" RET res = spell_res END
+    PATCH_FOR_EACH res_aux IN ~%res%a~ ~%res%b~ ~%res%c~ ~%res%d~ ~%res%e~ BEGIN
+        INNER_ACTION BEGIN
+            COPY_EXISTING ~%res_aux%.spl~ ~override~
+                LPF DELETE_SPELL_EFFECT INT_VAR
+                    opcode_to_delete = 324
+                END
+        END
+    END
+END
+
 //Fireball.
 DEFINE_PATCH_FUNCTION WIZARD_FIREBALL
 BEGIN
     //Delete damage opcode with a save.
     LPF DELETE_EFFECT INT_VAR
         match_opcode = 12                   //Damage.
-        match_savingthrow = 16777218        //Save vs. breath + EEx MI.
+        //Save vs. breath + bypass MI.
+        match_savingthrow = (1 << 1) | (1 << 24)
     END
     //Alter damage opcode.
     READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
@@ -50,7 +69,7 @@ BEGIN
             header = i
             match_opcode = 12               //Damage.
             dicenumber = i + 4
-            savingthrow = 16777218          //Save vs. breath + EEx MI.
+            savingthrow = (1 << 1) | (1 << 24)
             savebonus = 0 - 2
             special = 256                   //Save for half.
         END
@@ -140,7 +159,8 @@ BEGIN
     //Delete damage opcode with a save.
     LPF DELETE_EFFECT INT_VAR
         match_opcode = 12                   //Damage.
-        match_savingthrow = 2               //Save vs. breath.
+        //Save vs. breath + bypass MI.
+        match_savingthrow = (1 << 1) | (1 << 24)
     END
     //Alter damage opcode.
     READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
@@ -149,17 +169,84 @@ BEGIN
             header = i
             match_opcode = 12               //Damage.
             dicenumber = i + 4
-            savingthrow = 2                 //Save vs. breath.
+            savingthrow = (1 << 1) | (1 << 24)
             savebonus = 0 - 2
             special = 256                   //Save for half.
         END
     END
 END
 
+DEFINE_PATCH_FUNCTION WIZARD_VAMPIRIC_TOUCH
+BEGIN
+    //Delete all spell headers but first.
+    //DELETE_SPELL_HEADER is currently bugged so we roll out our own deletion loop.
+    DEFINE_ASSOCIATIVE_ARRAY indices BEGIN END
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    //Gather spell header indices to delete.
+    FOR (i = headers_count - 1; i >= 0; --i) BEGIN
+        LPF GET_SPELL_HEADER_OFFSET INT_VAR header = i RET header_offset = offset END
+        READ_SHORT (header_offset + $SPELL_HEADER_OFFSETS("min_level")) level
+        PATCH_IF (level >= 2) BEGIN
+            TEXT_SPRINT $indices("%i%") "*"
+        END
+    END
+    //Delete spell headers.
+    PHP_EACH indices AS index => dummy BEGIN
+        LPF REMOVE_SPELL_HEADER INT_VAR header = index END
+    END
+    //Delete all opcodes except 177: damage, max hp bonus, lighting effects, play sound, play visual effect, protection from spell.
+    PATCH_FOR_EACH opcode IN ~12~ ~18~ ~141~ ~174~ ~215~ ~206~ ~324~ BEGIN
+        LPF DELETE_SPELL_EFFECT INT_VAR
+            opcode_to_delete = opcode
+        END
+    END
+    //Patch in new payload.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_VAMPIRIC_TOUCH" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to Resource
+        target = 2
+        parameter2 = 43                     //Source.
+        insert_point = 0
+    STR_VAR
+        resource = ~%res%~
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to Resource
+        target = 2
+        parameter2 = 154                    //Immunity to Magic Damage.
+        insert_point = 0
+    STR_VAR
+        resource = ~%res%~
+    END
+    //Copy aux spell, essentially a copy of vanilla aux spell.
+    TEXT_SPRINT res_aux "gr#vmt01"
+    INNER_ACTION BEGIN
+        LAF COPY_SPELL INT_VAR
+            spell_name = 10001
+        STR_VAR
+            res = "vampiric_touch"
+            name = ~%res_aux%~
+        END
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 146                        //Cast spell.
+        target = 2
+        parameter2 = 0                      //At caster level.
+        timing = 1
+        resist_dispel = 1
+    STR_VAR
+        resource = ~%res_aux%~
+    END
+END
+
 //Wraithform.
 DEFINE_PATCH_FUNCTION WIZARD_WRAITH_FORM
 BEGIN
-    //resist_dispel 1 -> 3
+    //resist_dispel -> 3.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 3
+    END
+    //Undo changes.
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 321                  //Remove Effects by Resource.
         resist_dispel = 0
@@ -179,6 +266,44 @@ BEGIN
     END
 END
 
+//Dire Charm.
+DEFINE_PATCH_FUNCTION WIZARD_DIRE_CHARM
+BEGIN
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 139                        //Display string.
+        target = 2
+        power = 3
+        parameter1 = 14780                  //"Dire Charmed"
+        timing = 1
+        resist_dispel = 1
+        savingthrow = 1
+        insert_point = 17
+    END
+    //Simplify implementation of racial immunities.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 177              //Use Eff.
+    END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "CLERIC_CHARM_PERSON" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to resource.
+        target = 2
+        parameter2 = 15                     //Elf.
+        probability1 = 90
+        insert_point = 1
+    STR_VAR
+        resource = ~%res%~
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to resource.
+        target = 2
+        parameter2 = 19                     //Half-Elf.
+        probability1 = 30
+        insert_point = 1
+    STR_VAR
+        resource = ~%res%~
+    END
+END
+
 //Minor Spell Deflection.
 DEFINE_PATCH_FUNCTION WIZARD_MINOR_SPELL_DEFLECTION
 BEGIN
@@ -190,31 +315,6 @@ BEGIN
     LPF DELETE_EFFECT INT_VAR
         multi_match = 1
         match_opcode = 233                  //Modify Proficiencies
-    END
-    //Alter Spell Deflection -> Remove Effects by Resource.
-    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~WIZARD_MINOR_SPELL_DEFLECTION~ RET res = spell_res END
-    LPF ALTER_EFFECT INT_VAR
-        match_opcode = 201                  //Spell Deflection.
-        opcode = 321                        //Remove Effects by Resource.
-        parameter1 = 0
-        parameter2 = 0
-        timing = 1
-        duration = 0
-    STR_VAR
-        match_resource = "spwi318b"
-        res = ~%res%~
-    END
-    //Add Spell Deflection opcode.
-    LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 201                        //Spell Deflection.
-        target = 1
-        power = 3
-        parameter1 = 6                      //Levels.
-        parameter2 = 1                      //Spell level.
-        timing = 0
-        resist_dispel = 2
-        duration = 300
-        insert_point = 1
     END
 END
 

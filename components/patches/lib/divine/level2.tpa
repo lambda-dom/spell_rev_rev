@@ -201,7 +201,8 @@ BEGIN
     //Delete damage opcode with a save.
     LPF DELETE_EFFECT INT_VAR
         match_opcode = 12                   //Damage.
-        match_savingthrow = 16777218        //Save vs. breath + EEx MI.
+        //Save vs. breath + bypass MI.
+        match_savingthrow = (1 << 1) | (1 << 24)
     END
     //Alter damage opcode.
     READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
@@ -210,7 +211,8 @@ BEGIN
             header = i
             match_opcode = 12               //Damage.
             dicenumber = i + 2
-            savingthrow = 16777218          //Save vs. breath + EEx MI.
+            //Save vs. breath + bypass MI.
+            savingthrow = (1 << 1) | (1 << 24)
             special = 256                   //Save for half.
         END
     END

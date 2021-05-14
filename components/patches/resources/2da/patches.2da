@@ -30,6 +30,7 @@ WIZARD_SOUND_BURST                      1       0
 WIZARD_GLITTERDUST                      1       0
 WIZARD_CLAIRVOYANCE                     1       0
 WIZARD_REMOVE_MAGIC                     1       0
+WIZARD_FLAME_ARROW                      1       0
 WIZARD_FIREBALL                         1       0
 WIZARD_HOLD_PERSON                      1       0
 WIZARD_LIGHTNING_BOLT                   1       0
@@ -37,7 +38,9 @@ WIZARD_MONSTER_SUMMONING_LEVEL_3        1       0
 WIZARD_NON_DETECTION                    1       0
 WIZARD_SLOW                             1       0
 WIZARD_SKULL_TRAP                       1       0
+WIZARD_VAMPIRIC_TOUCH                   1       0
 WIZARD_WRAITH_FORM                      1       0
+WIZARD_DIRE_CHARM                       1       0
 WIZARD_MINOR_SPELL_DEFLECTION           1       0
 WIZARD_SPELL_THRUST                     1       0
 WIZARD_ICE_STORM                        1       0

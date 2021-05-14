@@ -29,6 +29,29 @@ BEGIN
         savebonus = 2
         insert_point = 18
     END
+    //Simplify implementation of racial immunities.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 177              //Use Eff.
+    END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "CLERIC_CHARM_PERSON" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to resource.
+        target = 2
+        parameter2 = 15                     //Elf.
+        probability1 = 90
+        insert_point = 1
+    STR_VAR
+        resource = ~%res%~
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to resource.
+        target = 2
+        parameter2 = 19                     //Half-Elf.
+        probability1 = 30
+        insert_point = 1
+    STR_VAR
+        resource = ~%res%~
+    END
 END
 
 //Obscuring Mist.
@@ -228,7 +251,14 @@ BEGIN
         opcode = 318                        //Immunity to Resource
         target = 2
         parameter2 = 43                     //Source.
-        timing = 1
+        insert_point = 0
+    STR_VAR
+        resource = ~%res%~
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to Resource
+        target = 2
+        parameter2 = 154                    //Immunity to Magic Damage.
         insert_point = 0
     STR_VAR
         resource = ~%res%~

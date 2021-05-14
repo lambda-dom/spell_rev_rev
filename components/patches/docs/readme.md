@@ -41,7 +41,7 @@ This classification is not a hard and fast rule, it is just meant as a guide. Pa
 ### Level 1.
 
 1. [Harmless] Grease: delete spurious 324 opcode.
-2. [Minor] Charm Person: add Display String 1476 = Charmed.
+2. [Minor, Implementation] Charm Person: add Display String 1476 = Charmed. Simplify implementation of racial immunities.
 3. [Minor] Obscuring Mist: same fixes as Cleric's version.
 4. [Harmless] Monster Summoning I: corrected power 6 -> 0 of summoning effect.
 5. [Minor] Protection from Petrification: display string "Gaze Reflection" -> "Protection from Petrification".
@@ -80,16 +80,19 @@ note(s):
 
 1. [Harmless] Clairvoyance: save vs. breath bonus power 0 -> 2.
 2. [Harmless] Dispel Magic: timing of Remove spell type protections opcode 3 -> 1. Power of Play Visual 3 -> 0 for consistency with other opcodes.
-3. [Implementation] Fireball: use EE damage opcode features.
-4. [Minor] Hold Person: added display string "Held" opcode.
-5. [Implementation] Lightning Bolt: use EE damage opcode features.
-6. [Harmless] Monster Summoning III: summoning eff power 6 -> 0.
-7. [Harmless] Non-detection: protection from spell opcodes power 0 -> 3.
-8. [Major] Slow: The second Remove Spell Type Protections has a save bonus. The first play sound opcode has no save and timing mode 0 -> 1.
-9. [Implementation] Skull Trap: use EE damage opcode features.
-10. [Major] Wraitform: resist_dispel 1 -> 3. It also blocks innate abilities, but this is undocumented so it is removed. Display String opcode power 0 -> 3.
-11. [Severe] Minor Spell Deflection: spurious repeated modify proficiency and set spell state opcodes. The first spell deflection spell opcode also has for resource a subspell that is supposed to remove spell deflection effects, but it is spurious. The latter is added and the former changed.
-12. [Major] Spell Thrust: made trigger radius equal to explosion. See Kjeron's comments in the [SR fixes questions](https://www.gibberlings3.net/forums/topic/30963-sr-fixes-questions/) thread.
+3. [Major] Flame Arrow: same issue with Melf's acid arrow, with fire immunity blocking missile damage, so 324 opcode removed from spell and aux spells.
+4. [Implementation] Fireball: use EE damage opcode features.
+5. [Minor] Hold Person: added display string "Held" opcode.
+6. [Implementation] Lightning Bolt: use EE damage opcode features.
+7. [Harmless] Monster Summoning III: summoning eff power 6 -> 0.
+8. [Harmless] Non-detection: protection from spell opcodes power 0 -> 3.
+9. [Major] Slow: The second Remove Spell Type Protections has a save bonus. The first play sound opcode has no save and timing mode 0 -> 1.
+10. [Implementation] Skull Trap: use EE damage opcode features.
+11. [Major, Implementation] Vampiric Touch: same fixes as Larloch's minor drain.
+12. [Major] Wraitform: resist_dispel -> 3. It also blocks innate abilities, but this is undocumented so it is removed. Display String opcode power 0 -> 3.
+13. [Minor, Implementation] Dire Charm: add Display String 14780 = "Dire Charmed". Simplify implementation of racial immunities.
+14. [Harmless] Minor Spell Deflection: spurious repeated modify proficiency and set spell state opcodes.
+15. [Major] Spell Thrust: made trigger radius equal to explosion. See Kjeron's comments in the [SR fixes questions](https://www.gibberlings3.net/forums/topic/30963-sr-fixes-questions/) thread.
 
 ### Level 4.
 

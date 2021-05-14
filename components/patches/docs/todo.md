@@ -3,32 +3,35 @@
 General points:
 
 1. In summoning spells, the Use Eff has the required duration but the eff itself is usually something like 2400 and may even have timing = 1. This is harmless, but synch up the durations?
+2. Off by one probability errors are everywhere. The engine rolls a number in the interval 0-99 so that 100 is 99 and a range like 0-30 means 31% chance not 30%.
 
 ## Arcane spells.
 
+### Level 2.
+
+1. Sound Burst: damage bypass MI? AoE damage, so tentatively yes.
+
 ### Level 3.
 
-1. Vampiric Touch: see Larloch's Minor Drain.
-2. Dire Charm: add Display String "Dire Charmed".
-3. Slow has a Remove Spell Type Protections 12 = Combination. Is this correct?
-4. Flame Arrow: like Melf's acid arrow, spell also does missile damage, so 324 opcode should be removed from spell and aux spells.
-5. Protection from Missiles: all projectiles covered?
+1. Slow has a Remove Spell Type Protections 12 = Combination. Is this correct?
+2. Protection from Missiles: all projectiles covered?
+3. Spell Thrust: why is the real work being deferred and split between two subspells?
+4. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
 
 ### Level 4.
 
 1. Fire Shield does not seem to protect against insects. Should add protection against sectype k1#insect (or something similar)?
-2. Greater Malison: uses 321 opcode to avoid stacking. The problem is that it is resist_dispel 0 vs. 1 of other opcodes. Change to protection from spell?
-3. Protection from Fire: power of opcodes 5, 3 -> 4. Level 3 -> 4. Though being a level 4 spell, it is coded as a level 5 spell so have to fix durations of first header and add missing headers.
-4. Protection from Cold: power of opcodes 5 -> 4. Level 3 -> 4. Same as Protection from Fire.
-5. Protection from Electricity: power of opcodes 5 -> 4. Level 5 -> 4. Being coded as a level 5 spell, it misses two headers and the durations of the first header have to be fixed. Description level 4, not 5.
-6. Protection from Acid: power of opcodes 5 -> 4. Level 5 -> 4. Same as Protection from Electricity.
+2. Protection from Fire: power of opcodes 5, 3 -> 4. Level 3 -> 4. Though being a level 4 spell, it is coded as a level 5 spell so have to fix durations of first header and add missing headers.
+3. Protection from Cold: power of opcodes 5 -> 4. Level 3 -> 4. Same as Protection from Fire.
+4. Protection from Electricity: power of opcodes 5 -> 4. Level 5 -> 4. Being coded as a level 5 spell, it misses two headers and the durations of the first header have to be fixed. Description level 4, not 5.
+5. Protection from Acid: power of opcodes 5 -> 4. Level 5 -> 4. Same as Protection from Electricity.
 
 ### Level 5.
 
 1. Cone of Cold: use EE damage opcode features.
 2. Fireburst: use EE damage opcode features on aux spell.
 3. Mestil's Acid Shield: same problem as Fire Shield.
-4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it.
+4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not protect against it.
 
 ### Level 6.
 
