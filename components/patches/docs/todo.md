@@ -15,8 +15,9 @@ General points:
 
 1. Slow has a Remove Spell Type Protections 12 = Combination. Is this correct?
 2. Protection from Missiles: all projectiles covered?
-3. Spell Thrust: why is the real work being deferred and split between two subspells?
+3. Spell Thrust: why is the real work being deferred to and split between two subspells?
 4. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
+5. Vampiric Touch and Larloch's Minor Drain: the implementation needs to be refined, as it currently stands it is not correct.
 
 ### Level 4.
 
@@ -69,13 +70,10 @@ General points:
 
 ### Level 3.
 
-1. Holy Smite: use EE features of damage opcode.
-2. Unholy Blight: use EE features of damage opcode.
-3. Miscast Magic: cast spell opcode parameters?
-4. Call Lightning: use EE features of damage opcode.
-5. Glyph of Warding: use EE features of damage opcode.
-6. Storm Shield: same problem with Protection from Missiles.
-7. Summon Insects: uses Attack Nearest opcode instead of fear. Bug?
+1. Miscast Magic: cast spell opcode has a save, but the aux spell opcodes already have it. State Miscast_Magic -> Wild_Magic?
+2. Summon Insects: Why the extra level of indirection with the cast spell opcode in the main spell?
+3. Storm Shield: same problem with Protection from Missiles. Non-stacking -> EE refreshing.
+4. Regenerate Serious Wounds: extra, unneeded headers.
 
 ### Level 4.
 
@@ -87,6 +85,7 @@ General points:
 2. Insect Plague: same issue with Summon Insects.
 3. Flame Strike: use EE features of damage opcode.
 4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it.
+5. Protection line of spells: some of these are on sppr3, so have to go through them.
 
 ### Level 6.
 

@@ -1,9 +1,82 @@
 //Includes.
 //Divine spell patches: level 3.
+//Animate Dead.
+DEFINE_PATCH_FUNCTION CLERIC_ANIMATE_DEAD
+BEGIN
+    PATCH_FOR_EACH res IN ~spandead~ ~spandl12~ BEGIN
+        INNER_ACTION BEGIN
+            COPY_EXISTING ~%res%.eff~ ~override~
+                //power 3 -> 0.
+                WRITE_LONG $EFF_OFFSETS("power") 0
+            BUT_ONLY
+        END
+    END
+END
+
+//Call Lightning.
+DEFINE_PATCH_FUNCTION CLERIC_CALL_LIGHTNING
+BEGIN
+    //Change implementation to take advantage of EE.
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        //Save vs. breath + bypass MI.
+        match_savingthrow = (1 << 1) | (1 << 24)
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = 6
+            //Save vs. breath + bypass MI.
+            savingthrow = (1 << 1) | (1 << 24)
+            savebonus = 0 - 2
+            special = 256                   //Save for half.
+        END
+    END
+END
+
+//Dispel Magic.
+DEFINE_PATCH_FUNCTION CLERIC_DISPEL_MAGIC
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 221                  //Remove Spell Type Protections.
+        timing = 1
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215                  //Play Visual.
+        power = 0
+    END
+END
+
+//Glyph of Warding.
+DEFINE_PATCH_FUNCTION CLERIC_GLYPH_OF_WARDING
+BEGIN
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        //Save vs. breath + bypass MI.
+        match_savingthrow = (1 << 1) | (1 << 24)
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 4
+            savingthrow = (1 << 1) | (1 << 24)
+            special = 256                   //Save for half.
+        END
+    END
+END
+
 //Break Enchantment.
 DEFINE_PATCH_FUNCTION CLERIC_BREAK_ENCHANTMENT
 BEGIN
-    //Remove portrait icons corresponding to charm.
+    //Add remove portrait icons corresponding to charm.
     PATCH_FOR_EACH icon IN ~0~ ~1~ ~43~ BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
             opcode = 240                    //Remove portrait icon.
@@ -32,6 +105,25 @@ BEGIN
         header = 0
         match_opcode = 177                  //Use Eff.
     END
+    //Change implementation to take advantage of EE.
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        //Save vs. spell + bypass MI.
+        match_savingthrow = 1 | (1 << 24)
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 4
+            //Save vs. spell + bypass MI.
+            savingthrow = 1 | (1 << 24)
+            special = 256                   //Save for half.
+        END
+    END
 END
 
 //Unholy Blight.
@@ -48,11 +140,30 @@ BEGIN
             savingthrow = 1
         END
     END
-    //Kill penalty in save penalty opcodes.
+    //Kill penalty in save's opcodes.
     PATCH_FOR_EACH opcode IN ~33~ ~34~ ~35~ ~36~ ~37~ BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
             match_opcode = opcode
             savebonus = 0
+        END
+    END
+    //Change implementation to take advantage of EE.
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        //Save vs. spell + bypass MI.
+        match_savingthrow = 1 | (1 << 24)
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 4
+            //Save vs. spell + bypass MI.
+            savingthrow = 1 | (1 << 24)
+            special = 256                   //Save for half.
         END
     END
 END
@@ -69,32 +180,6 @@ BEGIN
         power = 3
         resist_dispel = 3
         insert_point = 4
-    END
-END
-
-//Cleric's Gust of Wind.
-DEFINE_PATCH_FUNCTION CLERIC_GUST_OF_WIND
-BEGIN
-    LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 39                   //Sleep.
-        resist_dispel = 1
-    END
-END
-
-//Summon Insects.
-DEFINE_PATCH_FUNCTION CLERIC_SUMMON_INSECTS
-BEGIN
-END
-
-//Animal Summoning III.
-DEFINE_PATCH_FUNCTION CLERIC_ANIMAL_SUMMONING_LEVEL_3
-BEGIN
-    TEXT_SPRINT res "wolfsu"
-    INNER_ACTION BEGIN
-        COPY_EXISTING ~%res%.eff~ ~override~
-            //power 8 -> 0.
-            WRITE_LONG $EFF_OFFSETS("power") 0
-        BUT_ONLY
     END
 END
 
@@ -117,6 +202,63 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.spl~ ~override~
             LPF CLERIC_CONTAGION_AUX END
+        BUT_ONLY
+    END
+END
+
+//Cleric's Gust of Wind.
+DEFINE_PATCH_FUNCTION CLERIC_GUST_OF_WIND
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep.
+        resist_dispel = 1
+        special = 130
+    END
+END
+
+//Summon Insects.
+DEFINE_PATCH_FUNCTION CLERIC_SUMMON_INSECTS
+BEGIN
+    //Change implementation to take advantage of EE.
+    TEXT_SPRINT res "sppr319b"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12                   //Damage.
+                //Save vs. breath + bypass MI.
+                match_savingthrow = (1 << 1) | (1 << 24)
+            END
+            //Alter damage opcode.
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 12               //Damage.
+                timing = 4
+                duration = 3                    //Put damage in middle of round.
+                dicenumber = 2
+                //Save vs. spell + bypass MI.
+                savingthrow = (1 << 1) | (1 << 24)
+                special = 256                   //Save for half.
+            END
+            //Change opcode -> panic.
+            LPF ALTER_EFFECT INT_VAR
+                match_opcode = 247                  //Attack nearest.
+                opcode = 24                         //Panic.
+                parameter2 = 0
+                probability1 = 100
+            END
+        BUT_ONLY
+    END
+END
+
+//Animal Summoning III.
+DEFINE_PATCH_FUNCTION CLERIC_ANIMAL_SUMMONING_LEVEL_3
+BEGIN
+    TEXT_SPRINT res "wolfsu"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 8 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
     END
 END
 
@@ -140,5 +282,16 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 321
         power = 0
+    END
+END
+
+//Spike Growth.
+DEFINE_PATCH_FUNCTION CLERIC_SPIKE_GROWTH
+BEGIN
+    PATCH_FOR_EACH opcode IN ~126~ ~142~ BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            match_opcode = opcode
+            resist_dispel = 0
+        END
     END
 END

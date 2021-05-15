@@ -14,6 +14,7 @@ WIZARD_LARLOCH_MINOR_DRAIN              1       0
 WIZARD_SPOOK                            1       0
 WIZARD_BLUR                             1       0
 WIZARD_DETECT_INVISIBILITY              1       0
+WIZARD_HORROR                           1       0
 WIZARD_BATTERING_RAM                    1       0
 WIZARD_KNOW_OPPONENT                    1       1200
 WIZARD_LUCK                             1       0
@@ -120,6 +121,10 @@ CLERIC_GUST_OF_WIND_DRUID_VERSION       1       2201
 CLERIC_CAUSE_MODERATE_WOUNDS            1       0
 CLERIC_ANIMAL_SUMMONING_LEVEL_2         1       0
 CLERIC_DRAW_UPON_HOLY_MIGHT             1       0
+CLERIC_ANIMATE_DEAD                     1       0
+CLERIC_CALL_LIGHTNING                   1       0
+CLERIC_DISPEL_MAGIC                     1       0
+CLERIC_GLYPH_OF_WARDING                 1       0
 CLERIC_BREAK_ENCHANTMENT                1       2301
 CLERIC_REMOVE_PARALYSIS                 1       0
 CLERIC_HOLY_SMITE                       1       0
@@ -131,6 +136,7 @@ CLERIC_ANIMAL_SUMMONING_LEVEL_3         1       0
 CLERIC_CONTAGION                        1       0
 CLERIC_CAUSE_MEDIUM_WOUNDS              1       0
 CLERIC_REGENERATE_SERIOUS_WOUNDS        1       0
+CLERIC_SPIKE_GROWTH                     1       0
 CLERIC_CURE_SERIOUS_WOUNDS              1       0
 CLERIC_ANIMAL_SUMMONING_LEVEL_4         1       0
 CLERIC_FREE_ACTION                      1       0

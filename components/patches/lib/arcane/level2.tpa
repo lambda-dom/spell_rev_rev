@@ -26,6 +26,15 @@ BEGIN
     END
 END
 
+//Horror.
+DEFINE_PATCH_FUNCTION WIZARD_HORROR
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        resist_dispel = 1
+    END
+END
+
 //Battering Ram.
 DEFINE_PATCH_FUNCTION WIZARD_BATTERING_RAM
 BEGIN

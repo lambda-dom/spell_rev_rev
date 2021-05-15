@@ -60,21 +60,22 @@ note(s):
 ### Level 2.
 
 1. [Harmless] Blur: power of opcodes 3 -> 2.
-2. [Minor] Detect Invisibility: opcode Invisibility Detection resistance_dispel 2 -> 3.
-3. [Implementation] Battering Ram: Sleep opcode gained special = 130 (Unconscious) for icon and strref.
-4. [Major, Implementation] Know Opponent: fix casting time 9 -> 2 to synch with cleric's version. Description fix. Implementation of golem immunity has a spurious Use Eff and can use instead a 318 opcode. Prevent stacking as it is done in Cleric's version with 321 opcodes.
-5. [Major] Luck: detect illusion resistance_dispel 0 -> 3.
-6. [Harmless] Resist Fear: reset morale duration 40 -> 0. Removed protection from mummydsp, a non-existent spell.
-7. [Major] Melf's Acid Arrow: remove 324 opcode as with it, missile damage is also blocked by acid immunity.
-8. [Implementation] Mirror Image: change non-stacking to EE refreshing and added protection against Reflected Image.
-9. [Harmless] Monster Summoning II: corrected power of summoning effect.
-10. [Harmless] Ghoul Touch: create item opcode amount 0 -> 1.
-11. [Harmless] Vocalize: play visual effect opcode power 1 -> 3.
-12. [Implementation] Power Word Sleep: Sleep opcode gained EE special = 14 for icon and strref.
-13. [Minor] Ray of Enfeeblement: both the first play sound and character pulse opcodes lack save.
-14. [Harmless] Chaos Shield: play visual and second protection from spell have target preset (2) instead of self (1).
-15. [Implementation] Sound Burst: use EE damage opcode features on aux spell.
-16. [Harmless] Glitterdust: remove spurious protection against non-existent sppr314f.
+2. [Minor] Detect Invisibility: opcode Invisibility Detection resist_dispel 2 -> 3.
+3. [Minor] Horror: play visual opcode resist_dispel 3 -> 1.
+4. [Implementation] Battering Ram: Sleep opcode gained special = 130 (Unconscious) for icon and strref.
+5. [Major, Implementation] Know Opponent: fix casting time 9 -> 2 to synch with cleric's version. Description fix. Implementation of golem immunity has a spurious Use Eff and can use instead a 318 opcode. Prevent stacking as it is done in Cleric's version with 321 opcodes.
+6. [Major] Luck: detect illusion resist_dispel 0 -> 3.
+7. [Harmless] Resist Fear: reset morale duration 40 -> 0. Removed protection from mummydsp, a non-existent spell.
+8. [Major] Melf's Acid Arrow: remove 324 opcode as with it, missile damage is also blocked by acid immunity.
+9. [Implementation] Mirror Image: change non-stacking to EE refreshing and added protection against Reflected Image.
+10. [Harmless] Monster Summoning II: corrected power of summoning effect.
+11. [Harmless] Ghoul Touch: create item opcode amount 0 -> 1.
+12. [Harmless] Vocalize: play visual effect opcode power 1 -> 3.
+13. [Implementation] Power Word Sleep: Sleep opcode gained EE special = 14 for icon and strref.
+14. [Minor] Ray of Enfeeblement: both the first play sound and character pulse opcodes lack save.
+15. [Harmless] Chaos Shield: play visual and second protection from spell have target preset (2) instead of self (1).
+16. [Implementation] Sound Burst: use EE damage opcode features on aux spell.
+17. [Harmless] Glitterdust: remove spurious protection against non-existent sppr314f.
 
 ### Level 3.
 
@@ -173,7 +174,7 @@ note(s):
 6. [Harmless] Shilellagh: create item opcode amount 0 -> 1.
 7. [Minor] Strength of Stone: misses protection from druid version of Gust of Wind.
 8. [Harmless] Good Berry: power of opcodes 2 -> 1.
-9. [Major] Cause Light Wounds: power of opcodes 4 -> 1. This implies it *does* not bypass MGoI.
+9. [Harmless] Cause Light Wounds: power of opcodes 4 -> 1.
 10. [Major, Implementation] Sunscorch: change documentation to explicitly mention that a save vs. spell (not vs. breath, as rolled to halve the damage) will avoid blindness. Use EE features of damage opcode.
 11. [Major] Regenerate Light Wounds: resist_dispel -> 3. Only headers 7 and higher have Display String "Regenerating" -- added missing opcodes.
 12. [Minor] Obscuring mist: remove spurious 284 opcode with probability 0. resist dispel -> 2 for 0 and 164 opcodes, as the penalties are from critters being inside the cloud and thus not blocked by mr or dispellable.
@@ -192,27 +193,32 @@ note(s):
 10. [Implementation] Fire Trap: changed implementation to use EE features, namely the save for half flag.
 11. [Major] Regenerate Moderate Wounds: power of opcodes 1 -> 2, resist_dispel 0 -> 3. Add Display String "Regenerating" for consistency with Regenerate Light Wounds.
 12. [Major] Gust of Wind: sleep opcode resist_dispel 0 -> 1. Add to description that it dispels insect swarms. Sleep opcode gained special = 130 for icon and strref.
-13. [Major] Cause Moderate Wounds: power 0 -> 2.
+13. [Harmless] Cause Moderate Wounds: power 0 -> 2.
 14. [Harmless] Animal Summoning II: summoning eff power 8 -> 0.
 15. [Major] Draw upon Divine Might: remove cast spell dvwinded. Winded at the end of DuDM is undocumented, a relic of earlier SR versions.
 
 ### Level 3.
 
-1. [Minor] Break Enchantment: add remove charm icon opcodes. Add to description that it also removes petrification.
-2. [Harmless] Remove Paralysis: delete spurious prevent portrait opcode.
-3. [Harmless] Holy Smite: first header has a spurious Use Eff mask_evil opcode. Holy Smite no longer targets only evils.
-4. [Major] Unholy Blight: first header has a spurious Use Eff mask_good opcode. Unholy Blight no longer targets only goody two-shoes. Base thac0 penalty, Lighting Effects and Play Sound opcodes lack saves. All the save penalty opcodes have an undocumented penalty -2 -- all the more because Holy Smite does not have this penalty for its blindness effect.
-5. [Minor] Cure Serious Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
-6. [Major] Gust of Wind: sleep opcode resist_dispel 0 -> 1. 
+1. [Harmless] Animate Dead: summoning eff power 3 -> 0 for foolish consistency.
+2. [Implementation] Call Lightning: use EE features of damage opcode.
+3. [Harmless] Dispel Magic: same fixes as wizard's remove magic.
+4. [Implementation] Glyph of Warding: use EE features of damage opcode.
+5. [Minor] Break Enchantment: add remove charm icon opcodes. Add to description that it also removes petrification.
+6. [Harmless] Remove Paralysis: delete spurious prevent portrait opcode.
+7. [Harmless, Implementation] Holy Smite: first header has a spurious Use Eff mask_evil opcode. Holy Smite no longer targets only evils. Use EE features of damage opcode.
+8. [Major, Implementation] Unholy Blight: first header has a spurious Use Eff mask_good opcode. Unholy Blight no longer targets only goody two-shoes. Base thac0 penalty, Lighting Effects and Play Sound opcodes lack saves. All the save penalty opcodes have an undocumented penalty -2 -- all the more because Holy Smite does not have this penalty for its blindness effect. Use EE features of damage opcode.
+9. [Minor] Cure Serious Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
+10. [Major] Gust of Wind: sleep opcode resist_dispel 0 -> 1. Sleep opcode gained special = 130 (Unconscious) for icon and strref.
 
 note(s):
 * contrary to the druid version, it does *not* dispel insect swarms. It also has a *documented* penalty of -2 to the saves.
 
-7. [Major] Summon Insects: panic on failed save vs. poison is not referred to in the description. Added it to description.
-8. [Harmless] Animal Summoning III: summoning eff power 8 -> 0.
-9. [Major] Contagion: aux spell had 5th disease opcode (slow) probability1 0. The opcode is undocumented, so it is deleted. Remove spurious protection against chaotic commands.
-10. [Major] Cause Serious Wounds: opcode's power 4 -> 3.
-11. [Harmless] Regenerate Serious Wounds: opcode's power 1 -> 3.
+11. [Major, Implementation] Summon Insects: panic on failed save vs. poison is not referred to in the description. Added it to description. Use EE features of damage opcode -- there is a very minor functional change: originally, the damage opcode would hit twice if the critter failed the save and now, with the new implementation, it only hits once (whether the critter fails the save or not). This would mean less chances of disrupting spellcasting but since spellcasting failure is already set at 100%, this is moot. Uses Attack Nearest [247] opcode instead of fear. Most likely a bug, because: 1. probability is 0 2. The next display opcode explicitly outputs "Panic" and 3. According to IESDP, 247 sets berserk status. Why would insects cause berserk? Changing it to panic.
+12. [Harmless] Animal Summoning III: summoning eff power 8 -> 0.
+13. [Major] Contagion: aux spell had 5th disease opcode (slow) probability1 0. The opcode is undocumented, so it is deleted. Remove spurious protection from chaotic commands.
+14. [Harmless] Cause Serious Wounds: opcode's power 4 -> 3.
+15. [Harmless] Regenerate Serious Wounds: opcode's power 1 -> 3.
+16. [Major] Spike Growth: resist_dispel of display portrait opcode inconsistent wit corresponding damage opcodes. Same for movement penalty opcode.
 
 ### Level 4.
 

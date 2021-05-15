@@ -233,7 +233,7 @@ BEGIN
         target = 2
         parameter2 = 0                      //At caster level.
         timing = 1
-        resist_dispel = 1
+        resist_ = 1
     STR_VAR
         resource = ~%res_aux%~
     END
