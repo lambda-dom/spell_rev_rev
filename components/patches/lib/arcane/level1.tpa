@@ -221,6 +221,19 @@ BEGIN
 END
 
 //Larloch's Minor Drain.
+DEFINE_PATCH_FUNCTION WIZARD_LARLOCH_MINOR_DRAIN_AUX
+BEGIN
+    TEXT_SPRINT res_aux "gr#lmd01"
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to Resource
+        target = 2
+        parameter2 = 43                     //Source.
+        insert_point = 0
+    STR_VAR
+        resource = ~%res_aux%~
+    END
+END
+
 DEFINE_PATCH_FUNCTION WIZARD_LARLOCH_MINOR_DRAIN
 BEGIN
     //Delete all spell headers but first.
@@ -250,14 +263,6 @@ BEGIN
     LPF ADD_SPELL_EFFECT INT_VAR
         opcode = 318                        //Immunity to Resource
         target = 2
-        parameter2 = 43                     //Source.
-        insert_point = 0
-    STR_VAR
-        resource = ~%res%~
-    END
-    LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 318                        //Immunity to Resource
-        target = 2
         parameter2 = 154                    //Immunity to Magic Damage.
         insert_point = 0
     STR_VAR
@@ -271,6 +276,7 @@ BEGIN
         STR_VAR
             res = "larloch_minor_drain"
             name = ~%res_aux%~
+            patch = "WIZARD_LARLOCH_MINOR_DRAIN_AUX"
         END
     END
     LPF ADD_SPELL_EFFECT INT_VAR

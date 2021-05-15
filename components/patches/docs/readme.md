@@ -218,7 +218,7 @@ note(s):
 13. [Major] Contagion: aux spell had 5th disease opcode (slow) probability1 0. The opcode is undocumented, so it is deleted. Remove spurious protection from chaotic commands.
 14. [Harmless] Cause Serious Wounds: opcode's power 4 -> 3.
 15. [Harmless] Regenerate Serious Wounds: opcode's power 1 -> 3.
-16. [Major] Spike Growth: resist_dispel of display portrait opcode inconsistent wit corresponding damage opcodes. Same for movement penalty opcode.
+16. [Major] Spike Growth: resist_dispel of display portrait opcode inconsistent with corresponding damage opcodes. Same for movement penalty opcode.
 
 ### Level 4.
 

@@ -176,6 +176,19 @@ BEGIN
     END
 END
 
+DEFINE_PATCH_FUNCTION WIZARD_VAMPIRIC_TOUCH_AUX
+BEGIN
+    TEXT_SPRINT res_aux "gr#vmt01"
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 318                        //Immunity to Resource
+        target = 2
+        parameter2 = 43                     //Source.
+        insert_point = 0
+    STR_VAR
+        resource = ~%res_aux%~
+    END
+END
+
 DEFINE_PATCH_FUNCTION WIZARD_VAMPIRIC_TOUCH
 BEGIN
     //Delete all spell headers but first.
@@ -194,7 +207,7 @@ BEGIN
     PHP_EACH indices AS index => dummy BEGIN
         LPF REMOVE_SPELL_HEADER INT_VAR header = index END
     END
-    //Delete all opcodes except 177: damage, max hp bonus, lighting effects, play sound, play visual effect, protection from spell.
+    //Delete all opcodes except 177: damage, max hp bonus, lighting effects, play sound, play visual effect, protection from spell, immunity from resource.
     PATCH_FOR_EACH opcode IN ~12~ ~18~ ~141~ ~174~ ~215~ ~206~ ~324~ BEGIN
         LPF DELETE_SPELL_EFFECT INT_VAR
             opcode_to_delete = opcode
@@ -202,14 +215,6 @@ BEGIN
     END
     //Patch in new payload.
     LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_VAMPIRIC_TOUCH" RET res = spell_res END
-    LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 318                        //Immunity to Resource
-        target = 2
-        parameter2 = 43                     //Source.
-        insert_point = 0
-    STR_VAR
-        resource = ~%res%~
-    END
     LPF ADD_SPELL_EFFECT INT_VAR
         opcode = 318                        //Immunity to Resource
         target = 2
@@ -226,6 +231,7 @@ BEGIN
         STR_VAR
             res = "vampiric_touch"
             name = ~%res_aux%~
+            patch = "WIZARD_VAMPIRIC_TOUCH_AUX"
         END
     END
     LPF ADD_SPELL_EFFECT INT_VAR

@@ -17,7 +17,7 @@ General points:
 2. Protection from Missiles: all projectiles covered?
 3. Spell Thrust: why is the real work being deferred to and split between two subspells?
 4. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
-5. Vampiric Touch and Larloch's Minor Drain: the implementation needs to be refined, as it currently stands it is not correct.
+5. Vampiric Touch and Larloch's Minor Drain: the implementation should now be correct, but aesthetic can be aligned closer to SR.
 
 ### Level 4.
 
