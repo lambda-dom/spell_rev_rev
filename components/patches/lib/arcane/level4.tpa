@@ -1,6 +1,8 @@
 //Includes.
 //Libraries.
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/tables/main.tpa~
 
 //Arcane spell patches: level 4.
 //Ice Storm.
@@ -41,7 +43,7 @@ BEGIN
         END
     //Patch in new resource.
     LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 206                  //Protection from spell
+        match_opcode = 146                  //Cast spell.
     STR_VAR
         resource = ~%res%~
     END
@@ -51,7 +53,7 @@ END
 DEFINE_PATCH_FUNCTION WIZARD_BREAK_ENCHANTMENT
 BEGIN
     //Icons charm, dire charm, domination.
-    PATCH_FOR_EACH icon IN ~0~ ~1~ ~45~ BEGIN
+    PATCH_FOR_EACH icon IN ~0~ ~1~ ~43~ BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
             opcode = 240                    //Remove portrait icon.
             target = 2
@@ -64,14 +66,157 @@ BEGIN
     END
 END
 
+//Emotion: Despair.
+DEFINE_PATCH_FUNCTION WIZARD_EMOTION_HOPELESSNESS
+BEGIN
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1; i <= headers_count; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            duration_high = (6 + i) * 12
+        END
+    END
+END
+
 //Greater Malison.
 DEFINE_PATCH_FUNCTION WIZARD_GREATER_MALISON
 BEGIN
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 278              //Thac0 bonus.
+    END
+END
+
+//Otiluke's Sphere.
+DEFINE_PATCH_FUNCTION WIZARD_OTILUKES_RESILIENT_SPHERE
+BEGIN
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_OTILUKES_RESILIENT_SPHERE" RET res = spell_res END
+    INNER_ACTION BEGIN
+        //Renaming.
+        //Friendly aux spell.
+        COPY_EXISTING ~spwi413a.spl~ ~override/%res%b.spl~
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 205                //Protection from spell type.
+                target = 2
+                parameter2 = 11             //Disabling -> Otiluke has this spell type.
+                resist_dispel = 3
+                duration = 60
+                insert_point = 53
+            END
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 205                //Protection from spell type.
+                target = 2
+                parameter2 = 4              //Magic attack.
+                resist_dispel = 3
+                duration = 60
+                insert_point = 47
+            END
+            LPF ALTER_EFFECT INT_VAR
+                match_opcode = 120          //Immunity to weapons.
+                match_parameter2 = 1        //Magical.
+                parameter1 = 6              //0 -> 6.
+            END
+        COPY_EXISTING ~spwi413d.eff~ ~override/%res%b.eff~
+            WRITE_ASCII $EFF_OFFSETS("resource") "%res%b" #8
+        //Enemy aux spell -> just use friendly version with right resist_dispel.
+        COPY_EXISTING ~%res%b.spl~ ~override/%res%a.spl~
+            //Fix resist_dispel.
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                resist_dispel = 1
+            END
+            //Add protection from abjuration.
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 204                //Protection school.
+                target = 2
+                parameter2 = 1              //Abjurer -> Dispel has this attack.
+                resist_dispel = 1
+                duration = 60
+                insert_point = 72
+            END
+        COPY_EXISTING ~spwi413c.eff~ ~override/%res%a.eff~
+            WRITE_ASCII $EFF_OFFSETS("resource") "%res%a" #8
+    END
+    //Patch new resources.
+    PATCH_FOR_EACH id IN ~255~ ~128~ ~28~ BEGIN
+        LPF ALTER_EFFECT INT_VAR
+            match_opcode = 177              //Use Eff.
+            match_parameter1 = id
+        STR_VAR
+            resource = "%res%a"
+        END
+    END
+    PATCH_FOR_EACH id IN ~30~ ~3~ ~4~ ~5~ ~6~ BEGIN
+        LPF ALTER_EFFECT INT_VAR
+            match_opcode = 177              //Use Eff.
+            match_parameter1 = id
+        STR_VAR
+            resource = "%res%b"
+        END
+    END
+END
+
+//Fire Shield.
+DEFINE_PATCH_FUNCTION WIZARD_FIRE_SHIELD_RED
+BEGIN
+    INNER_ACTION BEGIN
+        //Find sectype id.
+        LAF FIND_FIRST_ROW STR_VAR file = "msectype" key = "k1insect" RET sectype = index END
+    END
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1; i <= headers_count; ++i) BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 205                    //Protection from sectype.
+            target = 1
+            power = 4
+            parameter2 = sectype
+            timing = 0
+            duration = (i + 9) * 6
+            resist_dispel = 3
+            header = i
+            insert_point = 0 - 1
+        END
+        PATCH_FOR_EACH spell_name IN "CLERIC_SUMMON_INSECTS" "CLERIC_INSECT_PLAGUE" "CLERIC_CREEPING_DOOM" BEGIN
+            LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell_name%~ RET res = spell_res END
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 206                //Protection from spell.
+                target = 1
+                power = 4
+                timing = 0
+                duration = (i + 9) * 6
+                resist_dispel = 3
+                header = i
+                insert_point = 0 - 1
+            STR_VAR
+                resource = ~%res%~
+            END
+        END
+    END
 END
 
 //Teleport field.
 DEFINE_PATCH_FUNCTION WIZARD_TELEPORT_FIELD
 BEGIN
+END
+
+//Protection from elemental energy.
+DEFINE_PATCH_FUNCTION WIZARD_PROTECTION_FROM_ELEMENTAL_ENERGY
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 214                  //Select spell.
+    STR_VAR
+        resource = "dvwi426"
+    END
+END
+
+//Monster Summoning IV.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_4
+BEGIN
+    TEXT_SPRINT res "spidgisu"
+    INNER_ACTION BEGIN
+        //power 8 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
 END
 
 //Farsight.
@@ -88,14 +233,28 @@ BEGIN
     END
 END
 
-//Monster Summoning IV.
-DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_4
+//Vitriolic Sphere.
+DEFINE_PATCH_FUNCTION WIZARD_VITRIOLIC_SPHERE
 BEGIN
-    TEXT_SPRINT res "spidgisu"
-    INNER_ACTION BEGIN
-        //power 8 -> 0.
-        COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0            
-        BUT_ONLY
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        //Save vs. breath + bypass MI.
+        match_savingthrow = (1 << 1) | (1 << 24)
+    END
+    //Alter damage opcodes.
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        match_dicenumber = 5
+        dicenumber = 10
+        savingthrow = (1 << 1) | (1 << 24)
+        special = 256                       //Save for half.
+    END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        match_dicenumber = 2
+        dicenumber = 4
+        savingthrow = (1 << 1) | (1 << 24)
+        special = 256                       //Save for half.
     END
 END

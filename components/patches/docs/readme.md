@@ -98,13 +98,18 @@ note(s):
 ### Level 4.
 
 1. [Major] Ice Sorm: fix duration of movement rate penalty 24 -> 7. See Kjeron's comments in the [SR fixes questions](https://www.gibberlings3.net/forums/topic/30963-sr-fixes-questions/) thread.
-2. [Minor] Minor Globe of Invulnerability: remove double fireball protection. Change description to mention correct duration of 2 turns.
+2. [Major] Minor Globe of Invulnerability: remove double fireball protection. Change description to mention correct duration of 2 turns.
 3. [Severe] Contagion: Opcode's power 3 -> 4. Casting spell opcodes cast non-existent "sppr311d" -- clone aux spell from cleric version and patch it in.
 4. [Minor] Break Enchantment: add remove charmed icon opcodes. Clarified description to mention it removes petrification.
-5. [Minor] Greater Malison: Change description to mention correct duration of 2 turns.
-6. [Minor] Teleport Field: mention in description it bypasses mr.
-7. [Minor] Farsight: clairvoyance opcode power 3 -> 4. Clairvoyance and farsight opcodes resist/dispel -> 2.
-8. [Harmless] Monster Summoning IV: summoning eff power 8 -> 0.
+5. [Major] Emotion, Despair: ac penalty opcode in first header has wrong duration.
+6. [Major] Greater Malison: change description to mention correct duration of 2 turns. Undocumented thac0 bonus +1 (??) removed.
+7. [Severe] Otiluke's Sphere: the same spell is cast on enemies and friends -> renaming and patching. In the aux spells themselves, they have different numbers of opcodes and, contrary to the description, mr *is* bypassed on enemies. So used the friendly version, as it has the largest number of protections, and patched the missing ones as best as possible. Then used this as the enemy version, changing resist_dispel 3 -> 1.
+8. [Major] Fire Shield: lacks protection against insects. Added protection against sectype k1insect and insect spells.
+9. [Minor] Teleport Field: mention in description it bypasses mr.
+10. [Severe] Protection from Elemental Energy: not working, as not using correct 2da resource.
+11. [Harmless] Monster Summoning IV: summoning eff power 8 -> 0.
+12. [Minor] Farsight: clairvoyance opcode power 3 -> 4. Clairvoyance and farsight opcodes resist/dispel -> 2.
+13. [Implementation] Vitriolic Sphere: use EE damage opcode features.
 
 ### Level 5.
 

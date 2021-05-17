@@ -48,10 +48,15 @@ WIZARD_ICE_STORM                        1       0
 WIZARD_MINOR_GLOBE_OF_INVULNERABILITY   1       1400
 WIZARD_CONTAGION                        1       0
 WIZARD_BREAK_ENCHANTMENT                1       1405
+WIZARD_EMOTION_HOPELESSNESS             1       0
 WIZARD_GREATER_MALISON                  1       1401
+WIZARD_OTILUKES_RESILIENT_SPHERE        1       0
+WIZARD_FIRE_SHIELD_RED                  1       0
 WIZARD_TELEPORT_FIELD                   1       1402
-WIZARD_FAR_SIGHT                        1       0
+WIZARD_PROTECTION_FROM_ELEMENTAL_ENERGY 1       0
 WIZARD_MONSTER_SUMMONING_LEVEL_4        1       0
+WIZARD_FAR_SIGHT                        1       0
+WIZARD_VITRIOLIC_SPHERE                 1       0
 WIZARD_SHADOW_DOOR                      1       0
 WIZARD_MONSTER_SUMMONING_LEVEL_5        1       0
 WIZARD_HOLD_MONSTER                     1       0

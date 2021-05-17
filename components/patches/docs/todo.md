@@ -21,11 +21,8 @@ General points:
 
 ### Level 4.
 
-1. Fire Shield does not seem to protect against insects. Should add protection against sectype k1#insect (or something similar)?
-2. Protection from Fire: power of opcodes 5, 3 -> 4. Level 3 -> 4. Though being a level 4 spell, it is coded as a level 5 spell so have to fix durations of first header and add missing headers.
-3. Protection from Cold: power of opcodes 5 -> 4. Level 3 -> 4. Same as Protection from Fire.
-4. Protection from Electricity: power of opcodes 5 -> 4. Level 5 -> 4. Being coded as a level 5 spell, it misses two headers and the durations of the first header have to be fixed. Description level 4, not 5.
-5. Protection from Acid: power of opcodes 5 -> 4. Level 5 -> 4. Same as Protection from Electricity.
+1. Oitiluke's Sphere: Why Use Eff on GOODCUTOFF?
+2. Protection from elemental energy: go over each individual spell.
 
 ### Level 5.
 
@@ -74,6 +71,7 @@ General points:
 2. Summon Insects: Why the extra level of indirection with the cast spell opcode in the main spell?
 3. Storm Shield: same problem with Protection from Missiles. Non-stacking -> EE refreshing.
 4. Regenerate Serious Wounds: extra, unneeded headers.
+5. Magic Fang: use Enchantment Bonus 345 opcode in aux spells.
 
 ### Level 4.
 

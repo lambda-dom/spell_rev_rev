@@ -49,6 +49,7 @@ BEGIN
                 LPF DELETE_SPELL_EFFECT INT_VAR
                     opcode_to_delete = 324
                 END
+            BUT_ONLY
         END
     END
 END
@@ -187,6 +188,15 @@ BEGIN
     STR_VAR
         resource = ~%res_aux%~
     END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 146                        //Cast spell.
+        target = 2
+        parameter2 = 0                      //At caster level.
+        timing = 1
+        resist_ = 1
+    STR_VAR
+        resource = ~%res_aux%~
+    END
 END
 
 DEFINE_PATCH_FUNCTION WIZARD_VAMPIRIC_TOUCH
@@ -233,15 +243,6 @@ BEGIN
             name = ~%res_aux%~
             patch = "WIZARD_VAMPIRIC_TOUCH_AUX"
         END
-    END
-    LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 146                        //Cast spell.
-        target = 2
-        parameter2 = 0                      //At caster level.
-        timing = 1
-        resist_ = 1
-    STR_VAR
-        resource = ~%res_aux%~
     END
 END
 
@@ -332,6 +333,7 @@ BEGIN
         //Change area radius of projectile -> 15'.
         COPY_EXISTING ~%res%.pro~ ~override~
             WRITE_SHORT 0x204 150
+        BUT_ONLY
     END
 END
 
