@@ -218,7 +218,7 @@ note(s):
 note(s):
 * contrary to the druid version, it does *not* dispel insect swarms. It also has a *documented* penalty of -2 to the saves.
 
-11. [Major, Implementation] Summon Insects: panic on failed save vs. poison is not referred to in the description. Added it to description. Use EE features of damage opcode -- there is a very minor functional change: originally, the damage opcode would hit twice if the critter failed the save and now, with the new implementation, it only hits once (whether the critter fails the save or not). This would mean less chances of disrupting spellcasting but since spellcasting failure is already set at 100%, this is moot. Uses Attack Nearest [247] opcode instead of fear. Most likely a bug, because: 1. probability is 0 2. The next display opcode explicitly outputs "Panic" and 3. According to IESDP, 247 sets berserk status. Why would insects cause berserk? Changing it to panic.
+11. [Major, Implementation] Summon Insects: panic on failed save vs. poison is not referred to in the description. Added it to description. Use EE features of damage opcode -- there is a very minor functional change: originally, the damage opcode would hit twice if the critter failed the save and now, with the new implementation, it only hits once (whether the critter fails the save or not). This would mean less chances of disrupting spellcasting but since spellcasting failure is already set at 100%, this is moot. Uses Attack Nearest [247] opcode instead of fear. Most likely a bug, because: (1) probability is 0 (2) The next display opcode explicitly outputs "Panic" and (3) According to IESDP, 247 sets berserk status. Why would insects cause berserk? Changing it to panic.
 12. [Harmless] Animal Summoning III: summoning eff power 8 -> 0.
 13. [Major] Contagion: aux spell had 5th disease opcode (slow) probability1 0. The opcode is undocumented, so it is deleted. Remove spurious protection from chaotic commands.
 14. [Harmless] Cause Serious Wounds: opcode's power 4 -> 3.
@@ -231,10 +231,12 @@ note(s):
 2. [Harmless] Animal Summoning IV: summoning eff power 8 -> 0.
 3. [Major] Free Action: first header repeated protection against spell spwm164, but missing protection against web so altering the resource in the opcode. Second and subsequent headers miss protection against spells wish slow, spin983 slow and web. All headers missing protection against strings 14650 = "Paralyzed" and 14668 = "Slowed". Remove spurious 240 opcodes.
 4. [Minor] Neutralize Poison: misses protection against string 14662 = "Poisoned". Add remove poisoned icon opcode.
-5. [Minor] Domination: misses opcode display string 8364 = "Dominated"
-6. [Minor] Farsight: errors in several opcode's power and resist_dispel.
-7. [Major] Ice Sorm: fix duration of movement rate penalty 24 -> 7. Damage opcode has an undocumented +2 damage.
-8. [Harmless] Regenerate Critical Wounds: power of opcodes 1 -> 4.
+5. [Minor] Domination: misses opcode display string 8364 = "Dominated".
+6. [Harmless] Call Woodland Beings: summoning eff power 4 and 8 -> 0.
+7. [Minor] Farsight: errors in several opcode's power and resist_dispel.
+8. [Major] Cloak of Fear: 324 opcode giving immunity on resist fear moved to aux spell.
+9. [Major] Ice Sorm: fix duration of movement rate penalty 24 -> 7. Damage opcode has an undocumented +2 damage.
+10. [Harmless] Regenerate Critical Wounds: power of opcodes 1 -> 4.
 
 ### Level 5.
 

@@ -147,7 +147,9 @@ CLERIC_ANIMAL_SUMMONING_LEVEL_4         1       0
 CLERIC_FREE_ACTION                      1       0
 CLERIC_NEUTRALIZE_POISON                1       0
 CLERIC_MENTAL_DOMINATION                1       0
+CLERIC_CALL_WOODLAND_BEINGS             1       0
 CLERIC_FAR_SIGHT                        1       0
+CLERIC_CLOAK_OF_FEAR                    1       0
 CLERIC_ICE_STORM                        1       0
 CLERIC_REGENERATE_CRITICAL_WOUNDS       1       0
 CLERIC_ANIMAL_SUMMONING_LEVEL_5         1       0

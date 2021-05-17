@@ -69,13 +69,14 @@ General points:
 
 1. Miscast Magic: cast spell opcode has a save, but the aux spell opcodes already have it. State Miscast_Magic -> Wild_Magic?
 2. Summon Insects: Why the extra level of indirection with the cast spell opcode in the main spell?
-3. Storm Shield: same problem with Protection from Missiles. Non-stacking -> EE refreshing.
+3. Storm Shield: same problem with Protection from Missiles. Non-stacking -> EE refreshing. Add protection against sectype.
 4. Regenerate Serious Wounds: extra, unneeded headers.
-5. Magic Fang: use Enchantment Bonus 345 opcode in aux spells.
+5. Magic Fang: use Enchantment Bonus 345 opcode in aux spells?
 
 ### Level 4.
 
 1. Free Action: 240 opcodes are not spurious *if* Free Action removes the corresponding icon opcodes.
+2. Cloak of Fear: immunity to fear blocks the thac0 penalty. Is this correct?
 
 ### Level 5.
 

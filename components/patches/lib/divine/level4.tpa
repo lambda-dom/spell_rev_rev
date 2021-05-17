@@ -129,6 +129,18 @@ BEGIN
     END
 END
 
+//Call Woodland Beings.
+DEFINE_PATCH_FUNCTION CLERIC_CALL_WOODLAND_BEINGS
+BEGIN
+    PATCH_FOR_EACH res IN ~hamasu~ ~dvnymph~ BEGIN
+        INNER_ACTION BEGIN
+            COPY_EXISTING ~%res%.eff~ ~override~
+                WRITE_SHORT $EFF_OFFSETS("power") 0
+            BUT_ONLY
+        END
+    END
+END
+
 //Far sight.
 DEFINE_PATCH_FUNCTION CLERIC_FAR_SIGHT
 BEGIN
@@ -144,6 +156,29 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 239                  //Far sight.
         power = 4
+    END
+END
+
+//Cloak of Fear.
+DEFINE_PATCH_FUNCTION CLERIC_CLOAK_OF_FEAR
+BEGIN
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 324              //Immunity to resource.
+    END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "CLERIC_CLOAK_OF_FEAR" RET res = spell_res END
+    TEXT_SPRINT res_aux "sppr416d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res_aux%.spl~ ~override~
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 324                    //Immunity to resource.
+                target = 2
+                parameter1 = 106                //resist fear.
+                parameter2 = 110
+                insert_point = 0
+            STR_VAR
+                resource = ~%res%~
+            END
+        BUT_ONLY
     END
 END
 
