@@ -113,13 +113,19 @@ note(s):
 
 ### Level 5.
 
-1. [Minor] Shadow Door: opcode 215 resist_dispel 0 -> 3.
-2. [Harmless] Monster Summoning V: summoning eff power 6 -> 0.
-3. [Minor] Hold Monster: lacks portrait icon and display string opcodes.
-4. [Minor] Conjure Lesser Fire Elemental: The first play visual effect opcode (that should play on a successful summon) has the wrong probability 86 - 100 -> 0 - 85.
-5. [Harmless] Phantom Blade: create weapon opcode amount 0 -> 1.
-6. [Minor] Conjure Lesser Air Elemental: same problem as Conjure Lesser Fire Elemental.
-7. [Minor] Conjure Lesser Earth Elemental: same problem as Conjure Lesser Fire Elemental.
+1. [Harmless] Summon Shadow: summoning eff power corrections 6 -> 0.
+2. [Implementation] Cone of Cold: use EE damage opcode features.
+3. [Harmless] Monster Summoning V: summoning eff power 6 -> 0.
+4. [Minor] Shadow Door: opcode 215 resist_dispel 0 -> 3.
+5. [Major] Mental Domination: first 174 play sound opcode lacks save. Save penalty is -4 not the documented -2.
+6. [Minor] Hold Monster: lacks portrait icon and display string opcodes.
+7. [Minor] Conjure Lesser Fire Elemental: The first play visual effect opcode (that should play on a successful summon) has the wrong probability 86 - 100 -> 0 - 85. Summoning eff power correction 5 -> 0.
+8. [Harmless] Phantom Blade: create weapon opcode amount 0 -> 1.
+9. [Minor] Conjure Lesser Air Elemental: same problem as Conjure Lesser Fire Elemental. Summoning eff power correction 5 -> 0.
+10. [Minor] Conjure Lesser Earth Elemental: same problem as Conjure Lesser Fire Elemental. Summoning eff power correction 5 -> 0.
+11. [Harmless] Spell Deflection: repeated 233 opcode.
+12. [Implementation] Fire Burst: spurious repetition of protection from immunity. Removed it from main spell.
+13. [Major] Mestil's Acid Sheath: same problem as Fire Shield.
 
 ### Level 6.
 

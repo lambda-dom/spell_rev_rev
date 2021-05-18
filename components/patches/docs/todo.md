@@ -13,23 +13,24 @@ General points:
 
 ### Level 3.
 
-1. Slow has a Remove Spell Type Protections 12 = Combination. Is this correct?
-2. Protection from Missiles: all projectiles covered?
-3. Spell Thrust: why is the real work being deferred to and split between two subspells?
-4. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
-5. Vampiric Touch and Larloch's Minor Drain: the implementation should now be correct, but aesthetic can be aligned closer to SR.
+1. Dispel Magic: first it removes dispel screen and then dispels. This is incorrect, as it violates Dispelling Screen description.
+2. Slow has a Remove Spell Type Protections 12 = Combination. Is this correct?
+3. Protection from Missiles: all projectiles covered?
+4. Spell Thrust: why is the real work being deferred to and split between two subspells? Go through the ordering of removals.
+5. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
+6. Vampiric Touch and Larloch's Minor Drain: the implementation should now be correct, but aesthetic can be aligned closer to SR.
 
 ### Level 4.
 
 1. Oitiluke's Sphere: Why Use Eff on GOODCUTOFF?
-2. Protection from elemental energy: go over each individual spell.
+2. Protection from elemental energy: go over each of the individual subspells.
+3. Secret Word: go through the ordering of removals.
 
 ### Level 5.
 
-1. Cone of Cold: use EE damage opcode features.
-2. Fireburst: use EE damage opcode features on aux spell.
-3. Mestil's Acid Shield: same problem as Fire Shield.
-4. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not protect against it.
+1. Waves of Fatigue: undead and constructs should be immune to the spell per the description.
+2. Dispelling Screen and Spell Shield: the way they are set up is that they raise protections against the relevant effects / spells and then the spell removals first try to remove the appropriate protections, then they remove dispelling screen and or spell shield.
+3. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not protect against it.
 
 ### Level 6.
 

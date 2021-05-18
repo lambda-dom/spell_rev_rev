@@ -1,14 +1,43 @@
 //Includes.
 //Libraries.
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/tables/main.tpa~
 
 //Arcane spell patches: level 5.
-//Shadow Door.
-DEFINE_PATCH_FUNCTION WIZARD_SHADOW_DOOR
+//Summon Shadow.
+DEFINE_PATCH_FUNCTION WIZARD_SUMMON_SHADOW
 BEGIN
-    LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 215                  //Play visual effect.
-        resist_dispel = 3
+    PATCH_FOR_EACH res IN ~shadowsu~ ~dvwraith~ BEGIN
+        INNER_ACTION BEGIN
+            COPY_EXISTING ~%res%.eff~ ~override~
+                WRITE_LONG $EFF_OFFSETS("power") 0
+            BUT_ONLY
+        END
+    END
+END
+
+//Cone of Cold.
+DEFINE_PATCH_FUNCTION WIZARD_CONE_OF_COLD
+BEGIN
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        //Save vs. breath + bypass MI.
+        match_savingthrow = (1 << 1) | (1 << 24)
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            parameter1 = i + 9
+            dicenumber = i + 9
+            savingthrow = (1 << 1) | (1 << 24)
+            savebonus = 0 - 4
+            special = 256                   //Save for half.
+        END
     END
 END
 
@@ -19,8 +48,37 @@ BEGIN
     INNER_ACTION BEGIN
         //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0            
+            WRITE_LONG $EFF_OFFSETS("power") 0
         BUT_ONLY
+    END
+END
+
+//Shadow Door.
+DEFINE_PATCH_FUNCTION WIZARD_SHADOW_DOOR
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 215                  //Play visual effect.
+        resist_dispel = 3
+    END
+END
+
+//Mental domination.
+DEFINE_PATCH_FUNCTION WIZARD_DOMINATION
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        savebonus = 0 - 2
+    END
+    //Undo changes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 324                  //Immunity to resource.
+        savebonus = 0
+    END
+    //Add save to first 174 opcode.
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 174                  //Play sound.
+        savingthrow = 1
+    STR_VAR
+        match_resource = "eff_m16"
     END
 END
 
@@ -31,7 +89,7 @@ BEGIN
         opcode = 142                        //Display icon.
         target = 2
         timing = 0
-        parameter2 = 13                     //Held.
+        parameter2 = 13                     //Hold.
         power = 5
         resist_dispel = 1
         duration = 60
@@ -62,6 +120,13 @@ BEGIN
     STR_VAR
         match_resource = "spportal"
     END
+    TEXT_SPRINT res "splesfir"
+    INNER_ACTION BEGIN
+        //power 5 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
 END
 
 //Phantom Blade.
@@ -84,6 +149,13 @@ BEGIN
     STR_VAR
         match_resource = "spportal"
     END
+    TEXT_SPRINT res "splesair"
+    INNER_ACTION BEGIN
+        //power 5 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
 END
 
 //Conjure Lesser Earth Elemental.
@@ -95,5 +167,87 @@ BEGIN
         probability2 = 0
     STR_VAR
         match_resource = "spportal"
+    END
+    TEXT_SPRINT res "splesear"
+    INNER_ACTION BEGIN
+        //power 5 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Spell Deflection.
+DEFINE_PATCH_FUNCTION WIZARD_SPELL_DEFLECTION
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        multi_match = 1
+        match_opcode = 233                  //Modify proficiencies.
+    END
+END
+
+//Fire Burst.
+DEFINE_PATCH_FUNCTION WIZARD_SUN_FIRE
+BEGIN
+    //Remove spurious double immunity opcode.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 233              //Immunity to resource.
+    END
+    //Use EE damage opcode features on aux spell.
+    TEXT_SPRINT res "spwi523d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                //Save vs. breath + bypass MI.
+                match_savingthrow = (1 << 1) | (1 << 24)
+            END
+            //Alter damage opcode.
+            READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+            FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+                LPF ALTER_SPELL_EFFECT INT_VAR
+                    header = i
+                    match_opcode = 12       //Damage.
+                    dicenumber = i + 9
+                    savingthrow = (1 << 1) | (1 << 24)
+                    savebonus = 0 - 4
+                    special = 256           //Save for half.
+                END
+            END
+        BUT_ONLY
+    END
+END
+
+//Mestil's Acid Sheath.
+DEFINE_PATCH_FUNCTION WIZARD_MESTILS_ACID_SHEATH
+BEGIN
+    INNER_ACTION BEGIN
+        //Find sectype id.
+        LAF FIND_FIRST_ROW STR_VAR file = "msectype" key = "k1insect" RET sectype = index END
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 205                        //Protection from sectype.
+        target = 1
+        power = 5
+        parameter2 = sectype
+        timing = 0
+        duration = 120
+        resist_dispel = 3
+        insert_point = 0 - 1
+    END
+    PATCH_FOR_EACH spell_name IN "CLERIC_SUMMON_INSECTS" "CLERIC_INSECT_PLAGUE" "CLERIC_CREEPING_DOOM" BEGIN
+        LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell_name%~ RET res = spell_res END
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 206                    //Protection from spell.
+            target = 1
+            power = 5
+            timing = 0
+            duration = 120
+            resist_dispel = 3
+            insert_point = 0 - 1
+        STR_VAR
+            resource = ~%res%~
+        END
     END
 END
