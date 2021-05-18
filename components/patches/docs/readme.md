@@ -80,7 +80,7 @@ note(s):
 ### Level 3.
 
 1. [Harmless] Clairvoyance: save vs. breath bonus power 0 -> 2.
-2. [Harmless] Dispel Magic: timing of Remove spell type protections opcode 3 -> 1. Power of Play Visual 3 -> 0 for consistency with other opcodes.
+2. [Major] Dispel Magic: timing of Remove spell type protections opcode 3 -> 1. Power of Play Visual 3 -> 0 for consistency with other opcodes. first it removes dispel screen and then dispels. This is incorrect, as it violates Dispelling Screen description.
 3. [Major] Flame Arrow: same issue with Melf's acid arrow, with fire immunity blocking missile damage, so 324 opcode removed from spell and aux spells.
 4. [Implementation] Fireball: use EE damage opcode features.
 5. [Minor] Hold Person: added display string "Held" opcode.
@@ -124,7 +124,7 @@ note(s):
 9. [Minor] Conjure Lesser Air Elemental: same problem as Conjure Lesser Fire Elemental. Summoning eff power correction 5 -> 0.
 10. [Minor] Conjure Lesser Earth Elemental: same problem as Conjure Lesser Fire Elemental. Summoning eff power correction 5 -> 0.
 11. [Harmless] Spell Deflection: repeated 233 opcode.
-12. [Implementation] Fire Burst: spurious repetition of protection from immunity. Removed it from main spell.
+12. [Harmless, Implementation] Fire Burst: spurious repetition of protection from immunity. Removed it from main spell. Use EE damage opcode features.
 13. [Major] Mestil's Acid Sheath: same problem as Fire Shield.
 
 ### Level 6.
@@ -212,7 +212,7 @@ note(s):
 
 1. [Harmless] Animate Dead: summoning eff power 3 -> 0 for foolish consistency.
 2. [Implementation] Call Lightning: use EE features of damage opcode.
-3. [Harmless] Dispel Magic: same fixes as wizard's remove magic.
+3. [Major] Dispel Magic: same fixes as wizard's remove magic.
 4. [Implementation] Glyph of Warding: use EE features of damage opcode.
 5. [Minor] Break Enchantment: add remove charm icon opcodes. Add to description that it also removes petrification.
 6. [Harmless] Remove Paralysis: delete spurious prevent portrait opcode.

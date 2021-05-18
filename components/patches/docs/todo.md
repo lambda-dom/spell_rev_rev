@@ -13,7 +13,7 @@ General points:
 
 ### Level 3.
 
-1. Dispel Magic: first it removes dispel screen and then dispels. This is incorrect, as it violates Dispelling Screen description.
+1. Dispel magic: by moving dispelling screen to the end, the opcodes designed to indicate a dispel become useless. Use a 318 checking for the dispelling screen?
 2. Slow has a Remove Spell Type Protections 12 = Combination. Is this correct?
 3. Protection from Missiles: all projectiles covered?
 4. Spell Thrust: why is the real work being deferred to and split between two subspells? Go through the ordering of removals.

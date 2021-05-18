@@ -33,6 +33,21 @@ BEGIN
         match_opcode = 215                  //Play Visual.
         power = 0
     END
+    //Move dispelling screen removal to the end.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 221              //Remove spell type protection.
+    END
+    INNER_ACTION BEGIN
+        //Find sectype id.
+        LAF FIND_FIRST_ROW STR_VAR file = "msectype" key = "k1#dispel" RET sectype = index END
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode  = 221
+        target = 2
+        parameter1 = 9
+        parameter2 = sectype
+        timing = 1
+    END
 END
 
 //Flame Arrow.
