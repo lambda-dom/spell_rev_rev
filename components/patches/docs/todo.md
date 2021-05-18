@@ -13,18 +13,15 @@ General points:
 
 ### Level 3.
 
-1. Dispel magic: by moving dispelling screen to the end, the opcodes designed to indicate a dispel become useless. Use a 318 checking for the dispelling screen?
-2. Slow has a Remove Spell Type Protections 12 = Combination. Is this correct?
-3. Protection from Missiles: all projectiles covered?
-4. Spell Thrust: why is the real work being deferred to and split between two subspells? Go through the ordering of removals.
-5. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
-6. Vampiric Touch and Larloch's Minor Drain: the implementation should now be correct, but aesthetic can be aligned closer to SR.
+1. Slow has a Remove Spell Type Protections 12 = Combination. Is this correct?
+2. Protection from Missiles: all projectiles covered?
+3. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
+4. Vampiric Touch and Larloch's Minor Drain: the implementation should now be correct, but aesthetic can be aligned closer to SR.
 
 ### Level 4.
 
 1. Oitiluke's Sphere: Why Use Eff on GOODCUTOFF?
 2. Protection from elemental energy: go over each of the individual subspells.
-3. Secret Word: go through the ordering of removals.
 
 ### Level 5.
 

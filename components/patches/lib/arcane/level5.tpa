@@ -110,6 +110,28 @@ BEGIN
     END
 END
 
+//Dispelling screen.
+DEFINE_PATCH_FUNCTION WIZARD_DISPELLING_SCREEN
+BEGIN
+    TEXT_SPRINT res_aux "k1#scre"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res_aux%.spl~ ~override~
+            TEXT_SPRINT res "spdispma"
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 296                        //Protection from animation.
+                target = 2
+                power = 5
+                timing = 0
+                resist_dispel = 2
+                duration = 300
+                insert_point = 0 - 1
+            STR_VAR
+                resource = ~%res%~
+            END
+        BUT_ONLY
+    END
+END
+
 //Conjure Lesser Fire Elemental.
 DEFINE_PATCH_FUNCTION WIZARD_CONJURE_LESSER_FIRE_ELEMENTAL
 BEGIN
