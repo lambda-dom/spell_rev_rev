@@ -16,12 +16,34 @@ BEGIN
     END
 END
 
+//Flame Strike.
+DEFINE_PATCH_FUNCTION CLERIC_FLAME_STRIKE
+BEGIN
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        //Save vs. breath + bypass MI.
+        match_savingthrow = (1 << 1) | (1 << 24)
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 8
+            savingthrow = (1 << 1) | (1 << 24)
+            savebonus = 0 - 4
+            special = 256                   //Save for half.
+        END
+    END
+END
+
 //Raise Dead.
 DEFINE_PATCH_FUNCTION CLERIC_RAISE_DEAD
 BEGIN
-    LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 177                  //Use Eff.
-        power = 5                           //4 -> 5.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 177              //Use Eff.
     END
 END
 
@@ -72,10 +94,10 @@ DEFINE_PATCH_FUNCTION CLERIC_CHAOTIC_COMMANDS
 BEGIN
     //Add missing opcodes to first header.
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 267                    //Disable display string.
+        opcode = 267                        //Disable display string.
         target = 2
         timing = 0
-        parameter1 = 14650              //Paralyzed.
+        parameter1 = 14650                  //Paralyzed.
         power = 5
         resist_dispel = 3
         duration = 540
@@ -83,10 +105,10 @@ BEGIN
         insert_point = 26
     END
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 101                    //Immunity to Effect.
+        opcode = 101                        //Immunity to Effect.
         target = 2
         timing = 0
-        parameter2 = 39                 //Sleep.
+        parameter2 = 39                     //Sleep.
         power = 5
         resist_dispel = 3
         duration = 540
@@ -94,10 +116,10 @@ BEGIN
         insert_point = 34
     END
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 101                    //Immunity to Effect.
+        opcode = 101                        //Immunity to Effect.
         target = 2
         timing = 0
-        parameter2 = 45                 //Stun.
+        parameter2 = 45                     //Stun.
         power = 5
         resist_dispel = 3
         duration = 540
@@ -105,10 +127,10 @@ BEGIN
         insert_point = 35
     END
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 169                    //Immunity to Icon.
+        opcode = 169                        //Immunity to Icon.
         target = 2
         timing = 0
-        parameter2 = 2                  //Rigid Thinking.
+        parameter2 = 2                      //Rigid Thinking.
         power = 5
         resist_dispel = 3
         duration = 540
@@ -116,10 +138,10 @@ BEGIN
         insert_point = 44
     END
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 169                    //Immunity to Icon.
+        opcode = 169                        //Immunity to Icon.
         target = 2
         timing = 0
-        parameter2 = 14                 //Sleep.
+        parameter2 = 14                     //Sleep.
         power = 5
         resist_dispel = 3
         duration = 540
@@ -127,10 +149,10 @@ BEGIN
         insert_point = 45
     END
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 169                    //Immunity to Icon.
+        opcode = 169                        //Immunity to Icon.
         target = 2
         timing = 0
-        parameter2 = 44                 //Hopelessness.
+        parameter2 = 44                     //Hopelessness.
         power = 5
         resist_dispel = 3
         duration = 540
@@ -138,10 +160,10 @@ BEGIN
         insert_point = 46
     END
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 169                    //Immunity to Icon.
+        opcode = 169                        //Immunity to Icon.
         target = 2
         timing = 0
-        parameter2 = 55                 //Stun.
+        parameter2 = 55                     //Stun.
         power = 5
         resist_dispel = 3
         duration = 540
@@ -149,10 +171,10 @@ BEGIN
         insert_point = 47
     END
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 169                    //Immunity to Icon.
+        opcode = 169                        //Immunity to Icon.
         target = 2
         timing = 0
-        parameter2 = 130                //Unconscious.
+        parameter2 = 130                    //Unconscious.
         power = 5
         resist_dispel = 3
         duration = 540
@@ -165,7 +187,7 @@ BEGIN
         //Held * 3, Charmed, Dire Charmed, Rigid Thinking, Feebleminded, Sleep, Stunned.
         PATCH_FOR_EACH sref IN ~340~ ~1473~ ~14102~ ~14672~ ~14780~ ~14791~ ~23744~ ~12047~ ~1280~ BEGIN
             LPF ADD_SPELL_EFFECT INT_VAR
-                opcode = 267            //Disable display string.
+                opcode = 267                //Disable display string.
                 target = 2
                 timing = 0
                 parameter1 = sref
@@ -183,20 +205,25 @@ END
 DEFINE_PATCH_FUNCTION CLERIC_GREATER_COMMAND
 BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 174              //Play sound.
+        match_opcode = 174                  //Play sound.
         duration = 60
         savingthrow = 1
         savebonus = 0 - 4
     END
     LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 215              //Play visual effect.
+        match_opcode = 215                  //Play visual effect.
         power = 5
     END
     LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 146              //Cast spell.
-        duration = 6                    //9 -> 6.
+        match_opcode = 146                  //Cast spell.
+        duration = 6                        //9 -> 6.
     STR_VAR
         resource = "sppr512a"
+    END
+    //Use EE sleep opcode features.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep
+        special = 14                        //Sleep icon and string.
     END
 END
 
@@ -205,10 +232,10 @@ DEFINE_PATCH_FUNCTION CLERIC_MASS_CURE
 BEGIN
     //Add remove intoxicated icon opcode.
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 240                    //Remove Portrait Icon.
+        opcode = 240                        //Remove Portrait Icon.
         target = 2
         timing = 1
-        parameter2 = 5                  //Intoxicated.
+        parameter2 = 5                      //Intoxicated.
         power = 5
         resist_dispel = 3
         insert_point = 3
@@ -218,11 +245,15 @@ END
 //Repulse Repulsion.
 DEFINE_PATCH_FUNCTION CLERIC_REPULSION
 BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 146                  //Cast spell.
+        power = 5
+    END
     TEXT_SPRINT res "sppr515d"
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.spl~ ~override~
             LPF ALTER_SPELL_EFFECT INT_VAR
-                match_opcode = 215      //Play visual.
+                match_opcode = 215          //Play visual.
                 power = 5
             END
     END
@@ -231,6 +262,35 @@ END
 //Insect Plague.
 DEFINE_PATCH_FUNCTION CLERIC_INSECT_PLAGUE
 BEGIN
+    //Change implementation to take advantage of EE.
+    TEXT_SPRINT res "sppr517b"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                //Save vs. breath + bypass MI.
+                match_savingthrow = (1 << 1) | (1 << 24)
+            END
+            //Alter damage opcode.
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                timing = 4
+                duration = 3                //Put damage in middle of round.
+                dicenumber = 2
+                //Save vs. spell + bypass MI.
+                savingthrow = (1 << 1) | (1 << 24)
+                special = 256               //Save for half.
+            END
+            //Change opcode -> panic.
+            LPF ALTER_EFFECT INT_VAR
+                match_opcode = 247          //Attack nearest.
+                opcode = 24                 //Panic.
+                parameter2 = 0
+                probability1 = 100
+            END
+        BUT_ONLY
+    END
 END
 
 //Regenerate.
@@ -238,6 +298,13 @@ DEFINE_PATCH_FUNCTION CLERIC_MASS_REGENERATE
 BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         power = 5                       //1 -> 5.
+        resist_dispel = 3
+    END
+    //Undo changes for 321 opcodes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 321
+        power = 0
+        resist_dispel = 0
     END
 END
 

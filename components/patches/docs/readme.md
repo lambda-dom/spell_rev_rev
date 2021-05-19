@@ -248,14 +248,15 @@ note(s):
 ### Level 5.
 
 1. [Harmless] Animal Summoning V: summoning eff power 8 -> 0.
-2. [Harmless] Raise Dead: power of Use Eff opcode 4 -> 5.
+2. [Implementation] Flame Strike: use EE features of damage opcode.
+2. [Harmless] Raise Dead: use Eff does nothing (calls non-existent eff); removed.
 3. [Major] True Seeing: immunity to blindness lacks the appropriate protection from icon and string opcodes. resist_dispel on the opcodes is also inconsistent: some are not dispellable, others like the delayed cast spell and aesthetic opcodes are, which makes no sense. Lacks protection from cleric's obscuring mist.
 4. [Major] Chaotic Commands: first header lacks 8 opcodes that the other headers have. Several protection against string opcodes missing.
-5. [Major] Greater Command: play visual effect power 1 -> 5. Play sound lacks a save and has wrong duration. Delayed cast spell opcode has wrong duration 9 -> 6. It also casts sppr512b instead of the correct sppr512a (one less round).
+5. [Major] Greater Command: play visual effect power 1 -> 5. Play sound lacks a save and has wrong duration. Delayed cast spell opcode has wrong duration 9 -> 6. It also casts sppr512b instead of the correct sppr512a (one less round). Use EE features of sleep code.
 6. [Minor] Mass Cure: add remove intoxicated icon opcode since the spell also cures intoxication.
-7. [Harmless] Repulsion: aux spell sppr515d play visual opcode 215 power 2 -> 5.
-8. [Major] Insect Plague: mention that on a failed save vs. poison the victim panics for the round.
-9. [Harmless] Mass Regeneration: power of opcodes 0 -> 5.
+7. [Harmless] Repulsion: one of the cast spell opcodes power 3 -> 5. Aux spell sppr515d play visual opcode 215 power 2 -> 5.
+8. [Major] Insect Plague: mention that on a failed save vs. poison the victim panics for the round. Same issues as Summon Insects.
+9. [Major] Mass Regeneration: power of opcodes 0 -> 5. Resist_dispel 0 -> 3.
 10. [Severe] Animal growth: Use EFF opcode calls wrong eff. Aux spell dvpr525d has undocumented strength and constitution bonuses opcodes, with wrong duration to boot. Deleted. If the strength bonuses are to be kept then they must be documented; the constitution bonus does not make much sense though, because the hps are already being raised.
 
 ### Level 6.
