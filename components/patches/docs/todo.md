@@ -29,12 +29,6 @@ General points:
 2. Dispelling Screen and Spell Shield: the way they are set up is that they raise protections against the relevant effects / spells and then the spell removals first try to remove the appropriate protections, then they remove dispelling screen and or spell shield.
 3. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not protect against it.
 
-### Level 6.
-
-1. Flesh to Stone: Main spell: the second remove spell type opcode for k1#haste has inconsistent resist_dispel, timing mode limited and a duration. In the aux spell all opcodes have permanent timing, but with a duration 12, which is harmless, but technically incorrect. Contrary to what is explicitly stated in the docs, all opcodes have resist_dispel 1. The limited duration effects still have resist_dispel 1 => still dispellable and do not bypass mr. This includes the delayed cast opcode spell, which implies that the impending petrification can be prevented by a dispel. I assume this is what the developers intended.
-2. Chain Lightning: use EE damage opcode features.
-3. Disintegrate: use EE damage opcode features.
-
 ### Level 7.
 
 1. Ruby Ray of Reversal and Khelben's Warding Whip: power of opcodes -> 0.

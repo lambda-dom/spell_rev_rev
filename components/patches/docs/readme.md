@@ -1,10 +1,10 @@
 # A. Spell Revisions.
 
-[Spell Revisions](https://github.com/Gibberlings3/SpellRevisions) is a spell mod overhaul for the Baldur's Gate saga, and in my view an essential mod, as it overhauls and balances the whole spectrum of available spells, making the game much more enjoyable. Another major plus, is that it is taken into account of by [SCS](https://github.com/Gibberlings3/SwordCoastStratagems), which is in my view *the* essential mod for any Baldur's Gate playthrough, as it is the only usable, and fairly competent at that, AI mod.
+[Spell Revisions](https://github.com/Gibberlings3/SpellRevisions) is a spell mod overhaul for the Baldur's Gate saga, and in my view an essential mod, as it overhauls and balances the whole spectrum of available spells, making the game much more enjoyable. Another major plus is that it is taken into account of by [SCS](https://github.com/Gibberlings3/SwordCoastStratagems), which is in my view *the* essential mod for any Baldur's Gate playthrough, as it is the only usable, and very competent at that, AI mod.
 
 ## A. 1. State of the mod.
 
-As of this writing (May, 2021), the mod has not had a single commit since April 2020. My list of patches is sitting there since January 2020. This is not a complaint, just an acknowledgment of the situation. The BG community is small with few developers, and the few there are, eventually move on and have better things to do. What this means is that the mod is stuck at the beta v18. It is a solid general principle of life, that if one wants anything fixed, one must do it oneself; if you consult the list of patched spells, there are at this moment (May 2021) over 150 entries. In all fairness, most of the fixes are of the Harmless category, but it is still a very large number.
+As of this writing (May, 2021), the mod has not had a single commit since April 2020. My list of patches is sitting there since January 2020. This is not a complaint, just an acknowledgment of the situation. The BG community is small with few developers, and the few there are eventually move on and have better things to do. What this means is that the mod is stuck at the beta v18. It is a solid general principle of life, that if one wants anything fixed, one must do it oneself; if you consult the list of patched spells, there are at this moment (May 2021) over 150 entries. In all fairness, most of the fixes are of the Harmless category, but it is still a very large number.
 
 Bartimaeus has single-handedly tried to patch and fix the mod -- consult the [thread](https://www.gibberlings3.net/forums/topic/29618-sr-revised-v13200-2020-august-22nd). There are however two major problems with his work. First, his mod is copied over and overrides the SR mod, which means that the specific fixes are either documented or get lost in memory's sinkhole. And we all know how documentation goes. The second problem is that Bartimaeus has added on top of his fixes a whole sleuth of tweaks. The problem are not the tweaks themselves; while I can quibble with some of them, I actually like the general direction he has taken with the mod. The problem is rather that we end up without a base mod in a usable state, with no clear separation between what is a fix and what is a tweak.
 
@@ -80,7 +80,7 @@ note(s):
 ### Level 3.
 
 1. [Harmless] Clairvoyance: save vs. breath bonus power 0 -> 2.
-2. [Major] Dispel Magic: timing of Remove spell type protections opcode 3 -> 1. Power of Play Visual 3 -> 0 for consistency with other opcodes. first it removes dispel screen and then dispels. This is incorrect, as it violates Dispelling Screen description.
+2. [Major] Dispel Magic: timing of Remove spell type protections opcode 3 -> 1. Power of Play Visual 3 -> 0 for consistency with other opcodes. More importantly, it first removes dispel screen and *then* dispels. This is incorrect, as it violates Dispelling Screen description. Reordered the opcodes.
 3. [Major] Flame Arrow: same issue with Melf's acid arrow, with fire immunity blocking missile damage, so 324 opcode removed from spell and aux spells.
 4. [Implementation] Fireball: use EE damage opcode features.
 5. [Minor] Hold Person: added display string "Held" opcode.
@@ -104,9 +104,9 @@ note(s):
 5. [Major] Emotion, Despair: ac penalty opcode in first header has wrong duration.
 6. [Major] Greater Malison: change description to mention correct duration of 2 turns. Undocumented thac0 bonus +1 (??) removed.
 7. [Severe] Otiluke's Sphere: the same spell is cast on enemies and friends -> renaming and patching. In the aux spells themselves, they have different numbers of opcodes and, contrary to the description, mr *is* bypassed on enemies. So used the friendly version, as it has the largest number of protections, and patched the missing ones as best as possible. Then used this as the enemy version, changing resist_dispel 3 -> 1.
-8. [Major] Fire Shield: lacks protection against insects. Added protection against sectype k1insect and insect spells.
+8. [Major] Fire Shield: lacks protection against insects: added protection against sectype k1insect and insect spells.
 9. [Minor] Teleport Field: mention in description it bypasses mr.
-10. [Severe] Protection from Elemental Energy: not working, as not using correct 2da resource.
+10. [Severe] Protection from Elemental Energy: not working, as not referencing the correct 2da resource.
 11. [Harmless] Monster Summoning IV: summoning eff power 8 -> 0.
 12. [Minor] Farsight: clairvoyance opcode power 3 -> 4. Clairvoyance and farsight opcodes resist/dispel -> 2.
 13. [Implementation] Vitriolic Sphere: use EE damage opcode features.
@@ -130,19 +130,25 @@ note(s):
 
 ### Level 6.
 
-1. [Major] Globe of Invulnerability: fix description that duration is 2 turns. Missing spell protections: Ice Storm.
-2. [Harmless] Tenser's Transformation: play visual effect resist/dispel 2 -> 3.
-3. [Harmless] Banishment: Use Eff against non-existent row in gender.ids removed from spell and aux spell.
-4. [Major] Protection from Magic Energy: contrary to what is stated, no creatures are immune to this spell; fixed description.
-5. [Minor] Pierce Magic: incorrect duration of display portrait and play sound opcodes.
-6. [Major] True Seeing: fixes as in the cleric version.
-7. [Minor] Improved Haste: repeated protection against slow removed and protection against non-existent spwi545 -> changed to spwm164.
-8. [Minor] Contingency: three headers why? Removed. Last cast spell opcode for what? It does nothing. Removed.
-9. [Minor] Conjure Fire Elemental: same problem as Conjure Lesser Fire Elemental, with wrong probabilities in first visual opcode.
-10. [Minor] Conjure Air Elemental: see Conjure Fire Elemental.
-11. [Minor] Conjure Earth Elemental: see Conjure Fire Elemental.
-12. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2.
-13. [Harmless] Monster Summoning VI: summoning eff power -> 0.
+1. [Harmless] Invisible Stalker: summoning eff power -> 0.
+2. [Major] Globe of Invulnerability: fix description that duration is 2 turns. Missing spell protections: Ice Storm.
+3. [Harmless] Tenser's Transformation: play visual effect resist/dispel 2 -> 3.
+4. [Major] Flesh to Stone: Main spell: the second remove spell type opcode for k1#haste has inconsistent resist_dispel, timing mode limited and a duration. The cast spell opcode is resist_dispel = 1 -> 2. In the aux spell all opcodes have permanent timing, but with a duration 12, which is harmless, but technically incorrect. Contrary to what is explicitly stated in the description, all opcodes have resist_dispel 1.
+5. [Harmless] Banishment: Use Eff against non-existent row in gender.ids removed from spell and aux spell.
+6. [Major] Protection from Magic Energy: contrary to what is stated, no creatures are immune to this spell; fixed description.
+7. [Major] Pierce Magic: incorrect duration of display portrait and play sound opcodes. Opcodes have power 0 so it bypasses spell protections -- mention it in the description. Mind Blank is incorrectly listed as dispelled.
+8. [Major] True Seeing: fixes as in the cleric version.
+9. [Harmless] Monster Summoning VI: summoning eff power -> 0.
+10. [Minor] Protection from Magic Weapons: first protection opcode against magical weapons of enchantment has 0 duration. Deleted it.
+11. [Minor] Improved Haste: repeated protection against slow removed and protection against non-existent spwi545 -> changed to spwm164.
+12. [Implementation] Chain Lightning: use EE damage opcode features in the two aux spells.
+13. [Harmless] Contingency: Last cast spell opcode for what? It does nothing (it says so even in the title). Removed.
+14. [Minor] Wyvern Call: wyvern stats missing from description. Summoning eff power 8 -> 0.
+15. [Minor] Conjure Fire Elemental: same problem as Conjure Lesser Fire Elemental, with wrong probabilities in first visual opcode. Summoning eff power 6 -> 0.
+16. [Minor] Conjure Air Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
+17. [Minor] Conjure Earth Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
+18. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2. Summoning eff power 3 -> 0.
+19. [Harmless] Summon Nishruu: Summoning eff power 8 -> 0.
 
 ### Level 7.
 

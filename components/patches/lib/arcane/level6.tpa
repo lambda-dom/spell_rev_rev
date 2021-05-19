@@ -1,8 +1,21 @@
 //Includes.
 //Libraries.
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
 
 //Arcane spell patches: level 6.
+//Invisible stalker.
+DEFINE_PATCH_FUNCTION WIZARD_INVISIBLE_STALKER
+BEGIN
+    TEXT_SPRINT res "spstalk"
+    INNER_ACTION BEGIN
+        //Power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
 //Globe of Invulnerability.
 DEFINE_PATCH_FUNCTION WIZARD_GLOBE_OF_INVULNERABILITY
 BEGIN
@@ -31,6 +44,31 @@ BEGIN
     END
 END
 
+//Flesh to Stone.
+DEFINE_PATCH_FUNCTION WIZARD_FLESH_TO_STONE
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 221                  //Remove spell type protections.
+        timing = 1
+        resist_dispel = 1
+        duration = 0
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 146                  //Cast spell.
+        resist_dispel = 2
+    END    
+    TEXT_SPRINT res "spwi604d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                duration_high = 0
+                //resist_dispel 1 -> 2.
+                resist_dispel = 2
+            END
+        BUT_ONLY
+    END
+END
+
 //Banishment.
 DEFINE_PATCH_FUNCTION WIZARD_BANISHMENT
 BEGIN
@@ -46,6 +84,7 @@ BEGIN
                 match_opcode = 177          //Use Eff.
                 match_parameter1 = 20
             END
+        BUT_ONLY
     END
 END
 
@@ -68,6 +107,7 @@ BEGIN
                 match_opcode = 174          //Play sound.
                 duration = 12
             END
+        BUT_ONLY
     END
 END
 
@@ -113,6 +153,27 @@ BEGIN
     END
 END
 
+//Monster Summoning VI.
+DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_6
+BEGIN
+    TEXT_SPRINT res "wyvbabsu"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
+END
+
+//Protection from magic weapons.
+DEFINE_PATCH_FUNCTION WIZARD_PROTECTION_FROM_MAGIC_WEAPONS
+BEGIN
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 120                  //Protection from weapons.
+        match_parameter2 = 1
+    END
+END
+
 //Improved Haste.
 DEFINE_PATCH_FUNCTION WIZARD_IMPROVED_HASTE
 BEGIN
@@ -132,14 +193,74 @@ BEGIN
     END
 END
 
+//Chain Lightning.
+DEFINE_PATCH_FUNCTION WIZARD_CHAIN_LIGHTNING
+BEGIN
+    TEXT_SPRINT res "spwi615a"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                //Save vs. breath.
+                match_savingthrow = 2
+            END
+            //Alter damage opcode.
+            READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+            FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+                LPF ALTER_SPELL_EFFECT INT_VAR
+                    header = i
+                    match_opcode = 12               //Damage.
+                    dicenumber = ((i + 11) / 2) + ((i + 11) REM 2)
+                    savingthrow = 2
+                    savebonus = 0 - 4
+                    special = 256                   //Save for half.
+                END
+            END
+        BUT_ONLY
+    END
+    TEXT_SPRINT res "spwi615b"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                //Save vs. breath.
+                match_savingthrow = (1 << 1) | (1 << 24)
+            END
+            //Alter damage opcode.
+            READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+            FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+                LPF ALTER_SPELL_EFFECT INT_VAR
+                    header = i
+                    match_opcode = 12               //Damage.
+                    dicenumber = i + 5
+                    savingthrow = (1 << 1) | (1 << 24)
+                    savebonus = 0 - 4
+                    special = 256                   //Save for half.
+                END
+            END
+        BUT_ONLY
+    END
+END
+
 //Contingency.
 DEFINE_PATCH_FUNCTION WIZARD_CONTINGENCY
 BEGIN
-    LPF DELETE_SPELL_HEADER INT_VAR
-        min_level = 2
-    END
     LPF DELETE_SPELL_EFFECT INT_VAR
         opcode_to_delete = 146              //Cast spell.
+    END
+END
+
+//Wyvern Call.
+DEFINE_PATCH_FUNCTION WIZARD_WYVERN_CALL
+BEGIN
+    TEXT_SPRINT res "wyvernsu"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
     END
 END
 
@@ -153,6 +274,14 @@ BEGIN
     STR_VAR
         match_resource = "spportal"
     END
+    PATCH_FOR_EACH res IN "spfir1" "spfir2" BEGIN
+        INNER_ACTION BEGIN
+            //power 6 -> 0.
+            COPY_EXISTING ~%res%.eff~ ~override~
+                WRITE_LONG $EFF_OFFSETS("power") 0            
+            BUT_ONLY
+        END
+    END
 END
 
 //Conjure Air Elemental
@@ -164,6 +293,14 @@ BEGIN
         probability2 = 0
     STR_VAR
         match_resource = "spportal"
+    END
+    PATCH_FOR_EACH res IN "spair1" "spair2" BEGIN
+        INNER_ACTION BEGIN
+            //power 6 -> 0.
+            COPY_EXISTING ~%res%.eff~ ~override~
+                WRITE_LONG $EFF_OFFSETS("power") 0            
+            BUT_ONLY
+        END
     END
 END
 
@@ -177,6 +314,14 @@ BEGIN
     STR_VAR
         match_resource = "spportal"
     END
+    PATCH_FOR_EACH res IN "speart1" "speart2" BEGIN
+        INNER_ACTION BEGIN
+            //power 6 -> 0.
+            COPY_EXISTING ~%res%.eff~ ~override~
+                WRITE_LONG $EFF_OFFSETS("power") 0            
+            BUT_ONLY
+        END
+    END
 END
 
 //Animate Skeleton Warrior.
@@ -187,14 +332,21 @@ BEGIN
         power = 6
         resist_dispel = 2
     END
+    TEXT_SPRINT res "spandl15"
+    INNER_ACTION BEGIN
+        //power 3 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0            
+        BUT_ONLY
+    END
 END
 
-//Monster Summoning VI.
-DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_6
+//Summon Nishruu
+DEFINE_PATCH_FUNCTION WIZARD_SUMMON_NISHRUU
 BEGIN
-    TEXT_SPRINT res "wyvbabsu"
+    TEXT_SPRINT res "spnish"
     INNER_ACTION BEGIN
-        //power 6 -> 0.
+        //power 8 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
             WRITE_LONG $EFF_OFFSETS("power") 0            
         BUT_ONLY
