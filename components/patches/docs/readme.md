@@ -295,11 +295,15 @@ note(s):
 1. [Harmless] Summon Shambling Mound: summoning eff power 8 -> 0.
 2. [Harmless] Summon Death Knight: summoning eff power 7 -> 0.
 3. [Severe] Nature's Beauty: removed undocumented slay opcode. Added display string "Charmed" opcode.
-4. [Major] Finger of Death: damage is 2d8 + level not 6d8 as advertized. Here I am going by the implementation instead of the docs.
-5. [Minor] Chaos: Add display icon for Hold, Sleep and Berserk effects, and string for Hold.
-6. [Minor] Holy Word: second visual opcode has probability1 0 while first has resist_dispel 2 -> 1. Added missing display icon for stun. Did *not* add display string opcodes.
-7. [Major] Regeneration: description explicitly mentions the possibility of dispellability but opcodes have resist_dispel 0 -> 3. Description fix that duration is 3 turns.
-8. [Minor] Greater Restoration: added missing remove portrait icons: entangled = 144, grease = 145, poison = 6, panic = 36, berserk = 4.
-9. [Major] Unholy Word: second visual opcode has probability1 0 while first has resist_dispel 2 -> 1. Neither the display portrait icon for confusion nor the cast spell scale their maximum levels but rather stay constant (at 0 and 13 respectively). Auxiliary spell implementing slow has a spurious remove illusionary protections opcode. Last play sound opcode, marking the end of slow has duration 0 -> 30.
-10. [Harmless] Animal Summoning VII: summoning eff power 8 -> 0.
-11. [Major] Creeping Doom: mention that on a failed save vs. poison at -2 the victim panics for the round.
+4. [Implementation] Fire Storm: use EE features of damage opcode.
+5. [Minor] Symbol of Weakness: inconsistency between resist_dispel of disease and other opcodes. Given the description, we change other opcodes -> 2.
+6. [Minor, Implementation] Sunray: use EE features of damage opcode. Resist_dispel of first cast spell opcode -> 2. Display string resist_dispel 0 -> 1.
+7. [Major] Finger of Death: damage is 2d8 + level not 6d8 as advertized. Here I am going by the implementation instead of the docs.
+8. [Minor] Chaos: Add display icon for Hold, Sleep and Berserk effects, and string for Hold.
+9. [Minor] Holy Word: second visual opcode has probability1 0 while first has resist_dispel 2 -> 1. Added missing display icon for stun. Did *not* add display string opcodes.
+10. [Major] Regeneration: description explicitly mentions the possibility of dispellability but opcodes have resist_dispel 0 -> 3. Description fix that duration is 3 turns.
+11. [Minor] Greater Restoration: added missing remove portrait icons: entangled = 144, grease = 145, poison = 6, panic = 36, berserk = 4.
+12. [Major] Unholy Word: second visual opcode has probability1 0 while first has resist_dispel 2 -> 1. Neither the display portrait icon for confusion nor the cast spell scale their maximum levels but rather stay constant (at 0 and 13 respectively). Auxiliary spell implementing slow has a spurious remove illusionary protections opcode. Last play sound opcode, marking the end of slow has duration 0 -> 30.
+13. [Harmless] Animal Summoning VII: summoning eff power 8 -> 0.
+14. [Major, Implementation] Creeping Doom: mention that on a failed save vs. poison at -2 the victim panics for the round. Same issues as Summon Insects.
+15. [Major, Implementation] Earthquake: use EE damage opcode features. Sleep opcode gained icon = 130. Save penalty of second tremor -2 -> -4 and of third tremor 0 -> -2.

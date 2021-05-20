@@ -48,7 +48,7 @@ BEGIN
             END
             LPF ALTER_EFFECT INT_VAR
                 multi_match = 1
-                match_opcode = 240                  //Remove portrait icon.
+                match_opcode = 240          //Remove portrait icon.
                 match_duration = 13
                 duration = 7
             END

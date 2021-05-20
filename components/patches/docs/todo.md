@@ -78,6 +78,5 @@ General points:
 
 ### Level 7.
 
-1. Fire Storm: use EE features of damage opcode.
-2. Sunray: use EE features of damage opcode.
-3. Creeping Doom: in the aux spell that actually implements the insect swarm effects all opcodes have power 0. Same problem as other insect spells.
+1. Sunray: killing undead is done via 1000 magic damage opcode. It is still blocked by magic damage immunity.
+2. Creeping Doom: in the aux spell that actually implements the insect swarm effects all opcodes have power 0, same as Insect Plague.

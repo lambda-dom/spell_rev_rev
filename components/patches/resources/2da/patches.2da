@@ -200,6 +200,9 @@ CLERIC_ANIMATE_SKELETON_WARRIOR         1       0
 CLERIC_STALKER                          1       0
 CLERIC_SUMMON_DEATH_KNIGHT              1       0
 CLERIC_NATURE_BEAUTY                    1       0
+CLERIC_FIRE_STORM                       1       0
+CLERIC_SYMBOL_WEAKNESS                  1       0
+CLERIC_SUNRAY                           1       0
 CLERIC_FINGER_OF_DEATH                  1       2700
 CLERIC_CHAOS                            1       0
 CLERIC_HOLY_WORD                        1       0
@@ -208,3 +211,4 @@ CLERIC_RESTORATION                      1       0
 CLERIC_UNHOLY_WORD                      1       0
 CLERIC_ANIMAL_SUMMONING_LEVEL_7         1       0
 CLERIC_CREEPING_DOOM                    1       2702
+CLERIC_EARTHQUAKE                       1       0

@@ -32,10 +32,10 @@ END
 DEFINE_PATCH_FUNCTION CLERIC_NATURE_BEAUTY
 BEGIN
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 139                    //Display string.
+        opcode = 139                        //Display string.
         target = 2
         timing = 1
-        parameter1 = 14672              //Charmed.
+        parameter1 = 14672                  //Charmed.
         power = 7
         resist_dispel = 1
         savingthrow = 1
@@ -43,7 +43,91 @@ BEGIN
         insert_point = 5
     END
     LPF DELETE_SPELL_EFFECT INT_VAR
-        opcode_to_delete = 55           //Slay.
+        opcode_to_delete = 55               //Slay.
+    END
+END
+
+//Fire Storm.
+DEFINE_PATCH_FUNCTION CLERIC_FIRE_STORM
+BEGIN
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        //Save vs. breath.
+        match_savingthrow = (1 << 1) | (1 << 24)
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            parameter1  = i + 13
+            dicenumber = 2
+            savingthrow = (1 << 1) | (1 << 24)
+            savebonus = 0 - 4
+            special = 256                   //Save for half.
+        END
+    END
+END
+
+//Symbol of Weakness.
+DEFINE_PATCH_FUNCTION CLERIC_SYMBOL_WEAKNESS
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 2
+    END
+END
+
+//Sunray.
+DEFINE_PATCH_FUNCTION CLERIC_SUNRAY
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 146                  //Cast spell.
+        resist_dispel = 2
+    STR_VAR
+        match_resource = "sppr609d"
+    END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 139                  //Display string.
+        resist_dispel = 1
+    END
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        //Save vs. breath.
+        match_savingthrow = (1 << 1) | (1 << 24)
+    END
+    //Alter damage opcode.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        dicenumber = 6
+        savingthrow = (1 << 1) | (1 << 24)
+        savebonus = 0 - 4
+        special = 256                       //Save for half.
+    END
+    TEXT_SPRINT res "sppr707f"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcodes with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                //Save vs. breath.
+                match_savingthrow = (1 << 1) | (1 << 24)
+            END
+            //Alter damage opcodes.
+            READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+            FOR (i = 1; i <= headers_count; ++i) BEGIN
+                LPF ALTER_SPELL_EFFECT INT_VAR
+                    header = i
+                    match_opcode = 12       //Damage.
+                    dicenumber = i + 7
+                    savingthrow = (1 << 1) | (1 << 24)
+                    savebonus = 0 - 4
+                    special = 256           //Save for half.
+                END
+            END
+        BUT_ONLY
     END
 END
 
@@ -57,10 +141,10 @@ DEFINE_PATCH_FUNCTION CLERIC_CHAOS
 BEGIN
     //Held remaining opcodes.
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 142                    //Display Icon.
+        opcode = 142                        //Display Icon.
         target = 2
         timing = 0
-        parameter2 = 13                 //Held.
+        parameter2 = 13                     //Held.
         power = 7
         resist_dispel = 1
         duration = 6
@@ -71,10 +155,10 @@ BEGIN
         insert_point = 0 - 1
     END
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 139                    //Display string.
+        opcode = 139                        //Display string.
         target = 2
         timing = 1
-        parameter1 = 14102              //Held.
+        parameter1 = 14102                  //Held.
         power = 7
         resist_dispel = 1
         probability1 = 100
@@ -85,10 +169,10 @@ BEGIN
     END
     //Sleep remaining opcodes.
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 142                    //Display Icon.
+        opcode = 142                        //Display Icon.
         target = 2
         timing = 0
-        parameter2 = 14                 //Sleep.
+        parameter2 = 14                     //Sleep.
         power = 7
         resist_dispel = 1
         duration = 6
@@ -100,10 +184,10 @@ BEGIN
     END
     //Berserk remaining opcode.
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 142                    //Display Icon.
+        opcode = 142                        //Display Icon.
         target = 2
         timing = 0
-        parameter2 = 4                  //Berserk.
+        parameter2 = 4                      //Berserk.
         power = 7
         resist_dispel = 1
         duration = 6
@@ -119,13 +203,13 @@ END
 DEFINE_PATCH_FUNCTION CLERIC_HOLY_WORD
 BEGIN
     LPF ALTER_EFFECT INT_VAR
-        match_opcode = 215              //Play visual effect.
+        match_opcode = 215                  //Play visual effect.
         resist_dispel = 1
     STR_VAR
         match_resource = "spholy"
     END
     LPF ALTER_EFFECT INT_VAR
-        match_opcode = 215              //Play visual effect.
+        match_opcode = 215                  //Play visual effect.
         probability1 = 100
     STR_VAR
         match_resource = "sppowwrd"
@@ -134,10 +218,10 @@ BEGIN
     READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
-            opcode = 142                //Display Icon.
+            opcode = 142                    //Display Icon.
             target = 2
             timing = 0
-            parameter2 = 55             //Stun.
+            parameter2 = 55                 //Stun.
             power = 7
             resist_dispel = 1
             duration = 6
@@ -166,7 +250,7 @@ DEFINE_PATCH_FUNCTION CLERIC_RESTORATION
 BEGIN
     PATCH_FOR_EACH icon IN ~4~ ~6~ ~36~ ~144~ ~145~ BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
-            opcode = 240                //Remove portrait icon
+            opcode = 240                    //Remove portrait icon
             target = 2
             timing = 1
             parameter2 = icon
@@ -181,13 +265,13 @@ END
 DEFINE_PATCH_FUNCTION CLERIC_UNHOLY_WORD
 BEGIN
     LPF ALTER_EFFECT INT_VAR
-        match_opcode = 215              //Play visual effect.
+        match_opcode = 215                  //Play visual effect.
         resist_dispel = 1
     STR_VAR
         match_resource = "spholy"
     END
     LPF ALTER_EFFECT INT_VAR
-        match_opcode = 215              //Play visual effect.
+        match_opcode = 215                  //Play visual effect.
         probability1 = 100
     STR_VAR
         match_resource = "sppowwrd"
@@ -197,13 +281,13 @@ BEGIN
     FOR (j = 0 ; j < headers_count ; ++j) BEGIN
         LPF ALTER_EFFECT INT_VAR
             header = j
-            match_opcode = 128          //Confusion.
+            match_opcode = 128              //Confusion.
             dicenumber = 9 + j
         END
         LPF ALTER_EFFECT INT_VAR
             header = j
-            match_opcode = 142          //Display portrait icon.
-            match_parameter2 = 3        //Confused.
+            match_opcode = 142              //Display portrait icon.
+            match_parameter2 = 3            //Confused.
             dicenumber = 9 + j
         END
     END
@@ -212,13 +296,13 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.spl~ ~override~
             LPF ALTER_EFFECT INT_VAR
-                match_opcode = 174      //Play sound.
+                match_opcode = 174          //Play sound.
                 duration = 30
             STR_VAR
                 match_resource = "eff_m28"
             END
             LPF DELETE_EFFECT INT_VAR
-                match_opcode = 221      //Remove spell protections.
+                match_opcode = 221          //Remove spell protections.
                 match_parameter2 = 3
             END
     END
@@ -239,4 +323,95 @@ END
 //Creeping Doom.
 DEFINE_PATCH_FUNCTION CLERIC_CREEPING_DOOM
 BEGIN
+    //Change implementation to take advantage of EE.
+    TEXT_SPRINT res "sppr717b"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                //Save vs. breath + bypass MI.
+                match_savingthrow = (1 << 1) | (1 << 24)
+            END
+            //Alter damage opcode.
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                timing = 4
+                duration = 3                //Put damage in middle of round.
+                dicenumber = 2
+                savingthrow = (1 << 1) | (1 << 24)
+                savebonus = 0 - 4
+                special = 256               //Save for half.
+            END
+            //Change opcode -> panic.
+            LPF ALTER_EFFECT INT_VAR
+                match_opcode = 247          //Attack nearest.
+                opcode = 24                 //Panic.
+                parameter2 = 0
+                probability1 = 100
+            END
+        BUT_ONLY
+    END
+END
+
+//Earthquake.
+DEFINE_PATCH_FUNCTION CLERIC_EARTHQUAKE
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 39                   //Sleep.
+        special = 130
+    END
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12           //Damage.
+        //Save vs. death + bypass MI.
+        match_savingthrow = (1 << 2) | (1 << 24)
+    END
+    //Alter damage opcode.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 12           //Damage.
+        dicenumber = 6
+        savingthrow = (1 << 2) | (1 << 24)
+        savebonus = 0 - 6
+        special = 256               //Save for half.
+    END
+    //Change implementation to take advantage of EE.
+    TEXT_SPRINT res "sppr720d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                //Save vs. death.
+                match_savingthrow = (1 << 2)
+            END
+            //Alter damage opcode.
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                dicenumber = 4
+                savingthrow = (1 << 2)
+                savebonus = 0 - 4
+                special = 256               //Save for half.
+            END
+        BUT_ONLY
+    END
+    TEXT_SPRINT res "sppr720e"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                //Save vs. death.
+                match_savingthrow = (1 << 2)
+            END
+            //Alter damage opcode.
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                dicenumber = 2
+                savingthrow = (1 << 2)
+                savebonus = 0 - 2
+                special = 256               //Save for half.
+            END
+        BUT_ONLY
+    END
 END
