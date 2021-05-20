@@ -147,15 +147,24 @@ note(s):
 15. [Minor] Conjure Air Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
 16. [Minor] Conjure Earth Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
 17. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2. Summoning eff power 3 -> 0.
-18. [Harmless] Summon Nishruu: Summoning eff power 8 -> 0.
+18. [Harmless] Summon Nishruu: summoning eff power 8 -> 0.
 
 ### Level 7.
 
-1. [Harmless] Monster Summoning VII: summoning eff power 6 -> 0.
-2. [Harmless] Summon Death Knight: summoning eff power 7 -> 0.
-3. [Major] Chaos: Opcodes have save penalty -6 instead of -4 and hold opcode has no save. Add display icon for Hold, Sleep and Berserk effects, and string for Hold. Misses immunity by chaotic commands.
-4. [Major] Finger of Death: damage is 2d8 + level not 6d8 as advertized. Here I am going by the implementation instead of the docs.
-5. [Major] Power Word Stun: has an undocumented one-round stun with a save -2.
+1. [Harmless] Greater Spell Deflection: spurious repeated modify proficiency opcode.
+2. [Major] Ruby Ray of Reversal: Mind Blank is incorrectly listed as dispelled. Opcodes have power 7 which is inconsistent with other spell protection removals. Changed to 0.
+3. [Major] Khelben's Warding Whip: duration of second remove portrait icon opcode incorrect. Mind Blank is incorrectly listed as dispelled. Aux spell dispelling Spell Shield lacks delayed opcodes. Opcodes have power 7 which is inconsistent with other spell protection removals. Changed to 0.
+4. [Harmless] Monster Summoning VII: summoning eff power 6 -> 0.
+5. [Harmless] Summon Death Knight: summoning eff power 7 -> 0.
+6. [Major] Simbul's Spell Sequencer: aux spell opcode 258 resist_dispel 1 -> 2.
+7. [Major] Chaos: Opcodes have save penalty -6 instead of -4 and hold opcode has no save. Add display icon for Hold, Sleep and Berserk effects, and string for Hold. Misses immunity by chaotic commands.
+8. [Implementation] Delayed Blast Fireball: use EE damage opcode features.
+9. [Major] Finger of Death: damage is 2d8 + level not 6d8 as advertized. Here I am going by the implementation instead of the docs.
+10. [Major] Power Word Stun: has an undocumented one-round stun with a save -2.
+11. [Harmless] Mordenkainen's Sword: summoning eff power 7 -> 0.
+12. [Harmless] Summon Efreet: summoning eff power 6 -> 0.
+13. [Harmless] Summon Djinni: summoning eff power 6 -> 0.
+14. [Harmless] Limited Wish: summoning eff power 8 -> 0.
 
 ### Level 8.
 

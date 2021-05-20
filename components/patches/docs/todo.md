@@ -31,11 +31,7 @@ General points:
 
 ### Level 7.
 
-1. Ruby Ray of Reversal and Khelben's Warding Whip: power of opcodes -> 0.
-2. Prismatic Mantle: it has no protection from weapons opcode and yet the Modify Prof opcode seems to indicate otherwise. More generally, the description seems to be a complete mess. It is misleading; blindness always applies to creatures less than 8HD, etc.
-3. Delayed Blast Fireball: use EE damage opcode features.
-4. Several spells miss or have too many headers (and therefore have wrong durations in first header): Protection from Elements, Summon Nishruu, Control Undead. There may be other examples.
-5. Khelben's warding whip: change to delayed cast subspell 4 times.
+1. Prismatic Mantle: it has no protection from weapons opcode and yet the Modify Prof and Set Spell State opcodes seem to indicate otherwise. The description is also misleading; blindness always applies to creatures less than 8HD, etc. Can use EE damage opcode features in condition spell.
 
 ### Level 8.
 

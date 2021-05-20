@@ -1,8 +1,85 @@
 //Includes.
 //Libraries.
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/tables/main.tpa~
 
 //Arcane spell patches: level 7.
+//Greater Spell Deflection.
+DEFINE_PATCH_FUNCTION WIZARD_GREATER_SPELL_DEFLECTION
+BEGIN
+    //Delete spurious duplicate opcodes.
+    LPF DELETE_EFFECT INT_VAR
+        multi_match = 1
+        match_opcode = 233                  //Modify Proficiencies
+    END
+END
+
+//Ruby Ray of Reversal.
+DEFINE_PATCH_FUNCTION WIZARD_RUBY_RAY_OF_REVERSAL
+BEGIN
+    //Change power 7 -> 0.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 0
+    END
+    PATCH_FOR_EACH spell IN ~spwi704b~ ~spwi704c~ BEGIN
+        INNER_ACTION BEGIN
+            COPY_EXISTING ~%res%.spl~ ~override~
+                LPF ALTER_SPELL_EFFECT INT_VAR
+                    power = 0
+                END
+            BUT_ONLY
+        END
+    END
+END
+
+//Khelben's Warding Whip.
+DEFINE_PATCH_FUNCTION WIZARD_WARDING_WHIP
+BEGIN
+    LPF ALTER_EFFECT INT_VAR
+        multi_match = 1
+        match_opcode = 240                  //Remove portrait icon.
+        match_duration = 13
+        duration = 7
+    END
+    //Change power 7 -> 0.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        power = 0
+    END
+    TEXT_SPRINT res "spwi705b"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                power = 0
+            END
+        BUT_ONLY
+    END
+    //Add delayed remove spell shield opcodes.
+    INNER_ACTION BEGIN
+        //Find sectype id.
+        LAF FIND_FIRST_ROW STR_VAR file = "msectype" key = "spellshield" RET sectype = index END
+    END
+    TEXT_SPRINT res "spwi705c"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            FOR (i = 1; i <= 3; ++ i) BEGIN
+                LPF ADD_SPELL_EFFECT INT_VAR
+                    opcode = 230            //Remove protections by type.
+                    target = 2
+                    parameter1 = 9
+                    parameter2 = sectype
+                    timing = 4              //Delayed.
+                    duration = i * 6 + 1
+                    insert_point = 0 - 1
+                END
+            END
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                power = 0
+            END
+        BUT_ONLY
+    END
+END
+
 //Monster Summoning VII.
 DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_7
 BEGIN
@@ -22,7 +99,21 @@ BEGIN
     INNER_ACTION BEGIN
         //power 7 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0            
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Spell Sequencer.
+DEFINE_PATCH_FUNCTION WIZARD_SPELL_SEQUENCER
+BEGIN
+    TEXT_SPRINT res "spwi710d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 258          //Activate spell sequencer.
+                resist_dispel = 2
+            END
         BUT_ONLY
     END
 END
@@ -106,6 +197,29 @@ BEGIN
     END
 END
 
+//Delayed Blast Fireball.
+DEFINE_PATCH_FUNCTION WIZARD_DELAYED_BLAST_FIREBALL
+BEGIN
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12           //Damage.
+        //Save vs. breath.
+        match_savingthrow = (1 << 1) | (1 << 24)
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 14
+            savingthrow = (1 << 1) | (1 << 24)
+            savebonus = 0 - 4
+            special = 256                   //Save for half.
+        END
+    END
+END
+
 //Finger of Death.
 DEFINE_PATCH_FUNCTION WIZARD_FINGER_OF_DEATH
 BEGIN
@@ -116,5 +230,53 @@ DEFINE_PATCH_FUNCTION WIZARD_POWER_WORD_STUN
 BEGIN
     LPF DELETE_SPELL_EFFECT INT_VAR
         opcode_to_delete = 45               //Stun.
+    END
+END
+
+//Mordenkainen's Sword.
+DEFINE_PATCH_FUNCTION WIZARD_MORDENKAINENS_SWORD
+BEGIN
+    TEXT_SPRINT res "spmorsw"
+    INNER_ACTION BEGIN
+        //power 7 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Summon Efreet.
+DEFINE_PATCH_FUNCTION WIZARD_SUMMON_EFREET
+BEGIN
+    TEXT_SPRINT res "dvefreet"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Summon Djinni.
+DEFINE_PATCH_FUNCTION WIZARD_SUMMON_DJINNI
+BEGIN
+    TEXT_SPRINT res "dvdjinni"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
+//Limited Wish.
+DEFINE_PATCH_FUNCTION WIZARD_LIMITED_WISH
+BEGIN
+    TEXT_SPRINT res "wish"
+    INNER_ACTION BEGIN
+        //power 8 -> 0.
+        COPY_EXISTING ~%res%.eff~ ~override~
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
     END
 END

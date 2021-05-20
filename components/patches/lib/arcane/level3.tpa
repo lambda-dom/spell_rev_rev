@@ -1,5 +1,6 @@
 //Includes.
 //Libraries.
+INCLUDE ~%LIBRARY_DIR%/tables/main.tpa~
 INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
 
