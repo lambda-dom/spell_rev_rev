@@ -36,21 +36,21 @@ END
 //Khelben's Warding Whip.
 DEFINE_PATCH_FUNCTION WIZARD_WARDING_WHIP
 BEGIN
-    LPF ALTER_EFFECT INT_VAR
-        multi_match = 1
-        match_opcode = 240                  //Remove portrait icon.
-        match_duration = 13
-        duration = 7
-    END
-    //Change power 7 -> 0.
     LPF ALTER_SPELL_EFFECT INT_VAR
         power = 0
     END
     TEXT_SPRINT res "spwi705b"
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.spl~ ~override~
+            //Change power 7 -> 0.
             LPF ALTER_SPELL_EFFECT INT_VAR
                 power = 0
+            END
+            LPF ALTER_EFFECT INT_VAR
+                multi_match = 1
+                match_opcode = 240                  //Remove portrait icon.
+                match_duration = 13
+                duration = 7
             END
         BUT_ONLY
     END
@@ -62,6 +62,9 @@ BEGIN
     TEXT_SPRINT res "spwi705c"
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                power = 0
+            END
             FOR (i = 1; i <= 3; ++ i) BEGIN
                 LPF ADD_SPELL_EFFECT INT_VAR
                     opcode = 230            //Remove protections by type.
@@ -72,9 +75,6 @@ BEGIN
                     duration = i * 6 + 1
                     insert_point = 0 - 1
                 END
-            END
-            LPF ALTER_SPELL_EFFECT INT_VAR
-                power = 0
             END
         BUT_ONLY
     END
