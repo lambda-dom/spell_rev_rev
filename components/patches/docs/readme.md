@@ -143,12 +143,11 @@ note(s):
 11. [Minor] Improved Haste: repeated protection against slow removed and protection against non-existent spwi545 -> changed to spwm164.
 12. [Implementation] Chain Lightning: use EE damage opcode features in the two aux spells.
 13. [Harmless] Contingency: Last cast spell opcode for what? It does nothing (it says so even in the title). Removed.
-14. [Minor] Wyvern Call: wyvern stats missing from description. Summoning eff power 8 -> 0.
-15. [Minor] Conjure Fire Elemental: same problem as Conjure Lesser Fire Elemental, with wrong probabilities in first visual opcode. Summoning eff power 6 -> 0.
-16. [Minor] Conjure Air Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
-17. [Minor] Conjure Earth Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
-18. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2. Summoning eff power 3 -> 0.
-19. [Harmless] Summon Nishruu: Summoning eff power 8 -> 0.
+14. [Minor] Conjure Fire Elemental: same problem as Conjure Lesser Fire Elemental, with wrong probabilities in first visual opcode. Summoning eff power 6 -> 0.
+15. [Minor] Conjure Air Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
+16. [Minor] Conjure Earth Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
+17. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2. Summoning eff power 3 -> 0.
+18. [Harmless] Summon Nishruu: Summoning eff power 8 -> 0.
 
 ### Level 7.
 
