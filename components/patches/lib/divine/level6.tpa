@@ -3,6 +3,18 @@
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
 
 //Divine spell patches: level 6.
+//Aerial Servant.
+DEFINE_PATCH_FUNCTION CLERIC_AERIAL_SERVANT
+BEGIN
+    TEXT_SPRINT res "spserv"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.eff~ ~override~
+            //power 6 -> 0.
+            WRITE_LONG $EFF_OFFSETS("power") 0
+        BUT_ONLY
+    END
+END
+
 //Animal Summoning VI.
 DEFINE_PATCH_FUNCTION CLERIC_ANIMAL_SUMMONING_LEVEL_6
 BEGIN
@@ -15,18 +27,75 @@ BEGIN
     END
 END
 
+//Blade Barrier.
+DEFINE_PATCH_FUNCTION CLERIC_BLADE_BARRIER
+BEGIN
+END
+
+//Conjure Fire Elemental.
+DEFINE_PATCH_FUNCTION CLERIC_CONJURE_FIRE_ELEMENTAL
+BEGIN
+    PATCH_FOR_EACH res IN "spfir1" "spfir2" BEGIN
+        INNER_ACTION BEGIN
+            //power 6 -> 0.
+            COPY_EXISTING ~%res%.eff~ ~override~
+                WRITE_LONG $EFF_OFFSETS("power") 0            
+            BUT_ONLY
+        END
+    END
+END
+
+//Fire Seeds.
+DEFINE_PATCH_FUNCTION CLERIC_FIRE_SEEDS
+BEGIN
+    TEXT_SPRINT res "sppr606d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Delete damage opcode with a save.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                //Save vs. breath + bypass MI.
+                match_savingthrow = (1 << 1) | (1 << 24)
+            END
+            //Alter damage opcode.
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 12           //Damage.
+                dicenumber = 4
+                //Save vs. spell + bypass MI.
+                savingthrow = (1 << 1) | (1 << 24)
+                savebonus = 0 - 4
+                special = 256               //Save for half.
+            END
+        BUT_ONLY
+    END
+END
+
 //Heal.
 DEFINE_PATCH_FUNCTION CLERIC_HEAL
 BEGIN
     //Add remove poisoned icon opcode.
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 240                    //Remove Portrait Icon.
+        opcode = 240                        //Remove Portrait Icon.
         target = 2
         timing = 1
-        parameter2 = 6                  //Poisoned.
+        parameter2 = 6                      //Poisoned.
         power = 6
         resist_dispel = 3
         insert_point = 0 - 1
+    END
+END
+
+//False Dawn.
+DEFINE_PATCH_FUNCTION CLERIC_FALSE_DAWN
+BEGIN
+    TEXT_SPRINT res "sppr609e"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_EFFECT INT_VAR
+                match_target = 2
+                power = 6
+            END
+        BUT_ONLY
     END
 END
 
@@ -69,7 +138,7 @@ BEGIN
     //Undo changes for 321 opcodes.
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 321
-        resist_dispel = 3
+        resist_dispel = 0
     END
 END
 
@@ -88,6 +157,32 @@ BEGIN
                 match_opcode = 177          //Use Eff.
                 match_parameter1 = 20
             END
+    END
+END
+
+//Conjure Air Elemental
+DEFINE_PATCH_FUNCTION CLERIC_CONJURE_AIR_ELEMENTAL
+BEGIN
+    PATCH_FOR_EACH res IN "spair1" "spair2" BEGIN
+        INNER_ACTION BEGIN
+            //power 6 -> 0.
+            COPY_EXISTING ~%res%.eff~ ~override~
+                WRITE_LONG $EFF_OFFSETS("power") 0            
+            BUT_ONLY
+        END
+    END
+END
+
+//Conjure Earth Elemental
+DEFINE_PATCH_FUNCTION CLERIC_CONJURE_EARTH_ELEMENTAL
+BEGIN
+    PATCH_FOR_EACH res IN "speart1" "speart2" BEGIN
+        INNER_ACTION BEGIN
+            //power 6 -> 0.
+            COPY_EXISTING ~%res%.eff~ ~override~
+                WRITE_LONG $EFF_OFFSETS("power") 0            
+            BUT_ONLY
+        END
     END
 END
 

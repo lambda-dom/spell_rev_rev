@@ -263,17 +263,24 @@ note(s):
 7. [Harmless] Repulsion: one of the cast spell opcodes power 3 -> 5. Aux spell sppr515d play visual opcode 215 power 2 -> 5.
 8. [Major] Insect Plague: mention that on a failed save vs. poison the victim panics for the round. Same issues as Summon Insects.
 9. [Major] Mass Regeneration: power of opcodes 0 -> 5. Resist_dispel 0 -> 3.
-10. [Severe] Animal growth: Use EFF opcode calls wrong eff. Aux spell dvpr525d has undocumented strength and constitution bonuses opcodes, with wrong duration to boot. Deleted. If the strength bonuses are to be kept then they must be documented; the constitution bonus does not make much sense though, because the hps are already being raised.
+10. [Severe] Animal growth: Use EFF opcode calls wrong eff. Aux spell dvpr525d has undocumented strength and constitution bonuses opcodes, with wrong duration to boot. Deleted. If the strength bonuses are to be kept then they must be documented; the constitution bonus does not make sense though, because the hps are already being raised.
 
 ### Level 6.
 
-1. [Harmless] Animal Summoning VI: summoning eff power 8 -> 0.
-2. [Minor] Heal: add missing remove poisoned icon opcode.
-3. [Major] Dolorous Decay: play visual effect has a save penalty -5 -> 4. Damage amount of disease was 2 -> 1. Second display icon has timing mode 4. It seems this should be timing 1. Mention it bypasses mr.
-4. [Harmless] Physical Mirror: power of opcodes in aux spell sppr613d 1 -> 6.
-5. [Major] Regeneration: the description explicitly mentions the possibility of dispellability but opcodes have resist_dispel 0 -> 3. Description fix that duration is 3 turns.
-6. [Harmless] Banishment: same problems as wizard's Banishment.
-7. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2, power 0 -> 6.
+1. [Harmless] Aerial Servant: summoning eff power 8 -> 0.
+2. [Harmless] Animal Summoning VI: summoning eff power 8 -> 0.
+3. [Minor] Blade Barrier: clarified description by mentioning that only non-party members suffer damage.
+4. [Harmless] Conjure Fire Elemental: summoning eff power 6 -> 0.
+5. [Implementation] Fire Seeds: use EE damage opcode features on aux spell.
+6. [Minor] Heal: add missing remove poisoned icon opcode.
+7. [Minor] False Dawn: power corrections on opcodes of aux spell sppr609e.
+8. [Major] Dolorous Decay: play visual effect has a save penalty -5 -> -4. Damage amount of disease was 2 -> 1. Second display icon has timing mode 4. It seems this should be timing 1. Mention in description it bypasses mr.
+9. [Harmless] Physical Mirror: power of opcodes in aux spell sppr613d 1 -> 6.
+10. [Major] Regeneration: the description explicitly mentions the possibility of dispellability but opcodes have resist_dispel 0 -> 3. Description fix that duration is 3 turns.
+11. [Harmless] Banishment: same problems as wizard's Banishment.
+12. [Harmless] Conjure Air Elemental: summoning eff power 6 -> 0.
+13. [Harmless] Conjure Earth Elemental: summoning eff power 6 -> 0.
+14. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2, power 0 -> 6.
 
 ### Level 7.
 

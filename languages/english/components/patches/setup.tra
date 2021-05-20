@@ -93,26 +93,6 @@ When this spell is cast upon a target creature there will be two major effects. 
 
 The spell protection spells dispelled by Pierce Magic are: Minor Spell Deflection, Non-Detection, Minor Globe of Invulnerability, Spell Deflection, Dispelling Screen, Spell Shield, Globe of Invulnerability, Greater Spell Deflection and Shield of the Archons.~
 
-@1603 = ~Wyvern Call
-Level: 6
-School: Conjuration
-Range: Long
-Duration: 1 round/level
-Casting Time: 9
-Area of Effect: Special
-Saving Throw: None
-
-When this spell is cast, the wizard opens up a magical channel that will summon a wyvern to <PRO_HISHER> aid. The creature will live and die at <PRO_HISHER> command until the spell's duration expires.
-
-Wyvern (8 Hit Dice):
-STR 19, DEX 12, CON 15, INT 6, WIS 12, CHA 9;  AL Neutral Evil
-HP 91, AC 2, THAC0 13, Saving Throws 10/14/10/12/10
-4 Attacks Per Round, +2d6 Piercing (Bite +2)
-
-Special Qualities:
-Immune to slow, grease, entangle, hold, web, sleep, stun
-Bite attack: 25% chance of inflicting 2 poison damage per second for one turn, save vs. poison to evade~
-
 //Level 7.
 @1700 = ~Finger of Death
 Level: 7
@@ -242,6 +222,20 @@ Area of Effect: 1 creature
 Saving Throw: None
 
 This powerful spell enables the caster to imbue a creature with the ability to regenerate. This regeneration will heal any wounds and even regenerate lost limbs. The creature affected will regain 1 hit point per second (up to a maximum of 180 hit points within 3 turns at level 10). The effect lasts for the duration of the spell or until dispelled. Multiple castings of this spell are not cumulative.~
+
+@2602 = ~Blade Barrier
+Level: 6
+School: Conjuration
+Sphere: Guardian, Creation
+Range: Personal
+Duration: 1 turn
+Casting Time: 6
+Area of Effect: 6' radius
+Saving Throw: None
+
+The priest employs this spell to create a wall of circling, razor-sharp blades. These whirl and flash around the caster, forming a dangerous barrier. Every creature not in the caster's party and within a 6 foot radius suffers 1d8 points of slashing damage every 3 seconds. Magic resistance does not affect this spell.
+
+Note that spells like Invisibility, Shadow Door, etc. will not function on the caster when protected by Blade Barrier. Also, cleric/thieves and cleric/rangers who cast this will not be able to hide in shadows until the spell expires.~
 
 //Level 7.
 @2700 = ~Finger of Death

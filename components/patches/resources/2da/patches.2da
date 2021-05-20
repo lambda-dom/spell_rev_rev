@@ -84,7 +84,6 @@ WIZARD_PROTECTION_FROM_MAGIC_WEAPONS    1       0
 WIZARD_IMPROVED_HASTE                   1       0
 WIZARD_CHAIN_LIGHTNING                  1       0
 WIZARD_CONTINGENCY                      1       0
-WIZARD_WYVERN_CALL                      1       1603
 WIZARD_CONJURE_FIRE_ELEMENTAL           1       0
 WIZARD_CONJURE_AIR_ELEMENTAL            1       0
 WIZARD_CONJURE_EARTH_ELEMENTAL          1       0
@@ -177,11 +176,18 @@ CLERIC_INSECT_PLAGUE                    1       2500
 CLERIC_MASS_REGENERATE                  1       0
 CLERIC_ANIMAL_GROWTH                    1       0
 CLERIC_ANIMAL_SUMMONING_LEVEL_6         1       0
+CLERIC_AERIAL_SERVANT                   1       0
+CLERIC_BLADE_BARRIER                    1       2602
+CLERIC_CONJURE_FIRE_ELEMENTAL           1       0
+CLERIC_FIRE_SEEDS                       1       0
 CLERIC_HEAL                             1       0
+CLERIC_FALSE_DAWN                       1       0
 CLERIC_DOLOROUS_DECAY                   1       2600
 CLERIC_PHYSICAL_MIRROR                  1       0
 CLERIC_REGENERATION_DRUID_VERSION       1       2601
 CLERIC_BANISHMENT                       1       0
+CLERIC_CONJURE_AIR_ELEMENTAL            1       0
+CLERIC_CONJURE_EARTH_ELEMENTAL          1       0
 CLERIC_ANIMATE_SKELETON_WARRIOR         1       0
 CLERIC_STALKER                          1       0
 CLERIC_SUMMON_DEATH_KNIGHT              1       0

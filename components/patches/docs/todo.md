@@ -77,7 +77,8 @@ General points:
 
 ### Level 6.
 
-1. False Dawn: all but the first cast spell opcodes have magic resist 3. But these are delayed cast spell opcodes so it is at least plausible that they be dispellable, even though the subspell opcodes are themselves dispellable.
+1. False Dawn: all but the first cast spell opcodes have magic resist 3. These are delayed cast spell opcodes so it this means they are dispellable, is this correct?
+2. Sol's Searing Orb: can use EE damage opcode features to slightly simplify implementation of item's ranged header.
 
 ### Level 7.
 

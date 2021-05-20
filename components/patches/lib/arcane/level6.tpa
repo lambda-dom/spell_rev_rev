@@ -252,18 +252,6 @@ BEGIN
     END
 END
 
-//Wyvern Call.
-DEFINE_PATCH_FUNCTION WIZARD_WYVERN_CALL
-BEGIN
-    TEXT_SPRINT res "wyvernsu"
-    INNER_ACTION BEGIN
-        //power 6 -> 0.
-        COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0            
-        BUT_ONLY
-    END
-END
-
 //Conjure Fire Elemental
 DEFINE_PATCH_FUNCTION WIZARD_CONJURE_FIRE_ELEMENTAL
 BEGIN
