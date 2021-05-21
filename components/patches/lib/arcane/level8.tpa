@@ -1,5 +1,6 @@
 //Includes.
 //Libraries.
+INCLUDE ~%LIBRARY_DIR%/tables/main.tpa~
 INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
 
@@ -100,6 +101,21 @@ BEGIN
     END
 END
 
+//Pierce Shield.
+DEFINE_PATCH_FUNCTION WIZARD_PIERCE_SHIELD
+BEGIN
+    TEXT_SPRINT res "spwi805b"
+    INNER_ACTION BEGIN
+        //power 6 -> 0.
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 221          //Remove spell type protections.
+                power = 0
+            END
+        BUT_ONLY
+    END
+END
+
 //Monster Summoning VIII.
 DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_8
 BEGIN
@@ -107,7 +123,7 @@ BEGIN
     INNER_ACTION BEGIN
         //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0            
+            WRITE_LONG $EFF_OFFSETS("power") 0
         BUT_ONLY
     END
 END
@@ -119,8 +135,84 @@ BEGIN
     INNER_ACTION BEGIN
         //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0            
+            WRITE_LONG $EFF_OFFSETS("power") 0
         BUT_ONLY
+    END
+END
+
+//Spell Trigger.
+DEFINE_PATCH_FUNCTION WIZARD_SPELL_TRIGGER
+BEGIN
+    TEXT_SPRINT res "spwi809d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 258          //Activate spell sequencer.
+                resist_dispel = 2
+            END
+        BUT_ONLY
+    END
+END
+
+//Incendiary Cloud.
+DEFINE_PATCH_FUNCTION WIZARD_INCENDIARY_CLOUD_AUX
+BEGIN
+    TEXT_SPRINT res_aux "gr#icl01"
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 324                  //Immunity to Resource.
+    STR_VAR
+        resource = ~%res_aux%~
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        power = 8
+        dicenumber = 4
+        dicesize = 6
+        //Save vs. breath + bypass MI.
+        savingthrow = (1 << 1) | (1 << 24)
+        savebonus = 0 - 4
+        special = 256
+    END
+END
+
+DEFINE_PATCH_FUNCTION WIZARD_INCENDIARY_CLOUD
+BEGIN
+    //Delete fire damage block.
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 324              //Immunity to resource.
+    END
+    LPF DELETE_SPELL_EFFECT INT_VAR
+        opcode_to_delete = 12               //Damage.
+    END
+    //resist_dispel 2 -> 1.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 1
+    END
+    //Undo changes.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 177                  //Use Eff.
+        resist_dispel = 0
+    END
+    //Copy aux spell.
+    TEXT_SPRINT res_aux "gr#icl01"
+    INNER_ACTION BEGIN
+        LAF COPY_SPELL INT_VAR
+            spell_name = 10002
+        STR_VAR
+            res = "fire_damage"
+            name = ~%res_aux%~
+            patch = "WIZARD_INCENDIARY_CLOUD_AUX"
+        END
+    END
+    //Patch in new payload.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 146                        //Cast spell.
+        target = 2
+        parameter2 = 1
+        timing = 1
+        insert_point = 0 - 1
+    STR_VAR
+        resource = ~%res_aux%~
     END
 END
 
@@ -139,6 +231,65 @@ BEGIN
         match_opcode = 177                  //Use Eff.
         match_parameter = 145
     END
+    //Delete damage opcode with a save.
+    LPF DELETE_EFFECT INT_VAR
+        match_opcode = 12           //Damage.
+        //Save vs. death + bypass MI.
+        match_savingthrow = (1 << 2) | (1 << 24)
+    END
+    //Alter damage opcode.
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        LPF ALTER_SPELL_EFFECT INT_VAR
+            header = i
+            match_opcode = 12               //Damage.
+            dicenumber = i + 15
+            savingthrow = (1 << 2) | (1 << 24)
+            savebonus = 0 - 2
+            special = 256                   //Save for half.
+        END
+    END
+END
+
+//Maze.
+DEFINE_PATCH_FUNCTION WIZARD_MAZE
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        resist_dispel = 2
+    END
+END
+
+//Power Word Blind.
+DEFINE_PATCH_FUNCTION WIZARD_POWER_WORD_BLIND
+BEGIN
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "CLERIC_OBSCURING_MIST" RET res = spell_res END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 206                        //Protection from spell.
+        target = 2
+        power = 8
+        resist_dispel = 1
+        timing = 0
+        duration = 60
+        insert_point = 11
+    STR_VAR
+        resource = ~%res%~
+    END
+    //Missing spell protections for permanent blindness.
+    PATCH_FOR_EACH spell IN "WIZARD_OBSCURING_MIST" "CLERIC_OBSCURING_MIST" BEGIN
+        LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell%~ RET res = spell_res END
+        LPF ADD_SPELL_EFFECT INT_VAR
+            opcode = 206                    //Protection from spell.
+            target = 2
+            power = 8
+            resist_dispel = 1
+            timing = 0
+            duration = 3600000
+            dicenumber = 5
+            insert_point = 0 - 1
+        STR_VAR
+            resource = ~%res%~
+        END
+    END
 END
 
 //Symbol of Death.
@@ -147,5 +298,33 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         match_opcode = 209                  //Power word kill.
         savebonus = 0 - 4
+    END
+END
+
+//Bigby Icy Grasp.
+DEFINE_PATCH_FUNCTION WIZARD_BIGBYS_ICY_GRASP
+BEGIN
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 146                  //Cast spell.
+        //Power 9 -> 8.
+        power = 8
+    END
+    TEXT_SPRINT res "spwi818d"
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 185          //Hold II.
+                resist_dispel = 1
+                savebonus = 0 - 2
+            END
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 174          //Play sound.
+                savebonus = 0 - 2
+            END
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 7            //Set color.
+                resist_dispel = 1
+            END
+        BUT_ONLY
     END
 END

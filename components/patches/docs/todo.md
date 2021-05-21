@@ -10,6 +10,7 @@ General points:
 ### Level 2.
 
 1. Sound Burst: damage bypass MI? AoE damage, so tentatively yes.
+2. Melf's Acid Arrow: bring back acid immunity by using a subspell as in Incendiary Cloud.
 
 ### Level 3.
 
@@ -17,6 +18,7 @@ General points:
 2. Protection from Missiles: all projectiles covered?
 3. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
 4. Vampiric Touch and Larloch's Minor Drain: the implementation should now be correct, but aesthetic can be aligned closer to SR.
+5. Flame Arrow: bring back fire immunity by using a subspell as in Incendiary Cloud.
 
 ### Level 4.
 
@@ -36,12 +38,6 @@ General points:
 ### Level 8.
 
 1. Mind Blank: protects against power word stun but not stun.
-2. Pierce Shield: all but 1 opcode in the first aux spell have power 0. There is an inconsistency here as spell thrust, secret word and pierce magic have the same 0 power while RRoR and Khelben's Warding Whip have power 7.
-3. Moment of Prescience: mention that is not dispellable.
-4. Incendiary Cloud: use EE damage opcode features.
-5. Horrid Wilting: use EE damage opcode features.
-6. Power Word Blind: Protection from obscuring mist and power word blind lack the minimum level. Only the 1 turn version of protection from spells exist, with the exception of Power Word Blind.
-7. Bigby's Icy Grasp: in aux spell, opcodes hold and play visual have wrong saves (-4 and 0) -> -2. The resist_dispel in setting up hold are also inconsistent: put all at 1, but this is something of a guess. The play visual and damage opcodes are applied before setting up immunities, is this correct? At any rate, description should also mention that a whole bunch of critters are immune to the hold effect.
 
 ### Level 9.
 

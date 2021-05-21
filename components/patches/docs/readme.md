@@ -120,13 +120,14 @@ note(s):
 5. [Major] Mental Domination: first 174 play sound opcode lacks save. Save penalty is -4 not the documented -2.
 6. [Minor] Hold Monster: lacks portrait icon and display string opcodes.
 7. [Minor] Dispelling Screen: added protection against dispelling animation to account for reordering opcodes in dispel magic.
-8. [Minor] Conjure Lesser Fire Elemental: The first play visual effect opcode (that should play on a successful summon) has the wrong probability 86 - 100 -> 0 - 85. Summoning eff power correction 5 -> 0.
-9. [Harmless] Phantom Blade: create weapon opcode amount 0 -> 1.
-10. [Minor] Conjure Lesser Air Elemental: same problem as Conjure Lesser Fire Elemental. Summoning eff power correction 5 -> 0.
-11. [Minor] Conjure Lesser Earth Elemental: same problem as Conjure Lesser Fire Elemental. Summoning eff power correction 5 -> 0.
-12. [Harmless] Spell Deflection: repeated 233 opcode.
-13. [Harmless, Implementation] Fire Burst: spurious repetition of protection from immunity. Removed it from main spell. Use EE damage opcode features.
-14. [Major] Mestil's Acid Sheath: same problem as Fire Shield.
+8. [Major] Breach: Mind Blank missing from the specific protections list. Moment of Prescience missing from the combat protections list.
+9. [Minor] Conjure Lesser Fire Elemental: The first play visual effect opcode (that should play on a successful summon) has the wrong probability 86 - 100 -> 0 - 85. Summoning eff power correction 5 -> 0.
+10. [Harmless] Phantom Blade: create weapon opcode amount 0 -> 1.
+11. [Minor] Conjure Lesser Air Elemental: same problem as Conjure Lesser Fire Elemental. Summoning eff power correction 5 -> 0.
+12. [Minor] Conjure Lesser Earth Elemental: same problem as Conjure Lesser Fire Elemental. Summoning eff power correction 5 -> 0.
+13. [Harmless] Spell Deflection: repeated 233 opcode.
+14. [Harmless, Implementation] Fire Burst: spurious repetition of protection from immunity. Removed it from main spell. Use EE damage opcode features.
+15. [Major] Mestil's Acid Sheath: same problem as Fire Shield.
 
 ### Level 6.
 
@@ -170,11 +171,17 @@ note(s):
 
 1. [Minor] Ghostform: play sound opcodes have power 6 -> 8. Misses protection from strings 54337 = "Diseased", 17398 = "Nauseated", 14662 = "Poisoned".
 2. [Major] Mind Blank: misses immunity to berserk, protection from icons: 2 = Rigid Thinking, 4 = Berserk, and strings: 14672 = "Charmed", 14780 = "Dire Charmed", 14102 = "Held", 14650 = "Paralyzed", 23744 = "Feebleminded", 14665 = "Petrified", 340 = "Held", 1473 = "Held"
-3. [Harmless] Monster Summoning VIII: summoning eff power 6 -> 0.
-4. [Harmless] Summon Fiend: summoning eff power 8 -> 0.
-5. [Major] Symbol of Weakness: save penalty -6 -> -4.
-6. [Major] Horrid Wilting: undocumented protection for elemental creatures; removed it.
-7. [Major] Symbol of Death: opcode save penalty -6 -> -4.
+3. [Major] Pierce Shield: Mind Blank is incorrectly listed in the spell protections list. Moment of Prescience missing from the combat protections list. Last remove spell protection type power 8 -> 0.
+4. [Harmless] Monster Summoning VIII: summoning eff power 6 -> 0.
+5. [Harmless] Summon Fiend: summoning eff power 8 -> 0.
+6. [Major] Simbul's Spell Trigger: aux spell opcode 258 resist_dispel 1 -> 2.
+7. [Major] Incendiary Cloud: fire immunity blocks the other effects, which is not correct per the description: move damage and fire immunity check to a subspell. Resist_dispel of opcodes 2 -> 1.
+8. [Major] Symbol of Weakness: save penalty -6 -> -4.
+9. [Major] Horrid Wilting: undocumented protection for elemental creatures; removed it. Use EE damage opcode features.
+10. [Major] Maze: resist_dispel 1 -> 2.
+11. [Minor] Power Word Blind: Protection from cleric's obscuring mist missing. Only the 1 turn version of protection from spells exist, with the exception of Power Word Blind.
+11. [Major] Symbol of Death: opcode save penalty -6 -> -4.
+12. [Major] Bigby's Icy Grasp: cast spell opcodes power 9 -> 8. Description altered to mention that elementals and incorporeal creatures are immune to the hold effect. Resist_dispel and saves of hold effects are jumbled.
 
 ### Level 9.
 
