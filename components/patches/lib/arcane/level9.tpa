@@ -6,6 +6,33 @@ INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
 //Spell Trap.
 DEFINE_PATCH_FUNCTION WIZARD_SPELL_TRAP
 BEGIN
+    TEXT_SPRINT res "spwi902b"
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 201                  //Spell deflection.
+        match_parameter2 = 1
+    STR_VAR
+        resource = ~%res%~
+    END
+END
+
+//Spellstrike.
+DEFINE_PATCH_FUNCTION WIZARD_SPELL_STRIKE
+BEGIN
+    //Power 9 -> 0.
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 146                  //Cast Spell.
+        power = 0
+    END
+    PATCH_FOR_EACH spell IN "spwi903b" "spwi903c" BEGIN
+        INNER_ACTION BEGIN
+            COPY_EXISTING ~%res%.spl~ ~override~
+                LPF ALTER_EFFECT INT_VAR
+                    match_opcode = 146      //Cast Spell.
+                    power = 0
+                END
+            BUT_ONLY
+        END
+    END
 END
 
 //Gate.
@@ -20,13 +47,34 @@ BEGIN
     END
 END
 
+//Imprisonment.
+DEFINE_PATCH_FUNCTION WIZARD_IMPRISONMENT
+BEGIN
+    //Extend duration until casting freedom.
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 13                   //Kill.
+        duration = 60
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 212                  //Freedom.
+        duration = 59
+    END
+END
+
 //Meteor Swarm.
 DEFINE_PATCH_FUNCTION WIZARD_METEOR_SWARM
 BEGIN
-    LPF ALTER_EFFECT INT_VAR
+    LPF DELETE_EFFECT INT_VAR
         match_opcode = 12                   //Damage.
-        match_savingthrow = 16777218        //Breath + bypass MI.
-        save_bonus = 0 - 4
+        //Save vs. breath + bypass MI.
+        match_savingthrow = (1 << 1) | (1 << 24)
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 12               //Damage.
+        dicenumber = 40
+        savingthrow = (1 << 1) | (1 << 24)
+        savebonus = 0 - 4
+        special = 256                   //Save for half.
     END
 END
 
@@ -52,12 +100,20 @@ END
 //Larloch's Energy Drain.
 DEFINE_PATCH_FUNCTION WIZARD_ENERGY_DRAIN
 BEGIN
-    PATCH_FOR_EACH opcode IN ~141~ ~59~ ~90~ ~91~ ~92~ ~275~ ~276~ ~277~ BEGIN
+    PATCH_FOR_EACH opcode IN ~59~ ~90~ ~91~ ~92~ ~275~ ~276~ ~277~ BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
             match_opcode = opcode
             resist_dispel = 3
         END
     END
+    //Changes for 141 opcode.
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 141
+        match_resist_dispel = 1
+        target = 1
+        resist_dispel = 3
+    END
+
 END
 
 //Black Blade of Disaster.
@@ -73,12 +129,12 @@ END
 DEFINE_PATCH_FUNCTION WIZARD_SHAPECHANGE
 BEGIN
     LPF DELETE_EFFECT INT_VAR
-        match_opcode = 171                  //Give innate ability.
+        match_opcode = 171                  //Give innate ability: Earth Elemental.
     STR_VAR
         match_resource = "spwi971"
     END
     LPF DELETE_EFFECT INT_VAR
-        match_opcode = 171                  //Give innate ability.
+        match_opcode = 171                  //Give innate ability: Fire Elemental.
     STR_VAR
         match_resource = "spwi972"
     END
@@ -109,7 +165,7 @@ BEGIN
             parameter2 = icon
             timing = 1
             resist_dispel = 3
-            insert_point = ~-1~
+            insert_point = 0 - 1
         END
     END
 END
@@ -132,5 +188,6 @@ BEGIN
                 savebonus = 0 - 4
                 insert_point = 3
             END
+        BUT_ONLY
     END
 END

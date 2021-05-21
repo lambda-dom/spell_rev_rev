@@ -117,7 +117,9 @@ WIZARD_POWER_WORD_BLIND                 1       0
 WIZARD_SYMBOL_DEATH                     1       0
 WIZARD_BIGBYS_ICY_GRASP                 1       1801
 WIZARD_SPELL_TRAP                       1       1900
+WIZARD_SPELL_STRIKE                     1       0
 WIZARD_GATE                             1       0
+WIZARD_IMPRISONMENT                     1       1901
 WIZARD_METEOR_SWARM                     1       0
 WIZARD_WAIL_OF_THE_BANSHEE              1       0
 WIZARD_ENERGY_DRAIN                     1       0

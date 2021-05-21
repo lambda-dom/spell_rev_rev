@@ -186,6 +186,17 @@ Saving Throw: None
 
 This abjuration spell causes any spells cast against the wizard to be absorbed and consumed. This affects a total of 99 spell levels, but having 1 level left of protection means a 1st level spell would get absorbed, as well as a 9th level spell. This spell will not protect the caster from a dispel magic. However, it will not be affected by a dispel magic, either.~
 
+@1901 = ~Imprisonment
+Level: 9
+School: Abjuration
+Range: Short
+Duration: Permanent
+Casting Time: 1 round
+Area of Effect: 1 creature
+Saving Throw: None
+
+When the Imprisonment spell is cast the target creature becomes entombed in a small sphere far beneath the surface of the earth in a state of suspended animation, conscious of its fate. The victim remains there unless the reverse of the spell, Freedom, is cast. Otherwise, the victim will remain there for 1 turn at the end of which it will die of asphyxiation. If a Freedom spell is cast in the area where the creature was imprisoned then he will reappear exactly where he was last standing. Dispel magic will not free creatures trapped in this manner. The target's magic resistance, if any, does not affect this spell.~
+
 //Divine spells.
 //Level 1.
 @2100 = ~Sunscorch

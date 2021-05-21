@@ -42,9 +42,6 @@ General points:
 ### Level 9.
 
 1. Wail of the Banshee: should the slay opcode change position with lighting effects?
-2. Spellstrike: power level of opcodes 0?
-3. Meteor Swarm: use EE damage opcode features.
-4. Imprisonment: kills the victim after 5 rounds. The killing should be advertized in the docs.
 
 ## Divine spells.
 
@@ -63,7 +60,7 @@ General points:
 
 ### Level 5.
 
-1. True Seeing: The protection from spell is against the IR cloak's reflected image, shouldn't it be remove resource opcode instead? Uses Force Visible (136) to dispel invis.
+1. True Seeing: The protection from spell is against the IR cloak's reflected image, shouldn't it remove resource opcode instead? Uses Force Visible (136) to dispel invis.
 2. Magic Resistance: implementation non-stacking -> EE refreshing.
 3. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not have it.
 
