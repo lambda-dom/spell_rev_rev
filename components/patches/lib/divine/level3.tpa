@@ -310,3 +310,22 @@ BEGIN
         END
     END
 END
+
+//Storm Shield.
+DEFINE_PATCH_FUNCTION CLERIC_STORM_SHIELD
+BEGIN
+    INNER_ACTION BEGIN
+        //Find sectype id.
+        LAF FIND_FIRST_ROW STR_VAR file = "msectype" key = "k1insect" RET sectype = index END
+    END
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 205                    //Protection from sectype.
+        target = 1
+        power = 3
+        parameter2 = sectype
+        timing = 0
+        duration = 60
+        resist_dispel = 3
+        insert_point = 0 - 1
+    END
+END

@@ -254,6 +254,7 @@ note(s):
 14. [Harmless] Cause Serious Wounds: opcode's power 4 -> 3.
 15. [Harmless] Regenerate Serious Wounds: opcode's power 1 -> 3.
 16. [Major] Spike Growth: resist_dispel of display portrait opcode inconsistent with corresponding damage opcodes. Same for movement penalty opcode.
+17. [Minor] Storm Shield: add spell type protection against k1insect.
 
 ### Level 4.
 
