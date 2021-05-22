@@ -42,6 +42,7 @@ General points:
 ### Level 9.
 
 1. Wail of the Banshee: should the slay opcode change position with lighting effects?
+2. Imprisonment: the implementation is still imperfect, as e.g. the kill and or freedom opcodes could be blocked.
 
 ## Divine spells.
 
@@ -71,5 +72,5 @@ General points:
 
 ### Level 7.
 
-1. Sunray: killing undead is done via 1000 magic damage opcode. It is still blocked by magic damage immunity.
+1. Sunray: killing undead is done via 1000 magic damage opcode. It could still be blocked by magic damage immunity; insta-kill opcodes probably do not work as undead are usually immune to them.
 2. Creeping Doom: in the aux spell that actually implements the insect swarm effects all opcodes have power 0, same as Insect Plague.

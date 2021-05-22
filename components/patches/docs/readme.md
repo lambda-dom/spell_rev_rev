@@ -188,7 +188,7 @@ note(s):
 1. [Major] Spell Trap: duration is fixed 2 turns. Level 1 spell deflection opcode lacks resource field => does not call aux spell when spell trap exhausted as it should.
 2. [Minor] Spellstrike: power 9 -> 0.
 3. [Harmless] Gate: summoning eff power 8 -> 0.
-4. [Major] Imprisonment: kills the victim after 5 rounds. Reword the description to advertize this important fact. Extended duration 5 rounds -> 1 turn for more time to cast freedom at the cost of the inconvenience of having to wait longer for kill to kick in. The implementation is still imperfect, as e.g. the kill and or freedom opcodes could be blocked.
+4. [Major] Imprisonment: kills the victim after 5 rounds. Reword the description to advertize this important fact.
 5. [Major] Meteor Swarm: second damage opcode save -6 -> -4. Use EE damage opcode features.
 6. [Minor] Wail of the Banshee: Misses display icon deaf opcode.
 7. [Harmless] Larloch's Drain: resist_dispel in several self-targeted opcodes 1 -> 3.

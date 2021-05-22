@@ -50,15 +50,6 @@ END
 //Imprisonment.
 DEFINE_PATCH_FUNCTION WIZARD_IMPRISONMENT
 BEGIN
-    //Extend duration until casting freedom.
-    LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 13                   //Kill.
-        duration = 60
-    END
-    LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 212                  //Freedom.
-        duration = 59
-    END
 END
 
 //Meteor Swarm.
