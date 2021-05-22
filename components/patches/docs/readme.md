@@ -106,7 +106,7 @@ note(s):
 7. [Severe] Otiluke's Sphere: the same spell is cast on enemies and friends -> renaming and patching. In the aux spells themselves, they have different numbers of opcodes and, contrary to the description, mr *is* bypassed on enemies. So used the friendly version, as it has the largest number of protections, and patched the missing ones as best as possible. Then used this as the enemy version, changing resist_dispel 3 -> 1.
 8. [Major] Fire Shield: lacks protection against insects: added protection against sectype k1insect and insect spells.
 9. [Minor] Teleport Field: mention in description it bypasses mr.
-10. [Severe] Protection from Elemental Energy: not working, as not referencing the correct 2da resource.
+10. [Severe] Protection from Elemental Energy: not working, as not referencing the correct 2da resource. The subspells Protection from Electricity and Acid have wrong descriptions and spell level.
 11. [Harmless] Monster Summoning IV: summoning eff power 8 -> 0.
 12. [Minor] Farsight: clairvoyance opcode power 3 -> 4. Clairvoyance and farsight opcodes resist/dispel -> 2.
 13. [Implementation] Vitriolic Sphere: use EE damage opcode features.

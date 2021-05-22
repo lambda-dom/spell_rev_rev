@@ -20,8 +20,7 @@ General points:
 
 ### Level 4.
 
-1. Oitiluke's Sphere: Why Use Eff on GOODCUTOFF?
-2. Protection from elemental energy: go over each of the individual subspells.
+1. Otiluke's Sphere: Why Use Eff on GOODCUTOFF?
 
 ### Level 5.
 

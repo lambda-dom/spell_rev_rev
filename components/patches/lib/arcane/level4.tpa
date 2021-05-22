@@ -258,3 +258,15 @@ BEGIN
         special = 256                       //Save for half.
     END
 END
+
+//Protection from Electricity.
+DEFINE_PATCH_FUNCTION WIZARD_PROTECTION_FROM_ELECTRICITY
+BEGIN
+    WRITE_LONG $SPELL_OFFSETS("level") 4
+END
+
+//Protection from Acid.
+DEFINE_PATCH_FUNCTION WIZARD_PROTECTION_FROM_ACID
+BEGIN
+    WRITE_LONG $SPELL_OFFSETS("level") 4
+END
