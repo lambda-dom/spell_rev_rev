@@ -137,7 +137,7 @@ note(s):
 4. [Major] Flesh to Stone: Main spell: the second remove spell type opcode for k1#haste has inconsistent resist_dispel, timing mode limited and a duration. The cast spell opcode is resist_dispel = 1 -> 2. In the aux spell all opcodes have permanent timing, but with a duration 12, which is harmless, but technically incorrect. Contrary to what is explicitly stated in the description, all opcodes have resist_dispel 1.
 5. [Harmless] Banishment: Use Eff against non-existent row in gender.ids removed from spell and aux spell.
 6. [Major] Protection from Magic Energy: contrary to what is stated, no creatures are immune to this spell; fixed description.
-7. [Major] Pierce Magic: incorrect duration of display portrait and play sound opcodes. Opcodes have power 0 so it bypasses spell protections -- mention it in the description. Mind Blank is incorrectly listed as dispelled.
+7. [Major] Pierce Magic: incorrect duration of display portrait and play sound opcodes. Mind Blank is incorrectly listed as dispelled.
 8. [Major] True Seeing: fixes as in the cleric version.
 9. [Harmless] Monster Summoning VI: summoning eff power -> 0.
 10. [Minor] Protection from Magic Weapons: first protection opcode against magical weapons of enchantment has 0 duration. Deleted it.
