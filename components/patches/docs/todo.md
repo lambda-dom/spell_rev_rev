@@ -10,7 +10,6 @@ General points:
 ### Level 2.
 
 1. Sound Burst: damage bypass MI? AoE damage, so tentatively yes.
-2. Melf's Acid Arrow: bring back acid immunity by using a subspell as in Incendiary Cloud.
 
 ### Level 3.
 

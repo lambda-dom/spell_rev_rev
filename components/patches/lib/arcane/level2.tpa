@@ -1,6 +1,7 @@
 //Includes.
 //Libraries.
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
 
 //Arcane spell patches: level 2.
 //Blur.
@@ -109,11 +110,25 @@ BEGIN
     END
 END
 
-//Melf's Acid Arrow.
+
 DEFINE_PATCH_FUNCTION WIZARD_MELF_ACID_ARROW
 BEGIN
     LPF DELETE_SPELL_EFFECT INT_VAR
         opcode_to_delete = 324              //Immunity to resource.
+    END
+    //Reinstate acid immunity.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_MELF_ACID_ARROW" RET res = spell_res END
+    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    FOR (i = 1; i <= headers_count; ++i) BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR
+            header = i
+            opcode = 324                    //Immunity to resource.
+            target = 2
+            parameter2 = 97                 //Not acid immune.
+            insert_point = 1                //After missile damage.
+        STR_VAR
+            resource = ~%res%~
+        END
     END
 END
 

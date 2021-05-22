@@ -66,7 +66,7 @@ note(s):
 5. [Major, Implementation] Know Opponent: fix casting time 9 -> 2 to synch with cleric's version. Description fix. Implementation of golem immunity has a spurious Use Eff and can use instead a 318 opcode. Prevent stacking as it is done in Cleric's version with 321 opcodes.
 6. [Major] Luck: detect illusion resist_dispel 0 -> 3.
 7. [Harmless] Resist Fear: reset morale duration 40 -> 0. Removed protection from mummydsp, a non-existent spell.
-8. [Major] Melf's Acid Arrow: remove 324 opcode as with it, missile damage is also blocked by acid immunity.
+8. [Major] Melf's Acid Arrow: moved 324 opcode after missile damage so as not to block it by acid immunity.
 9. [Implementation] Mirror Image: change non-stacking to EE refreshing and added protection against Reflected Image.
 10. [Harmless] Monster Summoning II: corrected power of summoning effect.
 11. [Harmless] Ghoul Touch: create item opcode amount 0 -> 1.
