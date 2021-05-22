@@ -16,7 +16,6 @@ General points:
 1. Slow has a Remove Spell Type Protections 12 = Combination. Is this correct?
 2. Protection from Missiles: all projectiles covered?
 3. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
-4. Vampiric Touch and Larloch's Minor Drain: the implementation should now be correct, but aesthetics can be aligned closer to SR.
 
 ### Level 4.
 
@@ -25,7 +24,7 @@ General points:
 ### Level 5.
 
 1. Waves of Fatigue: undead and constructs should be immune to the spell per the description.
-2. Dispelling Screen and Spell Shield: the way they are set up is that they raise protections against the relevant effects / spells and then the spell removals first try to remove the appropriate protections, then they remove dispelling screen and or spell shield.
+2. Dispelling Screen and Spell Shield: the way they are set up is that they raise protections against the relevant effects / spells and then the spell removals first try to remove the appropriate protections, then they remove spell shield.
 3. Feeblemind: lacks display string 23744 = "Feebleminded", but most mind shield protections do not protect against it.
 
 ### Level 7.
@@ -45,9 +44,8 @@ General points:
 
 ### Level 3.
 
-1. Miscast Magic: cast spell opcode has a save, but the aux spell opcodes already have it. State Miscast_Magic -> Wild_Magic?
-2. Regenerate Serious Wounds: extra, unneeded headers.
-3. Magic Fang: use Enchantment Bonus 345 opcode in aux spells?
+1. Miscast Magic: State Miscast_Magic -> Wild_Magic?
+2. Magic Fang: use Enchantment Bonus 345 opcode in aux spells?
 
 ### Level 4.
 
