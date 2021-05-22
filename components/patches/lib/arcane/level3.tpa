@@ -52,6 +52,22 @@ BEGIN
 END
 
 //Flame Arrow.
+DEFINE_PATCH_FUNCTION WIZARD_FLAME_ARROW_AUX
+BEGIN
+    TEXT_SPRINT res_aux "gr#fla01"
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 324                  //Immunity to Resource.
+    STR_VAR
+        resource = ~%res_aux%~
+    END
+    LPF ALTER_SPELL_EFFECT INT_VAR
+        match_opcode = 12                   //Damage.
+        power = 3
+        dicenumber = 1
+        dicesize = 6
+    END
+END
+
 DEFINE_PATCH_FUNCTION WIZARD_FLAME_ARROW
 BEGIN
     //Delete 324 opcodes blocking spell on fire immunity.
@@ -67,6 +83,37 @@ BEGIN
                 END
             BUT_ONLY
         END
+    END
+    //Reinstate fire immunity protection.
+    //Copy fire damage aux spell.
+    TEXT_SPRINT res_aux "gr#fla01"
+    INNER_ACTION BEGIN
+        LAF COPY_SPELL INT_VAR
+            spell_name = 10003
+        STR_VAR
+            res = "fire_damage"
+            name = ~%res_aux%~
+            patch = "WIZARD_FLAME_ARROW_AUX"
+        END
+    END
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%e.spl~ ~override~
+            //Delete fire damage opcode.
+            LPF DELETE_EFFECT INT_VAR
+                match_opcode = 12                   //Damage.
+                match_parameter2 = 0x80000          //Normal fire damage type.
+            END
+            //Patch in new payload.
+            LPF ADD_SPELL_EFFECT INT_VAR
+                opcode = 146                        //Cast spell.
+                target = 2
+                parameter2 = 1
+                timing = 1
+                insert_point = 0 - 1
+            STR_VAR
+                resource = ~%res_aux%~
+            END
+        BUT_ONLY
     END
 END
 

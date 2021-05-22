@@ -18,7 +18,6 @@ General points:
 2. Protection from Missiles: all projectiles covered?
 3. Halt Undead: implementation can be simplified, since we can filter undead with 318 with stat type not match undead.
 4. Vampiric Touch and Larloch's Minor Drain: the implementation should now be correct, but aesthetic can be aligned closer to SR.
-5. Flame Arrow: bring back fire immunity by using a subspell as in Incendiary Cloud.
 
 ### Level 4.
 

@@ -81,7 +81,7 @@ note(s):
 
 1. [Harmless] Clairvoyance: save vs. breath bonus power 0 -> 2.
 2. [Major] Dispel Magic: timing of Remove spell type protections opcode 3 -> 1. Power of Play Visual 3 -> 0 for consistency with other opcodes. More importantly, it first removes dispel screen and *then* dispels. This is incorrect, as it violates Dispelling Screen description. Reordered the opcodes.
-3. [Major] Flame Arrow: same issue with Melf's acid arrow, with fire immunity blocking missile damage, so 324 opcode removed from spell and aux spells.
+3. [Major] Flame Arrow: same issue with Melf's acid arrow, with fire immunity blocking missile damage, so 324 opcode removed from spell and aux spells and moved to an aux subspell.
 4. [Implementation] Fireball: use EE damage opcode features.
 5. [Minor] Hold Person: added display string "Held" opcode.
 6. [Implementation] Lightning Bolt: use EE damage opcode features.
