@@ -15,6 +15,12 @@ BEGIN
                     match_opcode = 177
                     duration = 300
                 END
+                //Patch descriptions.
+                READ_STRREF $SPELL_OFFSETS("descr") descr
+                INNER_PATCH_SAVE changes ~%descr%~ BEGIN
+                    REPLACE_TEXTUALLY "^Duration: [0-9]+ turn\(s\)?" "Duration: 5 turns"
+                END
+                SAY $SPELL_OFFSETS("descr") ~%changes%~
             BUT_ONLY
         END
     END
@@ -28,6 +34,12 @@ BEGIN
                     match_opcode = 177
                     duration = 300
                 END
+                //Patch descriptions.
+                READ_STRREF $SPELL_OFFSETS("descr") descr
+                INNER_PATCH_SAVE changes ~%descr%~ BEGIN
+                    REPLACE_TEXTUALLY "^Duration: [0-9]+ turn\(s\)?" "Duration: 5 turns"
+                END
+                SAY $SPELL_OFFSETS("descr") ~%changes%~
             BUT_ONLY
         END
     END
