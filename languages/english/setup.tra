@@ -1,7 +1,9 @@
 //Group names.
 //Component strings.
 @0 = "Spell Revisions Patches"
+@1 = "Spell Revisions Tweaks"
 
 //Error strings.
 @10 = "Mod only for BG2 enhanced edition games."
-@11 = "Main component of spell_rev mod required."
+@11 = "Main component of Spell Revisions mod required."
+@12 = "Patches component required."

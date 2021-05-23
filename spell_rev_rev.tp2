@@ -4,6 +4,7 @@ VERSION "1.0"
 
 //Flags.
 AUTO_EVAL_STRINGS
+
 //Component preamble.
 ALWAYS
     //Set library dir.
@@ -21,3 +22,9 @@ LABEL "gr#-spell_rev_rev-patches"
 REQUIRE_PREDICATE (GAME_IS "bgee bg2ee eet") @10
 REQUIRE_PREDICATE (MOD_IS_INSTALLED "spell_rev.tp2" 0) @11
 LAF INSTALL_COMPONENT STR_VAR COMPONENT = "patches" END
+
+BEGIN @1 DESIGNATED 1
+LABEL "gr#-spell_rev_rev-tweaks"
+REQUIRE_PREDICATE (GAME_IS "bgee bg2ee eet") @10
+REQUIRE_PREDICATE (MOD_IS_INSTALLED "spell_rev_rev.tp2" (ID_OF_LABEL "spell_rev_rev.tp2" "gr#-spell_rev_rev-patches")) @12
+LAF INSTALL_COMPONENT STR_VAR COMPONENT = "tweaks" END

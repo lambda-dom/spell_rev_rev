@@ -14,13 +14,25 @@ As far as load order, it should be installed right after Spell Revisions. The mo
 
 The mod is pure WeiDU, so it should be safe from operating system variations. While it was tested in linux, using a case-insensitive ext4 partition -- see [here](https://www.gibberlings3.net/forums/topic/28516-the-linux-users-guide-to-installing-mods-on-the-enhanced-editions/) for details on how to set it up -- it should work just fine on Windows or MacOS. If it does not, patches are welcomed.
 
-## C. Documentation.
+## C. Components.
 
-User-convenient documentation for the patches applied can be found in the [readme](components/patches/docs/readme.md), while a list of to-dos can be found in the [todo](components/patches/docs/todo.md) file. Consult this file before submitting an issue or patch.
+There are currently, two components in this mod.
+
+### C. 1. Patches.
+
+The patches component patches the spells introduced by Spell Revisions. User-convenient documentation for the patches applied can be found in the [readme](components/patches/docs/readme.md), while a list of to-dos can be found in the [todo](components/patches/docs/todo.md) file. Consult this file before submitting an issue or patch.
+
+### C. 2. Tweaks.
+
+The tweaks component tweaks the spells introduced by Spell Revisions. The difference between a tweak and a patch can be blurry; suffice to say that we have been as conservative as possible when it comes to patching SR. Any change of gameplay functionality counts as a tweak and is in this component. The changes tend to be fairly low key, in part because SR is already just fine as it is, in part so as not to needlessly confuse SCS. Most of them are borrowed almost verbatim from [SR Revised](https://www.gibberlings3.net/forums/topic/29618-sr-revised-v13200-2020-august-22nd). For fuller documentation on each tweak consult the [readme](components/tweaks/docs/readme.md).
 
 ## D. Contributing.
 
-If you want to contribute patches, an overview of the code is useful. The mod is designed to only patch spells that have entries in the spell.ids file. Each such patched spell has an entry in patches.2da with the symbolic name, a patch flag (that the user can toggle for fine-grain selection of patches) and a tra reference for the new spell description. The code iterates through the table, and for each entry, if the patch flag is enabled it copies the new description if any (e.g. tra reference is different from 0) and applies the patch function with the same spell symbolic name. The function is found in the relevant tpa file, organized by arcane/divine and level for ease of maintenance. Everything is done in the patch function, including the copying of any needed resources, patching of auxiliary resources, etc.
+If you want to contribute, an overview of the code is useful.
+
+### D. 1. Patches component.
+
+The patches component is designed to only patch spells that have entries in the spell.ids file. Each such patched spell has an entry in the patches table .2da file. The columns of the table are the symbolic name, a patch flag (that the user can toggle for fine-grain selection of patches) and a tra reference for the new spell description. The code iterates through the table, and for each entry, if the patch flag is enabled it copies the new description if any (e.g. tra reference is different from 0) and applies the patch function with the same spell symbolic name. The function is found in the relevant tpa file, organized by arcane/divine and level for ease of maintenance. Everything is done in the patch function, including the copying of any needed resources, patching of auxiliary resources, etc.
 
 ## E. Tools used.
 
