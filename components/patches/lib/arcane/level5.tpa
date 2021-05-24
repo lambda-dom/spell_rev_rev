@@ -11,7 +11,7 @@ BEGIN
     PATCH_FOR_EACH res IN ~shadowsu~ ~dvwraith~ BEGIN
         INNER_ACTION BEGIN
             COPY_EXISTING ~%res%.eff~ ~override~
-                WRITE_LONG $EFFECT_OFFSETS("power") 0
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
             BUT_ONLY
         END
     END
@@ -27,7 +27,7 @@ BEGIN
         match_savingthrow = (1 << 1) | (1 << 24)
     END
     //Alter damage opcode.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
             header = i
@@ -46,9 +46,9 @@ DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_5
 BEGIN
     TEXT_SPRINT res "ogregrsu"
     INNER_ACTION BEGIN
-        //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 6 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -149,9 +149,9 @@ BEGIN
     END
     TEXT_SPRINT res "splesfir"
     INNER_ACTION BEGIN
-        //power 5 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 5 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -178,9 +178,9 @@ BEGIN
     END
     TEXT_SPRINT res "splesair"
     INNER_ACTION BEGIN
-        //power 5 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 5 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -197,9 +197,9 @@ BEGIN
     END
     TEXT_SPRINT res "splesear"
     INNER_ACTION BEGIN
-        //power 5 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 5 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -231,7 +231,7 @@ BEGIN
                 match_savingthrow = (1 << 1) | (1 << 24)
             END
             //Alter damage opcode.
-            READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+            LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
             FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
                 LPF ALTER_SPELL_EFFECT INT_VAR
                     header = i

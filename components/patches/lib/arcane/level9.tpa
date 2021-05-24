@@ -40,9 +40,9 @@ DEFINE_PATCH_FUNCTION WIZARD_GATE
 BEGIN
     TEXT_SPRINT res "spgate"
     INNER_ACTION BEGIN
-        //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0            
+            //power 6 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END

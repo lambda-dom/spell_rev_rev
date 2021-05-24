@@ -7,7 +7,7 @@ INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
 //Command.
 DEFINE_PATCH_FUNCTION CLERIC_COMMAND
 BEGIN
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     //Change save type of first 275 opcode = third opcode.
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
@@ -123,13 +123,14 @@ BEGIN
         COPY_EXISTING ~dvsuns3.eff~ ~override/dvsuns5.eff~
     END
     //Loop for altering.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
+        dicenumber = i + 1
         //Alter damage opcode.
         LPF ALTER_SPELL_EFFECT INT_VAR
             header = i
             match_opcode = 12                   //Damage.
-            dicenumber = i + 1
+            dicenumber = dicenumber
             savingthrow = 2                     //Save vs. breath.
             special = 256                       //Save for half.
         END
@@ -143,9 +144,9 @@ BEGIN
         INNER_ACTION BEGIN
             //Alter EFF's.
             COPY_EXISTING ~dvsuns%i%.eff~ ~override~
-                WRITE_LONG $EFFECT_OFFSETS("dicenumber") (i + 1)
-                WRITE_LONG $EFFECT_OFFSETS("savingthrow") 2
-                WRITE_LONG $EFFECT_OFFSETS("special") 256
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "dicenumber" value = "%dicenumber%" END
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "savingthrow" value = "2" END
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "special" value = "256" END
             BUT_ONLY
         END
     END

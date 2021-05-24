@@ -118,7 +118,7 @@ BEGIN
     END
     //Reinstate acid immunity.
     LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_MELF_ACID_ARROW" RET res = spell_res END
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1; i <= headers_count; ++i) BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
             header = i
@@ -164,7 +164,7 @@ BEGIN
         //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 6 -> 0.
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END

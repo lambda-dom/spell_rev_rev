@@ -85,9 +85,9 @@ DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_7
 BEGIN
     TEXT_SPRINT res "otyughsu"
     INNER_ACTION BEGIN
-        //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0            
+            //power 6 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -97,9 +97,9 @@ DEFINE_PATCH_FUNCTION WIZARD_SUMMON_DEATH_KNIGHT
 BEGIN
     TEXT_SPRINT res "spcaco"
     INNER_ACTION BEGIN
-        //power 7 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 7 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -207,7 +207,7 @@ BEGIN
         match_savingthrow = (1 << 1) | (1 << 24)
     END
     //Alter damage opcode.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
             header = i
@@ -238,9 +238,9 @@ DEFINE_PATCH_FUNCTION WIZARD_MORDENKAINENS_SWORD
 BEGIN
     TEXT_SPRINT res "spmorsw"
     INNER_ACTION BEGIN
-        //power 7 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 7 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -250,9 +250,9 @@ DEFINE_PATCH_FUNCTION WIZARD_SUMMON_EFREET
 BEGIN
     TEXT_SPRINT res "dvefreet"
     INNER_ACTION BEGIN
-        //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 6 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -262,9 +262,9 @@ DEFINE_PATCH_FUNCTION WIZARD_SUMMON_DJINNI
 BEGIN
     TEXT_SPRINT res "dvdjinni"
     INNER_ACTION BEGIN
-        //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 6 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -274,9 +274,9 @@ DEFINE_PATCH_FUNCTION WIZARD_LIMITED_WISH
 BEGIN
     TEXT_SPRINT res "wish"
     INNER_ACTION BEGIN
-        //power 8 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 8 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END

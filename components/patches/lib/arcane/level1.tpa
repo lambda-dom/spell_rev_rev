@@ -74,7 +74,7 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 6 -> 0.
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -194,7 +194,7 @@ BEGIN
         parameter2 = 14
     END
     //Add missing display string opcodes.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 2; i < headers_count; ++i) BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
             opcode = 139                    //Display string.
@@ -239,7 +239,7 @@ BEGIN
     //Delete all spell headers but first.
     //DELETE_SPELL_HEADER is currently bugged so we roll out our own deletion loop.
     DEFINE_ASSOCIATIVE_ARRAY indices BEGIN END
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     //Gather spell header indices to delete.
     FOR (i = headers_count - 1; i >= 0; --i) BEGIN
         LPF GET_SPELL_HEADER_OFFSET INT_VAR header = i RET header_offset = offset END

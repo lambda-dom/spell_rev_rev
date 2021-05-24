@@ -25,7 +25,7 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 8 -> 0.
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -44,7 +44,7 @@ BEGIN
         resource = ~%res%~
     END
     //Add missing spell protections in headers other than the first.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 2 ; i <= headers_count ; ++i) BEGIN
         //wish slow, spin983 slow and web
         PATCH_FOR_EACH res IN ~spwi215~ ~spin983~ ~spwish25~ BEGIN
@@ -87,7 +87,7 @@ END
 //Level 4.
 DEFINE_PATCH_FUNCTION CLERIC_NEUTRALIZE_POISON
 BEGIN
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
             opcode = 267                    //Disable display string.
@@ -135,7 +135,7 @@ BEGIN
     PATCH_FOR_EACH res IN ~hamasu~ ~dvnymph~ BEGIN
         INNER_ACTION BEGIN
             COPY_EXISTING ~%res%.eff~ ~override~
-                WRITE_SHORT $EFFECT_OFFSETS("power") 0
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
             BUT_ONLY
         END
     END

@@ -11,7 +11,7 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 8 -> 0.
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -26,7 +26,7 @@ BEGIN
         match_savingthrow = (1 << 1) | (1 << 24)
     END
     //Alter damage opcode.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
             header = i
@@ -182,19 +182,19 @@ BEGIN
         insert_point = 48
     END
     //Add missing protection against strings.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
-    FOR (j = 1 ; j <= headers_count ; ++j) BEGIN
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
+    FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         //Held * 3, Charmed, Dire Charmed, Rigid Thinking, Feebleminded, Sleep, Stunned.
         PATCH_FOR_EACH sref IN ~340~ ~1473~ ~14102~ ~14672~ ~14780~ ~14791~ ~23744~ ~12047~ ~1280~ BEGIN
             LPF ADD_SPELL_EFFECT INT_VAR
+                header = i
                 opcode = 267                //Disable display string.
                 target = 2
                 timing = 0
                 parameter1 = sref
                 power = 5
                 resist_dispel = 3
-                duration = (8 + j) * 60
-                header = j
+                duration = (8 + i) * 60
                 insert_point = 26
             END
         END

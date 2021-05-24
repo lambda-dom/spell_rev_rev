@@ -69,7 +69,7 @@ END
 //Emotion: Despair.
 DEFINE_PATCH_FUNCTION WIZARD_EMOTION_HOPELESSNESS
 BEGIN
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1; i <= headers_count; ++i) BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
             header = i
@@ -161,7 +161,7 @@ BEGIN
         //Find sectype id.
         LAF FIND_FIRST_ROW STR_VAR file = "msectype" key = "k1insect" RET sectype = index END
     END
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1; i <= headers_count; ++i) BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
             opcode = 205                    //Protection from sectype.
@@ -212,9 +212,9 @@ DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_4
 BEGIN
     TEXT_SPRINT res "spidgisu"
     INNER_ACTION BEGIN
-        //power 8 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0            
+            //power 8 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END

@@ -10,7 +10,7 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 6 -> 0.
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -22,7 +22,7 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 8 -> 0.
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -37,9 +37,9 @@ DEFINE_PATCH_FUNCTION CLERIC_CONJURE_FIRE_ELEMENTAL
 BEGIN
     PATCH_FOR_EACH res IN "spfir1" "spfir2" BEGIN
         INNER_ACTION BEGIN
-            //power 6 -> 0.
             COPY_EXISTING ~%res%.eff~ ~override~
-                WRITE_LONG $EFFECT_OFFSETS("power") 0            
+                //power 6 -> 0.
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END            
             BUT_ONLY
         END
     END
@@ -165,9 +165,9 @@ DEFINE_PATCH_FUNCTION CLERIC_CONJURE_AIR_ELEMENTAL
 BEGIN
     PATCH_FOR_EACH res IN "spair1" "spair2" BEGIN
         INNER_ACTION BEGIN
-            //power 6 -> 0.
             COPY_EXISTING ~%res%.eff~ ~override~
-                WRITE_LONG $EFFECT_OFFSETS("power") 0            
+                //power 6 -> 0.
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END            
             BUT_ONLY
         END
     END
@@ -178,9 +178,9 @@ DEFINE_PATCH_FUNCTION CLERIC_CONJURE_EARTH_ELEMENTAL
 BEGIN
     PATCH_FOR_EACH res IN "speart1" "speart2" BEGIN
         INNER_ACTION BEGIN
-            //power 6 -> 0.
             COPY_EXISTING ~%res%.eff~ ~override~
-                WRITE_LONG $EFFECT_OFFSETS("power") 0            
+                //power 6 -> 0.
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END            
             BUT_ONLY
         END
     END

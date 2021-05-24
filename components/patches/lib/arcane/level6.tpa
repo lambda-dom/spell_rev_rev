@@ -9,9 +9,9 @@ DEFINE_PATCH_FUNCTION WIZARD_INVISIBLE_STALKER
 BEGIN
     TEXT_SPRINT res "spstalk"
     INNER_ACTION BEGIN
-        //Power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //Power 6 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -158,9 +158,9 @@ DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_6
 BEGIN
     TEXT_SPRINT res "wyvbabsu"
     INNER_ACTION BEGIN
-        //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0            
+            //power 6 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -206,7 +206,7 @@ BEGIN
                 match_savingthrow = 2
             END
             //Alter damage opcode.
-            READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+            LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
             FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
                 LPF ALTER_SPELL_EFFECT INT_VAR
                     header = i
@@ -229,7 +229,7 @@ BEGIN
                 match_savingthrow = (1 << 1) | (1 << 24)
             END
             //Alter damage opcode.
-            READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+            LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
             FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
                 LPF ALTER_SPELL_EFFECT INT_VAR
                     header = i
@@ -264,9 +264,9 @@ BEGIN
     END
     PATCH_FOR_EACH res IN "spfir1" "spfir2" BEGIN
         INNER_ACTION BEGIN
-            //power 6 -> 0.
             COPY_EXISTING ~%res%.eff~ ~override~
-                WRITE_LONG $EFFECT_OFFSETS("power") 0            
+                //power 6 -> 0.
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
             BUT_ONLY
         END
     END
@@ -284,9 +284,9 @@ BEGIN
     END
     PATCH_FOR_EACH res IN "spair1" "spair2" BEGIN
         INNER_ACTION BEGIN
-            //power 6 -> 0.
             COPY_EXISTING ~%res%.eff~ ~override~
-                WRITE_LONG $EFFECT_OFFSETS("power") 0            
+                //power 6 -> 0.
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
             BUT_ONLY
         END
     END
@@ -304,9 +304,9 @@ BEGIN
     END
     PATCH_FOR_EACH res IN "speart1" "speart2" BEGIN
         INNER_ACTION BEGIN
-            //power 6 -> 0.
             COPY_EXISTING ~%res%.eff~ ~override~
-                WRITE_LONG $EFFECT_OFFSETS("power") 0            
+                //power 6 -> 0.
+                LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
             BUT_ONLY
         END
     END
@@ -322,9 +322,9 @@ BEGIN
     END
     TEXT_SPRINT res "spandl15"
     INNER_ACTION BEGIN
-        //power 3 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0            
+            //power 3 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -334,9 +334,9 @@ DEFINE_PATCH_FUNCTION WIZARD_SUMMON_NISHRUU
 BEGIN
     TEXT_SPRINT res "spnish"
     INNER_ACTION BEGIN
-        //power 8 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0            
+            //power 8 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END

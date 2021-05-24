@@ -205,7 +205,7 @@ BEGIN
         match_savingthrow = (1 << 1) | (1 << 24)
     END
     //Alter damage opcode.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
             header = i
@@ -233,7 +233,7 @@ BEGIN
         resist_dispel = 0
     END
     //Add missing display string.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1; i <= headers_count; ++i) BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
             header = i
@@ -281,7 +281,7 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 8 -> 0.
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END

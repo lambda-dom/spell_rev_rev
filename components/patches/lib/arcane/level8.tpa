@@ -12,7 +12,7 @@ BEGIN
         match_opcode = 174                  //Play sound.
         power = 8
     END
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
             opcode = 267                    //Prevent display string.
@@ -53,7 +53,7 @@ END
 //Mind Blank.
 DEFINE_PATCH_FUNCTION WIZARD_MIND_BLANK
 BEGIN
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         PATCH_FOR_EACH opcode IN ~2~ ~4~ BEGIN
             LPF ADD_SPELL_EFFECT INT_VAR
@@ -121,9 +121,9 @@ DEFINE_PATCH_FUNCTION WIZARD_MONSTER_SUMMONING_LEVEL_8
 BEGIN
     TEXT_SPRINT res "umbhulsu"
     INNER_ACTION BEGIN
-        //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 6 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -133,9 +133,9 @@ DEFINE_PATCH_FUNCTION WIZARD_SUMMON_FIEND
 BEGIN
     TEXT_SPRINT res "spfiend"
     INNER_ACTION BEGIN
-        //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            //power 6 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -238,7 +238,7 @@ BEGIN
         match_savingthrow = (1 << 2) | (1 << 24)
     END
     //Alter damage opcode.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
             header = i

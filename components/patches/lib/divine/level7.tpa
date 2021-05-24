@@ -11,7 +11,7 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 8 -> 0.
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
@@ -21,9 +21,9 @@ DEFINE_PATCH_FUNCTION CLERIC_SUMMON_DEATH_KNIGHT
 BEGIN
     TEXT_SPRINT res "spcaco"
     INNER_ACTION BEGIN
-        //power 7 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFFECT_OFFSETS("power") 0            
+            //power 7 -> 0.
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END            
         BUT_ONLY
     END
 END
@@ -57,7 +57,7 @@ BEGIN
         match_savingthrow = (1 << 1) | (1 << 24)
     END
     //Alter damage opcode.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ALTER_SPELL_EFFECT INT_VAR
             header = i
@@ -116,7 +116,7 @@ BEGIN
                 match_savingthrow = (1 << 1) | (1 << 24)
             END
             //Alter damage opcodes.
-            READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+            LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
             FOR (i = 1; i <= headers_count; ++i) BEGIN
                 LPF ALTER_SPELL_EFFECT INT_VAR
                     header = i
@@ -215,7 +215,7 @@ BEGIN
         match_resource = "sppowwrd"
     END
     //Stun.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (i = 1 ; i <= headers_count ; ++i) BEGIN
         LPF ADD_SPELL_EFFECT INT_VAR
             opcode = 142                    //Display Icon.
@@ -277,7 +277,7 @@ BEGIN
         match_resource = "sppowwrd"
     END
     //Fix max level of display confused icon and cast spell opcodes.
-    READ_SHORT $SPELL_OFFSETS("headers_count") headers_count
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
     FOR (j = 0 ; j < headers_count ; ++j) BEGIN
         LPF ALTER_EFFECT INT_VAR
             header = j
@@ -315,7 +315,7 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 8 -> 0.
-            WRITE_LONG $EFFECT_OFFSETS("power") 0
+            LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
     END
 END
