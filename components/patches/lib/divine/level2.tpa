@@ -281,7 +281,7 @@ BEGIN
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 8 -> 0.
-            WRITE_LONG $EFF_OFFSETS("power") 0
+            WRITE_LONG $EFFECT_OFFSETS("power") 0
         BUT_ONLY
     END
 END

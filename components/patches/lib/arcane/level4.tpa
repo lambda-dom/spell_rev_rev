@@ -116,7 +116,7 @@ BEGIN
                 parameter1 = 6              //0 -> 6.
             END
         COPY_EXISTING ~spwi413d.eff~ ~override/%res%b.eff~
-            WRITE_ASCII $EFF_OFFSETS("resource") "%res%b" #8
+            WRITE_ASCII $EFFECT_OFFSETS("resource") "%res%b" #8
         //Enemy aux spell -> just use friendly version with right resist_dispel.
         COPY_EXISTING ~%res%b.spl~ ~override/%res%a.spl~
             //Fix resist_dispel.
@@ -133,7 +133,7 @@ BEGIN
                 insert_point = 72
             END
         COPY_EXISTING ~spwi413c.eff~ ~override/%res%a.eff~
-            WRITE_ASCII $EFF_OFFSETS("resource") "%res%a" #8
+            WRITE_ASCII $EFFECT_OFFSETS("resource") "%res%a" #8
     END
     //Patch new resources.
     PATCH_FOR_EACH id IN ~255~ ~128~ ~28~ BEGIN
@@ -214,7 +214,7 @@ BEGIN
     INNER_ACTION BEGIN
         //power 8 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0            
+            WRITE_LONG $EFFECT_OFFSETS("power") 0            
         BUT_ONLY
     END
 END

@@ -143,9 +143,9 @@ BEGIN
         INNER_ACTION BEGIN
             //Alter EFF's.
             COPY_EXISTING ~dvsuns%i%.eff~ ~override~
-                WRITE_LONG $EFF_OFFSETS("dicenumber") (i + 1)
-                WRITE_LONG $EFF_OFFSETS("savingthrow") 2
-                WRITE_LONG $EFF_OFFSETS("special") 256
+                WRITE_LONG $EFFECT_OFFSETS("dicenumber") (i + 1)
+                WRITE_LONG $EFFECT_OFFSETS("savingthrow") 2
+                WRITE_LONG $EFFECT_OFFSETS("special") 256
             BUT_ONLY
         END
     END

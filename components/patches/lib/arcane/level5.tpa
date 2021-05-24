@@ -11,7 +11,7 @@ BEGIN
     PATCH_FOR_EACH res IN ~shadowsu~ ~dvwraith~ BEGIN
         INNER_ACTION BEGIN
             COPY_EXISTING ~%res%.eff~ ~override~
-                WRITE_LONG $EFF_OFFSETS("power") 0
+                WRITE_LONG $EFFECT_OFFSETS("power") 0
             BUT_ONLY
         END
     END
@@ -48,7 +48,7 @@ BEGIN
     INNER_ACTION BEGIN
         //power 6 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0
+            WRITE_LONG $EFFECT_OFFSETS("power") 0
         BUT_ONLY
     END
 END
@@ -151,7 +151,7 @@ BEGIN
     INNER_ACTION BEGIN
         //power 5 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0
+            WRITE_LONG $EFFECT_OFFSETS("power") 0
         BUT_ONLY
     END
 END
@@ -180,7 +180,7 @@ BEGIN
     INNER_ACTION BEGIN
         //power 5 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0
+            WRITE_LONG $EFFECT_OFFSETS("power") 0
         BUT_ONLY
     END
 END
@@ -199,7 +199,7 @@ BEGIN
     INNER_ACTION BEGIN
         //power 5 -> 0.
         COPY_EXISTING ~%res%.eff~ ~override~
-            WRITE_LONG $EFF_OFFSETS("power") 0
+            WRITE_LONG $EFFECT_OFFSETS("power") 0
         BUT_ONLY
     END
 END
