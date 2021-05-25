@@ -1,1 +1,34 @@
 //Description strings.
+//Wizard armor spells.
+@1000 = ~Mage Armor
+Level: 1
+School: Conjuration
+Range: Personal
+Duration: 8 hours
+Casting Time: 1 round
+Area of Effect: Caster
+Saving Throw: None
+
+By means of this spell, the wizard creates a magical field of force that sets its base armor class to 6. This improves by 1 AC for every four levels of the caster after the first level, up to a minimum base armor class of 4 at level 9. This spell will not work concurrently with any other form of magical armor, but it is cumulative with dexterity and other AC bonuses. This armor does not hinder movement, adds no weight or encumbrance, nor does it prevent spellcasting. It lasts until successfully dispelled or until the duration runs out.~
+
+@1001 = ~Ghost Armor
+Level: 3
+School: Illusion
+Range: Touch
+Duration: 10 turns
+Casting Time: 3
+Area of Effect: 1 creature
+Saving Throw: None
+
+When this spell is cast, the wizard creates an insubstantial but quasi-real suit of armor. This semi-illusory material covers the subject and actually gives some real protection provided that opponents don't actively disbelieve in the armor, a dispel magic or a detect illusion spell is cast upon it. Until dispelled or disbelieved, the armor sets the recipient's base armor class to 2. This spell will not work concurrently with any other form of magical armor, but it is cumulative with dexterity bonuses and, in the case of fighter/mages and with the shield bonus. The ghost armor does not hinder movement, adds no weight or encumbrance, nor does it prevent spellcasting. A favourite among mage/thieves, the ghostly nimbus of light which surrounds the recipient grants +20% bonus to Hide in Shadows.~
+
+@1002 = ~Spirit Armor
+Level: 4
+School: Necromancy
+Range: Touch
+Duration: 10 turns
+Casting Time: 4
+Area of Effect: 1 creature
+Saving Throw: None
+
+This spell taps the target's life force in order to create a corporeal barrier around his body. The armor itself is weightless, and does not hinder movement or spellcasting in any way. This spell will not work concurrently with any other form of magical armor, but it will stack with bonuses from dexterity, shields and magical trinkets. While in effect, the armor class of the recipient will be set to 1, and saving throws vs. death will be made with a +3 bonus. There is a danger in using this spell, however, as the external portion of the target's spirit is temporarily lost when the spell duration expires. This causes the recipient to suffer 2d4 points of damage, unless he succeeds at a saving throw vs. spell.~

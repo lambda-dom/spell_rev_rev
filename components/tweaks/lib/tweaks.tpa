@@ -44,3 +44,90 @@ BEGIN
         END
     END
 END
+
+DEFINE_PATCH_FUNCTION WIZARD_ARMOR_SPELLS
+BEGIN
+    //Armor.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_ARMOR" RET res = spell_res END
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
+            //Drop last level.
+            LPF REMOVE_SPELL_HEADER INT_VAR header = (headers_count - 1) END
+            //Re-level.
+            LPF WRITE_SPELL_HEADER_FIELD INT_VAR header = 1 STR_VAR field = "min_level" value = "5" END
+            LPF WRITE_SPELL_HEADER_FIELD INT_VAR header = 2 STR_VAR field = "min_level" value = "9" END
+            //Patch in non-stackage with other armor spells.
+            FOR (i = 1; i <= headers_count; ++i) BEGIN
+                PATCH_FOR_EACH spell IN "WIZARD_GHOST_ARMOR" "WIZARD_SPIRIT_ARMOR" BEGIN
+                    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell%~ RET res_aux = spell_res END
+                    LPF ADD_SPELL_EFFECT INT_VAR
+                        header = i
+                        opcode = 206        //Protection from spell.
+                        target = 1
+                        power = 1
+                        resist_dispel = 3
+                        duration = 2400
+                        insert_point = 0 - 1
+                    STR_VAR
+                        resource = ~%res_aux%~
+                    END
+                END
+            END
+            //Patch description.
+            LPF SET_DESCRIPTION INT_VAR traref = 1000 END
+        BUT_ONLY
+    END
+    //Ghost Armor.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_GHOST_ARMOR" RET res = spell_res END
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
+            FOR (i = 1; i <= headers_count; ++i) BEGIN
+                //Patch in non-stackage with other armor spells.
+                PATCH_FOR_EACH spell IN "WIZARD_ARMOR" "WIZARD_SPIRIT_ARMOR" BEGIN
+                    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell%~ RET res_aux = spell_res END
+                    LPF ADD_SPELL_EFFECT INT_VAR
+                        header = i
+                        opcode = 206        //Protection from spell.
+                        target = 1
+                        power = 3
+                        resist_dispel = 3
+                        duration = 600
+                        insert_point = 0 - 1
+                    STR_VAR
+                        resource = ~%res_aux%~
+                    END
+                END
+            END
+            //Patch description.
+            LPF SET_DESCRIPTION INT_VAR traref = 1001 END
+        BUT_ONLY
+    END
+    //Spirit Armor.
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_SPIRIT_ARMOR" RET res = spell_res END
+    INNER_ACTION BEGIN
+        COPY_EXISTING ~%res%.spl~ ~override~
+            //Patch in non-stackage with other armor spells.
+            LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
+            FOR (i = 1; i <= headers_count; ++i) BEGIN
+                PATCH_FOR_EACH spell IN "WIZARD_ARMOR" "WIZARD_GHOST_ARMOR" BEGIN
+                    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell%~ RET res_aux = spell_res END
+                    LPF ADD_SPELL_EFFECT INT_VAR
+                        header = i
+                        opcode = 206        //Protection from spell.
+                        target = 1
+                        power = 4
+                        resist_dispel = 3
+                        duration = 600
+                        insert_point = 0 - 1
+                    STR_VAR
+                        resource = ~%res_aux%~
+                    END
+                END
+            END
+            //Patch description.
+            LPF SET_DESCRIPTION INT_VAR traref = 1002 END
+        BUT_ONLY
+    END
+END
