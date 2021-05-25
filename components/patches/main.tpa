@@ -21,8 +21,7 @@ COPY - ~%MOD_FOLDER%/components/%COMPONENT%/resources/2da/patches.2da~ ~override
                 COPY_EXISTING ~%res%.spl~ ~override~
                     //Set description if any.
                     PATCH_IF NOT (descr = 0) BEGIN
-                        ref = RESOLVE_STR_REF ((AT descr))
-                        WRITE_LONG $SPELL_OFFSETS("descr") ref
+                        LPF SET_DESCRIPTION INT_VAR traref = descr END
                     END
                     //Call patch function.
                     LPF ~%spell%~ END
