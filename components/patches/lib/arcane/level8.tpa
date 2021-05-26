@@ -197,10 +197,10 @@ BEGIN
     TEXT_SPRINT res_aux "gr#icl01"
     INNER_ACTION BEGIN
         LAF COPY_SPELL INT_VAR
-            spell_name = 10002
+            name = 10002
         STR_VAR
             res = "fire_damage"
-            name = ~%res_aux%~
+            res_name = ~%res_aux%~
             patch = "WIZARD_INCENDIARY_CLOUD_AUX"
         END
     END

@@ -89,10 +89,10 @@ BEGIN
     TEXT_SPRINT res_aux "gr#fla01"
     INNER_ACTION BEGIN
         LAF COPY_SPELL INT_VAR
-            spell_name = 10003
+            name = 10003
         STR_VAR
             res = "fire_damage"
-            name = ~%res_aux%~
+            res_name = ~%res_aux%~
             patch = "WIZARD_FLAME_ARROW_AUX"
         END
     END
@@ -300,10 +300,10 @@ BEGIN
     TEXT_SPRINT res_aux "gr#vmt01"
     INNER_ACTION BEGIN
         LAF COPY_SPELL INT_VAR
-            spell_name = 10001
+            name = 10001
         STR_VAR
             res = "vampiric_touch"
-            name = ~%res_aux%~
+            res_name = ~%res_aux%~
             patch = "WIZARD_VAMPIRIC_TOUCH_AUX"
         END
     END

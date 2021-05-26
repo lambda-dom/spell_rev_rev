@@ -272,10 +272,10 @@ BEGIN
     TEXT_SPRINT res_aux "gr#lmd01"
     INNER_ACTION BEGIN
         LAF COPY_SPELL INT_VAR
-            spell_name = 10000
+            name = 10000
         STR_VAR
             res = "larloch_minor_drain"
-            name = ~%res_aux%~
+            res_name = ~%res_aux%~
             patch = "WIZARD_LARLOCH_MINOR_DRAIN_AUX"
         END
     END
