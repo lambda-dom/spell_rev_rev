@@ -2,6 +2,7 @@
 //Libraries.
 INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/items/main.tpa~
 
 //Arcane spell patches: level 1.
 //Grease.
@@ -68,7 +69,7 @@ BEGIN
     INNER_ACTION BEGIN
         //Patch scroll icons.
         COPY_EXISTING ~scrl71.itm~ ~override~
-            LPF WRITE_ITEM_FIELD STR_VAR field = "inventory_icon" value = "dvwi106b" END
+            LPF WRITE_ITEM_FIELD STR_VAR field = "inventory_icon" value = "dvwi106a" END
             LPF ALTER_ITEM_HEADER STR_VAR
                 icon = "dvwi106b"
             END
@@ -87,9 +88,9 @@ BEGIN
         BUT_ONLY
         //Patch scroll icons.
         COPY_EXISTING ~scrl72.itm~ ~override~
-            LPF WRITE_ITEM_FIELD STR_VAR field = "inventory_icon" value = "dvwi427b" END
+            LPF WRITE_ITEM_FIELD STR_VAR field = "inventory_icon" value = "dvwi107a" END
             LPF ALTER_ITEM_HEADER STR_VAR
-                icon = "dvwi427b"
+                icon = "dvwi107a"
             END
         BUT_ONLY
     END

@@ -4,7 +4,6 @@ General points:
 
 1. In summoning spells, the Use Eff has the required duration but the eff itself is usually something like 2400 and may even have timing = 1. This is harmless, but synch up the durations?
 2. Off by one probability errors are everywhere. The engine rolls a number in the interval 0-99 so that 100 is 99 and a range like 0-30 means 31% chance not 30%.
-3. Have to patch scrolls as well.
 
 ## Arcane spells.
 

@@ -1,6 +1,6 @@
 //Includes.
 //Libraries.
-INCLUDE "%LIBRARY_DIR%/arrays/main.tpa"
+INCLUDE "%LIBRARY_DIR%/installers/components/spells/main.tpa"
 
 //Patches.
 INCLUDE ~%MOD_FOLDER%/components/%COMPONENT%/lib/patches.tpa~
@@ -21,7 +21,7 @@ COPY - ~%MOD_FOLDER%/components/%COMPONENT%/resources/2da/patches.2da~ ~override
                 COPY_EXISTING ~%res%.spl~ ~override~
                     //Set description if any.
                     PATCH_IF NOT (descr = 0) BEGIN
-                        LPF SET_DESCRIPTION INT_VAR traref = descr END
+                        LPF PATCH_SET_DESCRIPTION INT_VAR ref = descr END
                     END
                     //Call patch function.
                     LPF ~%spell%~ END

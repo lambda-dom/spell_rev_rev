@@ -1,6 +1,7 @@
 //Includes.
 //Libraries.
 INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/installers/components/spells/main.tpa~
 
 //Patch functions.
 DEFINE_PATCH_FUNCTION STANDARDIZE_SUMMON_DURATION
@@ -20,7 +21,7 @@ BEGIN
                 INNER_PATCH_SAVE changes ~%descr%~ BEGIN
                     REPLACE_TEXTUALLY "^Duration: [1-9][0-9]* \(turn\|round\)\(s\)?" "Duration: 5 turns"
                 END
-                LPF SET_DESCRIPTION STR_VAR descr = ~%changes%~ END
+                LPF PATCH_SET_DESCRIPTION STR_VAR descr = ~%changes%~ END
             BUT_ONLY
         END
     END
@@ -39,7 +40,7 @@ BEGIN
                 INNER_PATCH_SAVE changes ~%descr%~ BEGIN
                     REPLACE_TEXTUALLY "^Duration: [1-9][0-9]* \(turn\|round\)\(s\)?" "Duration: 5 turns"
                 END
-                LPF SET_DESCRIPTION STR_VAR descr = ~%changes%~ END
+                LPF PATCH_SET_DESCRIPTION STR_VAR descr = ~%changes%~ END
             BUT_ONLY
         END
     END
@@ -75,7 +76,7 @@ BEGIN
                 END
             END
             //Patch description.
-            LPF SET_DESCRIPTION INT_VAR traref = 1000 END
+            LPF PATCH_SET_DESCRIPTION INT_VAR ref = 1000 END
         BUT_ONLY
     END
     //Ghost Armor.
@@ -101,7 +102,7 @@ BEGIN
                 END
             END
             //Patch description.
-            LPF SET_DESCRIPTION INT_VAR traref = 1001 END
+            LPF PATCH_SET_DESCRIPTION INT_VAR ref = 1001 END
         BUT_ONLY
     END
     //Spirit Armor.
@@ -127,7 +128,7 @@ BEGIN
                 END
             END
             //Patch description.
-            LPF SET_DESCRIPTION INT_VAR traref = 1002 END
+            LPF PATCH_SET_DESCRIPTION INT_VAR ref = 1002 END
         BUT_ONLY
     END
 END

@@ -2,6 +2,7 @@
 //Libraries.
 INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
 INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
+INCLUDE ~%LIBRARY_DIR%/items/main.tpa~
 INCLUDE ~%LIBRARY_DIR%/tables/main.tpa~
 
 //Arcane spell patches: level 4.
@@ -260,9 +261,9 @@ BEGIN
     INNER_ACTION BEGIN
         //Patch scroll icons.
         COPY_EXISTING ~scrl6y.itm~ ~override~
-            LPF WRITE_ITEM_FIELD STR_VAR field = "inventory_icon" value = "dvwi106b" END
+            LPF WRITE_ITEM_FIELD STR_VAR field = "inventory_icon" value = "dvwi427a" END
             LPF ALTER_ITEM_HEADER STR_VAR
-                icon = "dvwi106b"
+                icon = "dvwi427b"
             END
         BUT_ONLY
     END

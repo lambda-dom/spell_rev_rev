@@ -38,6 +38,9 @@ This classification is not a hard and fast rule, it is just meant as a guide. Pa
 
 ## B. 2. Arcane spells.
 
+note(s):
+* scroll descriptions patched via STRING_SET.
+
 ### Level 1.
 
 1. [Harmless] Grease: delete spurious 324 opcode.
@@ -198,6 +201,9 @@ note(s):
 11. [Minor] Bigby's Crushing Hand: add display stun icon opcode to aux spell.
 
 ## B. 3. Divine spells.
+
+note(s):
+* scroll descriptions patched via STRING_SET.
 
 ### Level 1.
 

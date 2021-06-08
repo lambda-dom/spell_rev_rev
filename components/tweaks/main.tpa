@@ -1,7 +1,5 @@
 //Includes.
 //Libraries.
-INCLUDE "%LIBRARY_DIR%/arrays/main.tpa"
-
 //Patches.
 INCLUDE ~%MOD_FOLDER%/components/%COMPONENT%/lib/tweaks.tpa~
 
