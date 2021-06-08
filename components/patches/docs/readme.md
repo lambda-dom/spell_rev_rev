@@ -42,8 +42,8 @@ This classification is not a hard and fast rule, it is just meant as a guide. Pa
 
 1. [Harmless] Grease: delete spurious 324 opcode.
 2. [Minor, Implementation] Charm Person: add Display String 1476 = Charmed. Simplify implementation of racial immunities.
-3. [Minor] Obscuring Mist: same fixes as Cleric's version.
-4. [Harmless] Monster Summoning I: corrected power 6 -> 0 of summoning effect.
+3. [Minor] Obscuring Mist: same fixes as Cleric's version. Corresponding scroll has incorrect inventory and header icons.
+4. [Minor] Monster Summoning I: corrected power 6 -> 0 of summoning effect. Corresponding scroll has incorrect inventory and header icons.
 5. [Minor] Protection from Petrification: display string "Gaze Reflection" -> "Protection from Petrification".
 6. [Major] Expeditious Retreat: resist_dispel is all over the place. Standardized -> 3.
 7. [Harmless] True Strike: opcodes' target preset (2) -> self (1). Spurious 321 and 206 opcodes removed.
@@ -109,7 +109,7 @@ note(s):
 10. [Severe] Protection from Elemental Energy: not working, as not referencing the correct 2da resource. The subspells Protection from Electricity and Acid have wrong descriptions and spell level.
 11. [Harmless] Monster Summoning IV: summoning eff power 8 -> 0.
 12. [Minor] Farsight: clairvoyance opcode power 3 -> 4. Clairvoyance and farsight opcodes resist/dispel -> 2.
-13. [Implementation] Vitriolic Sphere: use EE damage opcode features.
+13. [Implementation] Vitriolic Sphere: use EE damage opcode features. Corresponding scroll has incorrect inventory and header icons.
 
 ### Level 5.
 

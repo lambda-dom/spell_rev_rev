@@ -65,6 +65,15 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         resist_dispel = 2
     END
+    INNER_ACTION BEGIN
+        //Patch scroll icons.
+        COPY_EXISTING ~scrl71.itm~ ~override~
+            LPF WRITE_ITEM_FIELD STR_VAR field = "inventory_icon" value = "dvwi106b" END
+            LPF ALTER_ITEM_HEADER STR_VAR
+                icon = "dvwi106b"
+            END
+        BUT_ONLY
+    END
 END
 
 //Monster Summoning I.
@@ -75,6 +84,13 @@ BEGIN
         COPY_EXISTING ~%res%.eff~ ~override~
             //power 6 -> 0.
             LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
+        BUT_ONLY
+        //Patch scroll icons.
+        COPY_EXISTING ~scrl72.itm~ ~override~
+            LPF WRITE_ITEM_FIELD STR_VAR field = "inventory_icon" value = "dvwi427b" END
+            LPF ALTER_ITEM_HEADER STR_VAR
+                icon = "dvwi427b"
+            END
         BUT_ONLY
     END
 END

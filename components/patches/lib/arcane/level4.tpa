@@ -257,6 +257,15 @@ BEGIN
         savingthrow = (1 << 1) | (1 << 24)
         special = 256                       //Save for half.
     END
+    INNER_ACTION BEGIN
+        //Patch scroll icons.
+        COPY_EXISTING ~scrl6y.itm~ ~override~
+            LPF WRITE_ITEM_FIELD STR_VAR field = "inventory_icon" value = "dvwi106b" END
+            LPF ALTER_ITEM_HEADER STR_VAR
+                icon = "dvwi106b"
+            END
+        BUT_ONLY
+    END
 END
 
 //Protection from Electricity.
