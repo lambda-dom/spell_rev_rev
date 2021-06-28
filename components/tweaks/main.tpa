@@ -1,11 +1,11 @@
 //Includes.
 //Libraries.
+
 //Patches.
 INCLUDE ~%MOD_FOLDER%/components/%COMPONENT%/lib/tweaks.tpa~
 
-
 //Read table of spells to patch.
-COPY - ~%MOD_FOLDER%/components/%COMPONENT%/resources/2da/tweaks.2da~ ~override~
+COPY - ~%MOD_FOLDER%/components/%COMPONENT%/resources/2da/tweaks.2da~ ~override/gr#temp-no-copy.2da~
     READ_2DA_ENTRIES_NOW rows 2
     FOR (i = 0; i < rows; ++i) BEGIN
         //Collect data.

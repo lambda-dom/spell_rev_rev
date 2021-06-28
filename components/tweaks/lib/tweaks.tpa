@@ -132,3 +132,19 @@ BEGIN
         BUT_ONLY
     END
 END
+
+DEFINE_PATCH_FUNCTION NON_COMBAT_TRIGGERS_CONTINGENCIES
+BEGIN
+    PATCH_FOR_EACH spell IN "WIZARD_MINOR_SEQUENCER" "WIZARD_SPELL_SEQUENCER" "WIZARD_SPELL_TRIGGER" "WIZARD_CONTINGENCY" "WIZARD_CHAIN_CONTINGENCY" BEGIN
+        //Get resource name.
+        LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell%~ RET res = spell_res END
+        INNER_ACTION BEGIN
+            //Copy resource spell.
+            COPY_EXISTING ~%res%.spl~ ~override~
+                //Toggle ignore wild-magic and non-combat flags by bitwise OR-ing.
+                WRITE_BYTE ($SPELL_OFFSETS("flags") + 1) (THIS | 0b11000000)
+                WRITE_BYTE ($SPELL_OFFSETS("flags") + 2) (THIS | 0b00000001)
+            BUT_ONLY
+        END
+    END
+END
