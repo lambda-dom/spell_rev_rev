@@ -14,7 +14,7 @@ ALWAYS
 END
 
 //Languages
-LANGUAGE ~English~ ~english~ ~%MOD_FOLDER%/languages/english/setup.tra~
+LANGUAGE ~English~ ~english~ ~spell_rev_rev/languages/english/setup.tra~
 
 //Components.
 BEGIN @0 DESIGNATED 0
