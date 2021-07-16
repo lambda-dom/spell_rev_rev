@@ -1,8 +1,3 @@
-//Includes.
-//Libraries.
-INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
-INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
-
 //Arcane spell patches: level 2.
 //Blur.
 DEFINE_PATCH_FUNCTION WIZARD_BLUR
@@ -135,24 +130,14 @@ END
 //Mirror Image.
 DEFINE_PATCH_FUNCTION WIZARD_MIRROR_IMAGE
 BEGIN
-    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_MIRROR_IMAGE" RET res_new = spell_res END
-    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_REFLECTED_IMAGE" RET res_old = spell_res END
-    LPF ALTER_EFFECT INT_VAR
-        match_opcode = 321                  //Remove effect by resource.
-    STR_VAR
-        match_resource = ~%res_old%~
-        resource = ~%res_new%~
-    END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_MIRROR_IMAGE" RET res = spell_res END
     LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 206                        //Protection from spell.
+        opcode = 321                        //Remove effect by resource.
         target = 1
-        power = 2
-        resist_dispel = 3
         timing = 0
-        duration = 300
-        insert_point = 0 - 1
+        insert_point = 0
     STR_VAR
-        resource = ~%res_old%~
+        resource = ~%res%~
     END
 END
 
@@ -226,10 +211,6 @@ END
 //Sound Burst.
 DEFINE_PATCH_FUNCTION WIZARD_SOUND_BURST
 BEGIN
-    LPF ALTER_SPELL_EFFECT INT_VAR
-        match_opcode = 146                  //Cast spell.
-        parameter2 = 0                      //Cast normally at caster level.
-    END
     TEXT_SPRINT res "spwi223d"
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.spl~ ~override~
