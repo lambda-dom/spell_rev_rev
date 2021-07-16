@@ -1,0 +1,282 @@
+//Constants.
+//Spell size.
+OUTER_SET SPELL_SIZE = 0x72
+
+//Spell header size.
+OUTER_SET SPELL_HEADER_SIZE = 0x28
+
+
+//Arrays.
+//Spell offsets.
+LAF BUILD_ARRAY_FROM_2DA
+STR_VAR
+    dir = "%MOD_FOLDER%/lib/components/spells/resources/2da"
+    file = "offsets"
+RET_ARRAY
+    SPELL_OFFSETS = array
+END
+
+//Spell header offsets.
+LAF BUILD_ARRAY_FROM_2DA
+STR_VAR
+    dir = "%MOD_FOLDER%/lib/components/spells/resources/2da"
+    file = "header_offsets"
+RET_ARRAY
+    SPELL_HEADER_OFFSETS = array
+END
+
+
+//Spell functions.
+//Action functions.
+DEFINE_ACTION_FUNCTION COPY_SPELL INT_VAR
+    override = 0
+    name = 0
+    descr = 0
+STR_VAR
+    res = ""
+    res_name = "*"
+    dir = "*"
+    patch = "*"
+BEGIN
+    //Standardize res_name.
+    ACTION_IF (~%res_name%~ STRING_EQUAL "*") THEN BEGIN
+        OUTER_TEXT_SPRINT res_name ~%res%~
+    END
+    //Sanity check.
+    ACTION_IF ((override = 0) AND (FILE_EXISTS_IN_GAME "%res_name%.spl")) THEN BEGIN
+        WARN "File %res_name%.spl not copied; already exists."
+    END ELSE BEGIN
+        //Standardize dir.
+        ACTION_IF (~%dir%~ STRING_EQUAL "*") THEN BEGIN
+            OUTER_TEXT_SPRINT dir ~%MOD_FOLDER%/components/%COMPONENT%/resources/spl~
+        END
+        //Copy spell.
+        COPY ~%dir%/%res%.spl~ ~override/%res_name%.spl~
+            //Patch name and descr if any.
+            PATCH_IF NOT (name = 0) BEGIN
+                WRITE_LONG $SPELL_OFFSETS("name") (RESOLVE_STR_REF ((AT name)))
+            END
+            PATCH_IF NOT (descr = 0) BEGIN
+                WRITE_LONG $SPELL_OFFSETS("descr") (RESOLVE_STR_REF ((AT descr)))
+            END
+            //Call patch function if any.
+            PATCH_IF NOT (~%patch%~ STRING_EQUAL "*") BEGIN
+                LPF ~%patch%~ END
+            END
+    END
+END
+
+//Basic functions.
+DEFINE_PATCH_FUNCTION GET_SPELL_HEADER_COUNT RET count
+BEGIN
+    READ_SHORT $SPELL_OFFSETS("headers_count") count
+END
+
+DEFINE_PATCH_FUNCTION GET_SPELL_HEADERS_OFFSET RET offset
+BEGIN
+    READ_LONG $SPELL_OFFSETS("headers_offset") offset
+END
+
+DEFINE_PATCH_FUNCTION GET_SPELL_OPCODES_OFFSET RET offset
+BEGIN
+    READ_LONG $SPELL_OFFSETS("opcodes_offset") offset
+END
+
+DEFINE_PATCH_FUNCTION GET_CASTING_OPCODE_COUNT RET count
+BEGIN
+    READ_SHORT $SPELL_OFFSETS("casting_opcodes_count") count
+END
+
+//Description functions.
+DEFINE_PATCH_FUNCTION PATCH_SET_DESCRIPTION INT_VAR ref = 0 STR_VAR descr = ""
+BEGIN
+    //Read old description reference.
+    READ_LONG $SPELL_OFFSETS("descr") old_descr
+    //Patch in new description.
+    PATCH_IF NOT (ref = 0) BEGIN
+        INNER_ACTION BEGIN
+            STRING_SET_EVALUATE old_descr (AT ref)
+        END
+    END ELSE BEGIN
+        INNER_ACTION BEGIN
+            STRING_SET_EVALUATE old_descr ~%descr%~
+        END
+    END
+END
+
+//Read functions.
+DEFINE_PATCH_FUNCTION GET_SPELL_HEADER_OFFSET INT_VAR header = 0 RET offset
+BEGIN
+    offset = 0 - 1
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
+    LPF GET_SPELL_HEADERS_OFFSET RET headers_offset = offset END
+    PATCH_IF (0 <= header ) AND (header < headers_count) BEGIN
+        offset = headers_offset + (header * SPELL_HEADER_SIZE)
+    END
+END
+
+DEFINE_PATCH_FUNCTION READ_SPELL_FIELD STR_VAR field = "" RET value
+BEGIN
+    field_offset = $SPELL_OFFSETS(~%field%~)
+    //Match on field to decide which read function to use.
+    PATCH_MATCH ~%field%~ WITH
+        "name" "descr" "flags" "exclusion" "level" BEGIN
+            READ_LONG field_offset value
+        END
+        "type" "animation" BEGIN
+            READ_SHORT field_offset value
+        END
+        "school" "sectype" BEGIN
+            READ_BYTE field_offset value
+        END
+        "sound" "icon" BEGIN
+            READ_ASCII field_offset value (8) NULL
+        END
+        DEFAULT
+            PATCH_FAIL "Field '%field%' is not a valid spell field."
+    END
+END
+
+DEFINE_PATCH_FUNCTION WRITE_SPELL_FIELD STR_VAR field = "" value = ""
+BEGIN
+    field_offset = $SPELL_OFFSETS(~%field%~)
+    //Match on field to decide which read function to use.
+    PATCH_MATCH ~%field%~ WITH
+        "name" "descr" "flags" "exclusion" "level" BEGIN
+            WRITE_LONG field_offset value
+        END
+        "type" "animation" BEGIN
+            WRITE_SHORT field_offset value
+        END
+        "school" "sectype" BEGIN
+            WRITE_BYTE field_offset value
+        END
+        "sound" "icon" BEGIN
+            WRITE_EVALUATED_ASCII field_offset ~%value%~ #8
+        END
+        DEFAULT
+            PATCH_FAIL "Field '%field%' is not a valid spell field."
+    END
+END
+
+//Spell header functions.
+DEFINE_PATCH_FUNCTION READ_SPELL_HEADER_FIELD INT_VAR header = 0 STR_VAR field = "" RET value
+BEGIN
+    //Sanity checks.
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
+    PATCH_IF NOT ((0 <= header) AND (header < headers_count)) BEGIN
+        PATCH_FAIL "Header %header% out of bounds."
+    END
+    //Get header and field offsets.
+    LPF GET_SPELL_HEADER_OFFSET INT_VAR header = header RET header_offset = offset END
+    field_offset = $SPELL_HEADER_OFFSETS(~%field%~)
+    //Match on field to select read function to use.
+    PATCH_MATCH ~%field%~ WITH
+        "type" "flags" "target" BEGIN
+            READ_BYTE (header_offset + field_offset) value
+        END
+        "location" "range" "min_level" "speed" "projectile" BEGIN
+            READ_SHORT (header_offset + field_offset) value
+        END
+        "icon" BEGIN
+            READ_ASCII (header_offset + field_offset) value (8) NULL
+        END
+        DEFAULT
+            PATCH_FAIL "Field '%field%' not a valid spell header field."
+    END
+END
+
+DEFINE_PATCH_FUNCTION WRITE_SPELL_HEADER_FIELD INT_VAR header = 0 STR_VAR field = "" value = ""
+BEGIN
+    //Sanity checks.
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
+    PATCH_IF NOT ((0 <= header) AND (header < headers_count)) BEGIN
+        PATCH_FAIL "Header %header% out of bounds."
+    END
+    //Get header and field offsets.
+    LPF GET_SPELL_HEADER_OFFSET INT_VAR header = header RET header_offset = offset END
+    field_offset = $SPELL_HEADER_OFFSETS(~%field%~)
+    //Match on field to select write function to use.
+    PATCH_MATCH ~%field%~ WITH
+        "type" "flags" "target" BEGIN
+            WRITE_BYTE (header_offset + field_offset) value
+        END
+        "location" "range" "min_level" "speed" "projectile" BEGIN
+            WRITE_SHORT (header_offset + field_offset) value
+        END
+        "icon" BEGIN
+            WRITE_EVALUATED_ASCII (header_offset + field_offset) ~%value%~ #8
+        END
+        DEFAULT
+            PATCH_FAIL "Field '%field%' not a valid spell header field."
+    END
+END
+
+DEFINE_PATCH_FUNCTION REMOVE_SPELL_HEADER INT_VAR header = 0
+BEGIN
+    LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
+    PATCH_IF (0 <= header) AND (header < headers_count) BEGIN
+        LPF GET_SPELL_HEADER_OPCODE_COUNT INT_VAR header = header RET op_count = count END
+        //Delete block of opcodes.
+        LPF DELETE_SPELL_OPCODE_RANGE INT_VAR header = header start = 0 end = op_count END
+        //Delete header.
+        LPF GET_SPELL_HEADER_OFFSET INT_VAR header = header RET header_offset = offset END
+        DELETE_BYTES header_offset SPELL_HEADER_SIZE
+        //Adjust header count and opcode block offset.
+        WRITE_SHORT $SPELL_OFFSETS("headers_count") (THIS - 1)
+        WRITE_LONG $SPELL_OFFSETS("opcodes_offset") (THIS - SPELL_HEADER_SIZE)
+    END ELSE BEGIN
+        PATCH_FAIL "Header %header% out of bounds."
+    END
+END
+
+//Header opcode functions.
+DEFINE_PATCH_FUNCTION GET_SPELL_HEADER_OPCODE_COUNT INT_VAR header = 0 RET count
+BEGIN
+    count = 0 - 1
+    LPF GET_SPELL_HEADER_OFFSET INT_VAR header = header RET header_offset = offset END
+    PATCH_IF NOT (header_offset = 0 - 1) BEGIN
+        READ_SHORT (header_offset + $SPELL_HEADER_OFFSETS("opcode_count")) count
+    END
+END
+
+DEFINE_PATCH_FUNCTION GET_SPELL_OPCODE_OFFSET INT_VAR header = 0 index = 0 RET offset
+BEGIN
+    offset = 0 - 1
+    LPF GET_SPELL_HEADER_OFFSET INT_VAR header = header RET header_offset = offset END
+    PATCH_IF NOT (header_offset = 0 - 1) BEGIN
+        LPF GET_SPELL_HEADER_OPCODE_COUNT INT_VAR header = header RET op_count = count END
+        PATCH_IF (0 <= index) AND (index < op_count) BEGIN
+            LPF GET_SPELL_OPCODES_OFFSET RET op_start = offset END
+            READ_SHORT (header_offset + $SPELL_HEADER_OFFSETS("opcode_index")) op_index
+            offset = op_start + (op_index + index) * OPCODE_SIZE
+        END
+    END
+END
+
+DEFINE_PATCH_FUNCTION DELETE_SPELL_OPCODE_RANGE INT_VAR header = 0 start = 0 end = 1
+BEGIN
+    //Get deletion point.
+    LPF GET_SPELL_OPCODE_OFFSET INT_VAR header = header index = start RET op_offset = offset END
+    PATCH_IF NOT (op_offset = 0 - 1) BEGIN
+        nbr = end - start
+        LPF GET_SPELL_HEADER_OPCODE_COUNT INT_VAR header = header RET op_count = count END
+        PATCH_IF (nbr > 0) AND (end <= op_count) BEGIN
+            //Delete opcodes.
+            DELETE_BYTES op_offset (nbr * OPCODE_SIZE)
+            //Adjust header count.
+            LPF GET_SPELL_HEADER_OFFSET INT_VAR header = header RET header_offset = offset END
+            WRITE_SHORT (header_offset + $SPELL_HEADER_OFFSETS("opcode_count")) (THIS - nbr)
+            //Adjust header opcode indices.
+            LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
+            FOR (i = header + 1; i < headers_count; ++i) BEGIN
+                LPF GET_SPELL_HEADER_OFFSET INT_VAR header = i RET i_offset = offset END
+                WRITE_SHORT (i_offset + $SPELL_HEADER_OFFSETS("opcode_index")) (THIS - nbr)
+            END
+        END ELSE BEGIN
+            PATCH_FAIL "Range %start%:%end% out of bounds."
+        END
+    END ELSE BEGIN
+        PATCH_FAIL "Opcode index %start% out of bounds."
+    END
+END

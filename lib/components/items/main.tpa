@@ -1,0 +1,138 @@
+//Constants.
+//Item size.
+OUTER_SET ITEM_SIZE = 0x72
+
+//Item header size.
+OUTER_SET ITEM_HEADER_SIZE = 0x38
+
+
+//Arrays.
+//Item offsets.
+LAF BUILD_ARRAY_FROM_2DA
+STR_VAR
+    dir = "%MOD_FOLDER%/lib/components/items/resources/2da"
+    file = "offsets"
+RET_ARRAY
+    ITEM_OFFSETS = array
+END
+
+//Item header offsets.
+LAF BUILD_ARRAY_FROM_2DA
+STR_VAR
+    dir = "%MOD_FOLDER%/lib/components/items/resources/2da"
+    file = "header_offsets"
+RET_ARRAY
+    ITEM_HEADER_OFFSETS = array
+END
+
+
+//Patch functions.
+//Basic read functions.
+DEFINE_PATCH_FUNCTION GET_ITEM_HEADER_COUNT RET count
+BEGIN
+    READ_SHORT $ITEM_OFFSETS("headers_count") count
+END
+
+DEFINE_PATCH_FUNCTION GET_ITEM_HEADERS_OFFSET RET offset
+BEGIN
+    READ_LONG $ITEM_OFFSETS("headers_offset") offset
+END
+
+DEFINE_PATCH_FUNCTION GET_ITEM_OPCODES_OFFSET RET offset
+BEGIN
+    READ_LONG $ITEM_OFFSETS("opcodes_offset") offset
+END
+
+DEFINE_PATCH_FUNCTION GET_EQUIPPED_OPCODE_COUNT RET count
+BEGIN
+    READ_SHORT $ITEM_OFFSETS("equipped_opcodes_count") count
+END
+
+DEFINE_PATCH_FUNCTION GET_ITEM_HEADER_OFFSET INT_VAR header = 0 RET offset
+BEGIN
+    offset = 0 - 1
+    LPF GET_ITEM_HEADER_COUNT RET headers_count = count END
+    LPF GET_ITEM_HEADERS_OFFSET RET headers_offset = offset END
+    PATCH_IF (0 <= header ) AND (header < headers_count) BEGIN
+        offset = headers_offset + (header * ITEM_HEADER_SIZE)
+    END
+END
+
+//Generic read/write functions.
+DEFINE_PATCH_FUNCTION READ_ITEM_FIELD STR_VAR field = "" RET value
+BEGIN
+    field_offset = $ITEM_OFFSETS(~%field%~)
+    //Match on field to decide which read function to use.
+    PATCH_MATCH ~%field%~ WITH
+        "id_name" "name" "id_descr" "descr" "usability" "price" "weight" "enchantment" BEGIN
+            READ_LONG field_offset value
+        END
+        "strength_bonus"
+        "intelligence"
+        "constitution"
+        "dexterity"
+        "wisdom"
+        "kit_usability1"
+        "kit_usability2"
+        "kit_usability3"
+        "kit_usability4"
+        "proficiency" BEGIN
+            READ_BYTE field_offset value
+        END
+        "type"
+        "level"
+        "strength"
+        "charisma"
+        "stack"
+        "lore" BEGIN
+            READ_SHORT field_offset value
+        END
+        "animation" BEGIN
+            READ_ASCII field_offset value (2) NULL
+        END
+        "replacement" "inventory_icon" "ground_icon" "description_icon" BEGIN
+            READ_ASCII field_offset value (8) NULL
+        END
+        DEFAULT
+            PATCH_FAIL "Field '%field%' is not a valid item field."
+    END
+END
+
+DEFINE_PATCH_FUNCTION WRITE_ITEM_FIELD STR_VAR field = "" RET value
+BEGIN
+    field_offset = $ITEM_OFFSETS(~%field%~)
+    //Match on field to decide which write function to use.
+    PATCH_MATCH ~%field%~ WITH
+        "id_name" "name" "id_descr" "descr" "usability" "price" "weight" "enchantment" BEGIN
+            WRITE_LONG field_offset value
+        END
+        "strength_bonus"
+        "intelligence"
+        "constitution"
+        "dexterity"
+        "wisdom"
+        "kit_usability1"
+        "kit_usability2"
+        "kit_usability3"
+        "kit_usability4"
+        "proficiency" BEGIN
+            WRITE_BYTE field_offset value
+        END
+        "type"
+        "level"
+        "strength"
+        "charisma"
+        "stack"
+        "lore" BEGIN
+            WRITE_SHORT field_offset value
+        END
+        "animation" BEGIN
+            WRITE_EVALUATED_ASCII field_offset ~%value%~ (2)
+        END
+        "replacement" "inventory_icon" "ground_icon" "description_icon" BEGIN
+            WRITE_EVALUATED_ASCII field_offset ~%value%~ (8)
+        END
+        DEFAULT
+            PATCH_FAIL "Field '%field%' is not a valid item field."
+    END
+END

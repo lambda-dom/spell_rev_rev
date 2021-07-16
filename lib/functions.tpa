@@ -1,0 +1,7 @@
+//Includes.
+//Libraries.
+INCLUDE ~%MOD_FOLDER%/lib/components/tables/main.tpa~
+INCLUDE ~%MOD_FOLDER%/lib/components/opcodes/main.tpa~
+INCLUDE ~%MOD_FOLDER%/lib/components/effects/main.tpa~
+INCLUDE ~%MOD_FOLDER%/lib/components/spells/main.tpa~
+INCLUDE ~%MOD_FOLDER%/lib/components/items/main.tpa~

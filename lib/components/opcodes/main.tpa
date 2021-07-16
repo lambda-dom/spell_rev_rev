@@ -1,0 +1,14 @@
+//Constants.
+//Opcode size.
+OUTER_SET OPCODE_SIZE = 0x30
+
+
+//Arrays.
+//Opcode offsets.
+LAF BUILD_ARRAY_FROM_2DA
+STR_VAR
+    dir = "%MOD_FOLDER%/lib/components/spells/resources/2da"
+    file = "offsets"
+RET_ARRAY
+    OPCODE_OFFSETS = array
+END

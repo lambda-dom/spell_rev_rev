@@ -1,8 +1,3 @@
-//Includes.
-//Libraries.
-INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
-INCLUDE ~%LIBRARY_DIR%/installers/components/spells/main.tpa~
-
 //Patch functions.
 DEFINE_PATCH_FUNCTION STANDARDIZE_SUMMON_DURATION
 BEGIN

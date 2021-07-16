@@ -1,0 +1,82 @@
+//Builder functions.
+//Patch functions.
+DEFINE_PATCH_FUNCTION BUILD_ARRAY
+    INT_VAR col = 1
+    RET_ARRAY array
+BEGIN
+    //Initialize array.
+    DEFINE_ASSOCIATIVE_ARRAY array BEGIN END
+    COUNT_2DA_COLS count
+    //Sanity check.
+    PATCH_IF (1 <= col) AND (col < count) BEGIN
+        READ_2DA_ENTRIES_NOW rows count
+        FOR (i = 0 ; i < rows ; ++ i) BEGIN
+            READ_2DA_ENTRY_FORMER rows i 0 key
+            READ_2DA_ENTRY_FORMER rows i %col% value
+            TEXT_SPRINT $array(~%key%~) ~%value%~
+        END
+    END ELSE BEGIN
+        PATCH_FAIL "Column count %col% out of bounds."
+    END
+END
+
+//Action functions.
+DEFINE_ACTION_FUNCTION BUILD_ARRAY_FROM_2DA
+    INT_VAR col = 1
+    STR_VAR file = "" dir = "*"
+    RET_ARRAY array
+BEGIN
+    //Copy file.
+    ACTION_IF ("%dir%" STRING_EQUAL_CASE "*") BEGIN
+        ACTION_IF (FILE_EXISTS_IN_GAME "%file%.2da") BEGIN
+            COPY_EXISTING - ~%file%.2da~ ~override~
+                LPF BUILD_ARRAY INT_VAR col = col RET_ARRAY array = array END
+            BUT_ONLY
+        END ELSE BEGIN
+            FAIL "File %file%.2da does not exist in the game files."
+        END
+    END ELSE BEGIN
+        ACTION_IF (FILE_EXISTS "%dir%/%file%.2da") BEGIN
+            COPY - ~%dir%/%file%.2da~ ~override~
+                LPF BUILD_ARRAY INT_VAR col = col RET_ARRAY array = array END
+            BUT_ONLY
+        END ELSE BEGIN
+            FAIL "File %dir%/%file%.2da does not exist."
+        END
+    END
+END
+
+DEFINE_ACTION_FUNCTION FIND_FIRST_ROW INT_VAR col = 0 STR_VAR file = "" key = "" dir = "*" RET index
+BEGIN
+    ACTION_IF (~%dir%~ STRING_EQUAL "*") THEN BEGIN
+        COPY_EXISTING - ~%file%.2da~ ~override~
+            LPF FIND_FIRST_ROW INT_VAR col = col STR_VAR key = ~%key%~ RET index = index END
+    END
+    ELSE BEGIN
+        COPY - ~%dir%/%file%.2da~ ~override~
+            LPF FIND_FIRST_ROW INT_VAR col = col STR_VAR key = ~%key%~ RET index = index END
+    END
+END
+
+//Patch functions.
+DEFINE_PATCH_FUNCTION FIND_FIRST_ROW INT_VAR col = 0 STR_VAR key = "" RET index
+BEGIN
+    //Initialize variables.
+    COUNT_2DA_COLS cols
+    READ_2DA_ENTRIES_NOW rows cols
+    index = 0 - 1
+    FOR (i = 0; (i < rows) AND (index < 0); ++i) BEGIN
+        READ_2DA_ENTRY_FORMER rows i col value
+        PATCH_IF ~%key%~ STRING_EQUAL_CASE ~%value%~ BEGIN
+            //Set index and bail out.
+            index = i
+        END
+    END
+    //Correct for case where 2da has 2 columns.
+    PATCH_IF (cols = 2) AND (NOT (index = 0 - 1 )) BEGIN
+        READ_2DA_ENTRY_FORMER rows 0 0 value
+        PATCH_IF ~%value%~ STRING_EQUAL_CASE "2DA" BEGIN
+            index = index - 1
+        END
+    END
+END

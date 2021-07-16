@@ -1,8 +1,3 @@
-//Includes.
-//Libraries.
-INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
-INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
-
 //Arcane spell patches: level 6.
 //Invisible stalker.
 DEFINE_PATCH_FUNCTION WIZARD_INVISIBLE_STALKER

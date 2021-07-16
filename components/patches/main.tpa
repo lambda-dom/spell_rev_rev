@@ -1,30 +1,32 @@
-//Includes.
-//Libraries.
-INCLUDE "%LIBRARY_DIR%/installers/components/spells/main.tpa"
+//Module level constants.
+OUTER_TEXT_SPRINT COMPONENT "patches"
 
+//Includes.
 //Patches.
 INCLUDE ~%MOD_FOLDER%/components/%COMPONENT%/lib/patches.tpa~
 
-
-//Read table of spells to patch.
-COPY - ~%MOD_FOLDER%/components/%COMPONENT%/resources/2da/patches.2da~ ~override~
-    READ_2DA_ENTRIES_NOW rows 3
-    FOR (i = 0; i < rows; ++i) BEGIN
-        //Collect data.
-        READ_2DA_ENTRY_FORMER rows i 0 spell
-        READ_2DA_ENTRY_FORMER rows i 1 patch
-        READ_2DA_ENTRY_FORMER rows i 2 descr
-        PATCH_IF NOT (~%patch%~ = 0) BEGIN
-            //Fetch and copy resource.
-            LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell%~ RET res = spell_res END
-            INNER_ACTION BEGIN
-                COPY_EXISTING ~%res%.spl~ ~override~
-                    //Set description if any.
-                    PATCH_IF NOT (descr = 0) BEGIN
-                        LPF PATCH_SET_DESCRIPTION INT_VAR ref = descr END
-                    END
-                    //Call patch function.
-                    LPF ~%spell%~ END
+//Read tra file.
+WITH_TRA ~%MOD_FOLDER%/languages/%LANGUAGE%/components/%COMPONENT%/setup.tra~ BEGIN
+    //Read table of spells to patch.
+    COPY - ~%MOD_FOLDER%/components/%COMPONENT%/resources/2da/patches.2da~ ~override~
+        READ_2DA_ENTRIES_NOW rows 3
+        FOR (i = 0; i < rows; ++i) BEGIN
+            //Collect data.
+            READ_2DA_ENTRY_FORMER rows i 0 spell
+            READ_2DA_ENTRY_FORMER rows i 1 patch
+            READ_2DA_ENTRY_FORMER rows i 2 descr
+            PATCH_IF NOT (patch = 0) BEGIN
+                //Fetch and copy resource.
+                LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = ~%spell%~ RET res = spell_res END
+                INNER_ACTION BEGIN
+                    COPY_EXISTING ~%res%.spl~ ~override~
+                        //Set description if any.
+                        PATCH_IF NOT (descr = 0) BEGIN
+                            LPF PATCH_SET_DESCRIPTION INT_VAR ref = descr END
+                        END
+                        //Call patch function.
+                        LPF ~%spell%~ END
+                END
             END
         END
-    END
+END

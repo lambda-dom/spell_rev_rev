@@ -1,0 +1,16 @@
+name                    0x08
+sound                   0x10
+flags                   0x18
+type                    0x1c
+exclusion               0x1e
+animation               0x22
+school                  0x25
+sectype                 0x27
+level                   0x34
+icon                    0x3a
+descr                   0x50
+headers_offset          0x64
+headers_count           0x68
+opcodes_offset          0x6a
+casting_opcodes_index   0x6e
+casting_opcodes_count   0x70

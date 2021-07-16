@@ -1,6 +1,7 @@
-//Includes.
-//Libraries.
+//Module level constants.
+OUTER_TEXT_SPRINT COMPONENT "tweaks"
 
+//Includes.
 //Patches.
 INCLUDE ~%MOD_FOLDER%/components/%COMPONENT%/lib/tweaks.tpa~
 
@@ -11,7 +12,7 @@ COPY - ~%MOD_FOLDER%/components/%COMPONENT%/resources/2da/tweaks.2da~ ~override/
         //Collect data.
         READ_2DA_ENTRY_FORMER rows i 0 tweak
         READ_2DA_ENTRY_FORMER rows i 1 patch
-        PATCH_IF NOT (~%patch%~ = 0) BEGIN
+        PATCH_IF NOT (patch = 0) BEGIN
             TO_UPPER tweak
             //Call tweak function.
             LPF ~%tweak%~ END

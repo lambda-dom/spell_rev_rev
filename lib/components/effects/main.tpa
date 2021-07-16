@@ -1,0 +1,91 @@
+//Constants.
+//Effect size: 272 bytes.
+OUTER_SET EFFECT_SIZE = 0x110
+
+
+//Effect offsets.
+LAF BUILD_ARRAY_FROM_2DA
+STR_VAR
+    dir = "%MOD_FOLDER%/lib/components/effects/resources/2da"
+    file = "offsets"
+RET_ARRAY
+    EFFECT_OFFSETS = array
+END
+
+
+//Patch functions.
+DEFINE_PATCH_FUNCTION READ_EFFECT_FIELD STR_VAR field = "" RET value 
+BEGIN
+    field_offset = $EFFECT_OFFSETS(~%field%~)
+    //Match on field to decide which read function to use.
+    PATCH_MATCH ~%field%~ WITH
+        "opcode"
+        "target"
+        "power"
+        "parameter1"
+        "parameter2"
+        "duration"
+        "dicenumber"
+        "dicesize"
+        "savingthrow"
+        "savebonus"
+        "special"
+        "school"
+        "min_level"
+        "max_level"
+        "resist_dispel"
+        "parameter3"
+        "parameter4"
+        "projectile"
+        "sectype" BEGIN
+            READ_LONG field_offset value
+        END
+        "timing" "probability1" "probability2" BEGIN
+            READ_SHORT field_offset value
+        END
+        //Order is important: resource will shadow resource2 and resource3.
+        "resource2" "resource3" "resource" BEGIN
+            READ_ASCII field_offset value (8) NULL
+        END
+        DEFAULT
+            PATCH_FAIL "Field '%field%' is not a valid effect field."
+    END
+END
+
+DEFINE_PATCH_FUNCTION WRITE_EFFECT_FIELD STR_VAR field = "" value = ""
+BEGIN
+    field_offset = $EFFECT_OFFSETS(~%field%~)
+    //Match on field to decide which write function to use.
+    PATCH_MATCH ~%field%~ WITH
+        "opcode"
+        "target"
+        "power"
+        "parameter1"
+        "parameter2"
+        "duration"
+        "dicenumber"
+        "dicesize"
+        "savingthrow"
+        "savebonus"
+        "special"
+        "school"
+        "min_level"
+        "max_level"
+        "resist_dispel"
+        "parameter3"
+        "parameter4"
+        "projectile"
+        "sectype" BEGIN
+            WRITE_LONG field_offset value
+        END
+        "timing" "probability1" "probability2" BEGIN
+            WRITE_SHORT field_offset value
+        END
+        //Order is important: resource will shadow resource2 and resource3.
+        "resource2" "resource3" "resource" BEGIN
+            WRITE_EVALUATED_ASCII field_offset ~%value%~ #8
+        END
+        DEFAULT
+            PATCH_FAIL "Field '%field%' is not a valid effect field."
+    END
+END
