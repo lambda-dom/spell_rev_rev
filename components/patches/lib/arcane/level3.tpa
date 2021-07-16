@@ -198,8 +198,19 @@ DEFINE_PATCH_FUNCTION WIZARD_SLOW
 BEGIN
     LPF ALTER_EFFECT INT_VAR
         match_opcode = 221                  //Remove Spell Type Protections.
-        match_savebonus = 0 - 2                   
+        match_savebonus = 0
+        resist_dispel = 1
+    END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 221                  //Remove Spell Type Protections.
+        match_savebonus = 0 - 2
+        timing = 1
         savebonus = 0
+        duration = 0
+    END
+    LPF ALTER_EFFECT INT_VAR
+        match_opcode = 240                  //Remove portrait opcode.
+        probability1 = 100
     END
     LPF ALTER_EFFECT INT_VAR
         match_opcode = 174                  //Play Sound.

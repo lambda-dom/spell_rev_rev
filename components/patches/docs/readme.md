@@ -70,7 +70,7 @@ note(s):
 6. [Major] Luck: detect illusion resist_dispel 0 -> 3.
 7. [Harmless] Resist Fear: reset morale duration 40 -> 0. Removed protection from mummydsp, a non-existent spell.
 8. [Major] Melf's Acid Arrow: moved 324 opcode after missile damage so as not to block it by acid immunity.
-9. [Implementation] Mirror Image: change non-stacking to EE refreshing and added protection against Reflected Image.
+9. [Implementation] Mirror Image: change non-stacking to EE refreshing.
 10. [Harmless] Monster Summoning II: corrected power of summoning effect.
 11. [Harmless] Ghoul Touch: create item opcode amount 0 -> 1.
 12. [Harmless] Vocalize: play visual effect opcode power 1 -> 3.
@@ -90,7 +90,7 @@ note(s):
 6. [Implementation] Lightning Bolt: use EE damage opcode features.
 7. [Harmless] Monster Summoning III: summoning eff power 6 -> 0.
 8. [Harmless] Non-detection: protection from spell opcodes power 0 -> 3.
-9. [Major] Slow: The second Remove Spell Type Protections has a save bonus. The first play sound opcode has no save and timing mode 0 -> 1.
+9. [Major] Slow: The second Remove Spell Type Protections has a save bonus (harmless) and duration of 60 -> timing instant. The first has resist_dispel = 3 -> 1 for consistency with second opcode. Remove haste icon probability 0 -> 100. The first play sound opcode has no save and timing mode 0 -> 1.
 10. [Implementation] Skull Trap: use EE damage opcode features.
 11. [Major, Implementation] Vampiric Touch: same fixes as Larloch's minor drain.
 12. [Major] Wraitform: resist_dispel -> 3. It also blocks innate abilities, but this is undocumented so it is removed. Display String opcode power 0 -> 3.
