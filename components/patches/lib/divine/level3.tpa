@@ -238,26 +238,30 @@ BEGIN
     TEXT_SPRINT res "sppr319b"
     INNER_ACTION BEGIN
         COPY_EXISTING ~%res%.spl~ ~override~
+            LPF ALTER_SPELL_EFFECT INT_VAR
+                match_opcode = 215          //Play visual effect.
+                duration = 6
+            END
             //Delete damage opcode with a save.
             LPF DELETE_EFFECT INT_VAR
-                match_opcode = 12                   //Damage.
+                match_opcode = 12           //Damage.
                 //Save vs. breath + bypass MI.
                 match_savingthrow = (1 << 1) | (1 << 24)
             END
             //Alter damage opcode.
             LPF ALTER_SPELL_EFFECT INT_VAR
-                match_opcode = 12               //Damage.
+                match_opcode = 12           //Damage.
                 timing = 4
-                duration = 3                    //Put damage in middle of round.
+                duration = 3                //Put damage in middle of round.
                 dicenumber = 2
                 //Save vs. spell + bypass MI.
                 savingthrow = (1 << 1) | (1 << 24)
-                special = 256                   //Save for half.
+                special = 256               //Save for half.
             END
             //Change opcode -> panic.
             LPF ALTER_EFFECT INT_VAR
-                match_opcode = 247                  //Attack nearest.
-                opcode = 24                         //Panic.
+                match_opcode = 247          //Attack nearest.
+                opcode = 24                 //Panic.
                 parameter2 = 0
                 probability1 = 100
             END

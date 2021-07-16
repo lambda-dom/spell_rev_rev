@@ -209,7 +209,7 @@ note(s):
 
 1. [Minor, Implementation] Command: play sound opcode lacks save vs. spell and respective save penalty. Resist_dispel of first play visual opcode to dispel/bypass mr. Use EE features on sleep opcode.
 2. [Minor] Cure Light Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
-3. [Harmless] Resist Fear: sets protection from non-existent spell "mummydsp".
+3. [Harmless] Resist Fear: remove protection from non-existent spell "mummydsp".
 4. [Major] Entangle: duration of opcodes 8 -> 7 to conform with similar cloud spells. See Kjeron's comments in the thread [SR fixes questions](https://www.gibberlings3.net/forums/topic/30963-sr-fixes-questions).
 5. [Minor] Sanctuary: play sound opcode duration 60 -> 36.
 6. [Harmless] Shilellagh: create item opcode amount 0 -> 1.
@@ -254,7 +254,7 @@ note(s):
 note(s):
 * contrary to the druid version, it does *not* dispel insect swarms. It also has a *documented* penalty of -2 to the saves.
 
-11. [Major, Implementation] Summon Insects: panic on failed save vs. poison is not referred to in the description. Added it to description. Use EE features of damage opcode -- there is a very minor functional change: originally, the damage opcode would hit twice if the critter failed the save and now, with the new implementation, it only hits once (whether the critter fails the save or not). This would mean less chances of disrupting spellcasting but since spellcasting failure is already set at 100%, this is moot. Uses Attack Nearest [247] opcode instead of fear. Most likely a bug, because: (1) probability is 0 (2) The next display opcode explicitly outputs "Panic" and (3) According to IESDP, 247 sets berserk status. Why would insects cause berserk? Changing it to panic.
+11. [Major, Implementation] Summon Insects: panic on failed save vs. poison is not referred to in the description. Added it to description. Use EE features of damage opcode -- there is a very minor functional change: originally, the damage opcode would hit twice if the critter failed the save and now, with the new implementation, it only hits once (whether the critter fails the save or not). This would mean less chances of disrupting spellcasting but since spellcasting failure is already set at 100%, this is moot. Uses Attack Nearest [247] opcode instead of fear. Most likely a bug, because: (1) probability is 0 (2) The next display opcode explicitly outputs "Panic" and (3) According to IESDP, 247 sets berserk status. Why would insects cause berserk? Changing it to panic. Play visual opcode duration 7 -> 6.
 12. [Harmless] Animal Summoning III: summoning eff power 8 -> 0.
 13. [Major] Contagion: aux spell had 5th disease opcode (slow) probability1 0. The opcode is undocumented, so it is deleted. Remove spurious protection from chaotic commands.
 14. [Harmless] Cause Serious Wounds: opcode's power 4 -> 3.
