@@ -1,9 +1,3 @@
-//Includes.
-//Libraries.
-INCLUDE ~%LIBRARY_DIR%/tables/main.tpa~
-INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
-INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
-
 //Arcane spell patches: level 3.
 //Clairvoyance.
 DEFINE_PATCH_FUNCTION WIZARD_CLAIRVOYANCE
@@ -240,7 +234,8 @@ BEGIN
     END
 END
 
-DEFINE_PATCH_FUNCTION WIZARD_VAMPIRIC_TOUCH_AUX
+//Vampiric touch.
+DEFINE_PATCH_FUNCTION GR#VMT01
 BEGIN
     TEXT_SPRINT res_aux "gr#vmt01"
     LPF ADD_SPELL_EFFECT INT_VAR
@@ -248,15 +243,6 @@ BEGIN
         target = 2
         parameter2 = 43                     //Source.
         insert_point = 0
-    STR_VAR
-        resource = ~%res_aux%~
-    END
-    LPF ADD_SPELL_EFFECT INT_VAR
-        opcode = 146                        //Cast spell.
-        target = 2
-        parameter2 = 0                      //At caster level.
-        timing = 1
-        resist_ = 1
     STR_VAR
         resource = ~%res_aux%~
     END
@@ -304,8 +290,19 @@ BEGIN
         STR_VAR
             res = "vampiric_touch"
             res_name = ~%res_aux%~
-            patch = "WIZARD_VAMPIRIC_TOUCH_AUX"
+            patch = "GR#VMT01"
         END
+    END
+    //Patch in resource.
+    LPF ADD_SPELL_EFFECT INT_VAR
+        opcode = 146                        //Cast spell.
+        target = 2
+        parameter2 = 0                      //At caster level.
+        power = 3
+        timing = 1
+        resist_dispel = 1
+    STR_VAR
+        resource = ~%res_aux%~
     END
 END
 
