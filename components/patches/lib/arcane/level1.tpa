@@ -1,9 +1,3 @@
-//Includes.
-//Libraries.
-INCLUDE ~%LIBRARY_DIR%/spells/main.tpa~
-INCLUDE ~%LIBRARY_DIR%/effects/main.tpa~
-INCLUDE ~%LIBRARY_DIR%/items/main.tpa~
-
 //Arcane spell patches: level 1.
 //Grease.
 DEFINE_PATCH_FUNCTION WIZARD_GREASE
@@ -34,7 +28,7 @@ BEGIN
     LPF DELETE_SPELL_EFFECT INT_VAR
         opcode_to_delete = 177              //Use Eff.
     END
-    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "CLERIC_CHARM_PERSON" RET res = spell_res END
+    LPF RES_NUM_OF_SPELL_NAME STR_VAR spell_name = "WIZARD_CHARM_PERSON" RET res = spell_res END
     LPF ADD_SPELL_EFFECT INT_VAR
         opcode = 318                        //Immunity to resource.
         target = 2
@@ -208,7 +202,7 @@ BEGIN
     END
     LPF DELETE_EFFECT INT_VAR
         match_opcode = 142                  //Display portrait.
-        parameter2 = 14
+        match_parameter2 = 14
     END
     //Add missing display string opcodes.
     LPF GET_SPELL_HEADER_COUNT RET headers_count = count END
@@ -238,7 +232,7 @@ BEGIN
 END
 
 //Larloch's Minor Drain.
-DEFINE_PATCH_FUNCTION WIZARD_LARLOCH_MINOR_DRAIN_AUX
+DEFINE_PATCH_FUNCTION GR#LMD01
 BEGIN
     TEXT_SPRINT res_aux "gr#lmd01"
     LPF ADD_SPELL_EFFECT INT_VAR
@@ -293,13 +287,14 @@ BEGIN
         STR_VAR
             res = "larloch_minor_drain"
             res_name = ~%res_aux%~
-            patch = "WIZARD_LARLOCH_MINOR_DRAIN_AUX"
+            patch = "GR#LMD01"
         END
     END
     LPF ADD_SPELL_EFFECT INT_VAR
         opcode = 146                        //Cast spell.
         target = 2
         parameter2 = 0                      //At caster level.
+        power = 1
         timing = 1
         resist_dispel = 1
     STR_VAR
