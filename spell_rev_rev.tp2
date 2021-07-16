@@ -20,8 +20,8 @@ REQUIRE_PREDICATE (GAME_IS "bgee bg2ee eet") @10
 REQUIRE_PREDICATE (MOD_IS_INSTALLED "spell_rev.tp2" 0) @11
 INCLUDE ~%MOD_FOLDER%/components/patches/main.tpa~
 
-//BEGIN @1 DESIGNATED 1
-//LABEL "lambda_dom-spell_rev_rev-tweaks"
-//REQUIRE_PREDICATE (GAME_IS "bgee bg2ee eet") @10
-//REQUIRE_PREDICATE (MOD_IS_INSTALLED "spell_rev_rev.tp2" (ID_OF_LABEL "spell_rev_rev.tp2" "lambda_dom-spell_rev_rev-patches")) @12
-//INCLUDE ~%MOD_FOLDER%/components/tweaks/main.tpa~
+BEGIN @1 DESIGNATED 1
+LABEL "lambda_dom-spell_rev_rev-tweaks"
+REQUIRE_PREDICATE (GAME_IS "bgee bg2ee eet") @10
+REQUIRE_PREDICATE (MOD_IS_INSTALLED "spell_rev_rev.tp2" (ID_OF_LABEL "spell_rev_rev.tp2" "lambda_dom-spell_rev_rev-patches")) @12
+INCLUDE ~%MOD_FOLDER%/components/tweaks/main.tpa~
