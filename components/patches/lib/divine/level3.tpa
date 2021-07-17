@@ -229,6 +229,10 @@ BEGIN
         resist_dispel = 1
         special = 130
     END
+    //Copy fixed bam.
+    INNER_ACTION BEGIN
+        COPY ~%MOD_FOLDER%/components/%COMPONENT%/resources/bam/dvpr318b.bam~ ~override/dvpr318b.bam~
+    END
 END
 
 //Summon Insects.

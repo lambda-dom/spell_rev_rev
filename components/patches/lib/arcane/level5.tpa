@@ -272,3 +272,12 @@ BEGIN
         END
     END
 END
+
+//Waves of fatigue.
+DEFINE_PATCH_FUNCTION WIZARD_WAVES_OF_FATIGUE
+BEGIN
+    INNER_ACTION BEGIN
+        //Fixed bam.
+        COPY ~%MOD_FOLDER%/components/%COMPONENT%/resources/bam/spwi508b.bam~ ~override/spwi508b.bam~
+    END
+END

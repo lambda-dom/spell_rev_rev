@@ -68,6 +68,8 @@ BEGIN
                 icon = "dvwi106b"
             END
         BUT_ONLY
+        //Copy fixed bam.
+        COPY ~%MOD_FOLDER%/components/%COMPONENT%/resources/bam/dvwi106b.bam~ ~override/dvwi106b.bam~
     END
 END
 

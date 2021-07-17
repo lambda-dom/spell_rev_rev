@@ -80,6 +80,8 @@ BEGIN
                 match_parameter1 = 20
             END
         BUT_ONLY
+        //Copy fixed bam.
+        COPY ~%MOD_FOLDER%/components/%COMPONENT%/resources/bam/dvwi605b.bam~ ~override/dvwi605b.bam~
     END
 END
 
@@ -321,6 +323,8 @@ BEGIN
             //power 3 -> 0.
             LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
+        //Fixed bam.
+        COPY ~%MOD_FOLDER%/components/%COMPONENT%/resources/bam/spwi501b.bam~ ~override/spwi501b.bam~
     END
 END
 

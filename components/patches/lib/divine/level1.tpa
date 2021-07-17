@@ -208,4 +208,8 @@ BEGIN
     LPF ALTER_SPELL_EFFECT INT_VAR
         resist_dispel = 2
     END
+    //Copy fixed bam.
+    INNER_ACTION BEGIN
+        COPY ~%MOD_FOLDER%/components/%COMPONENT%/resources/bam/dvpr121b.bam~ ~override/dvpr121b.bam~
+    END
 END

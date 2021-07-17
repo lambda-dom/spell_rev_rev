@@ -153,6 +153,8 @@ BEGIN
                 match_opcode = 177          //Use Eff.
                 match_parameter1 = 20
             END
+        //Copy fixed bam.
+        COPY ~%MOD_FOLDER%/components/%COMPONENT%/resources/bam/dvpr620b.bam~ ~override/dvpr620b.bam~        
     END
 END
 

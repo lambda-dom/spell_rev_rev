@@ -8,6 +8,8 @@ BEGIN
             //power 8 -> 0.
             LPF WRITE_EFFECT_FIELD STR_VAR field = "power" value = "0" END
         BUT_ONLY
+        //Copy fixed bam.
+        COPY ~%MOD_FOLDER%/components/%COMPONENT%/resources/bam/sppr702b.bam~ ~override/sppr702b.bam~        
     END
 END
 

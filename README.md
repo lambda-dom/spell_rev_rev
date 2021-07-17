@@ -44,7 +44,7 @@ The patches component is designed to only patch spells that have entries in the 
 Besides the original spell_rev authors and maintainers, special shout out to:
 
 * ALIENQuake: WeiDU 247 work-around patch.
-* Bartimeus: discussions, ideas, etc.
+* Bartimeus: discussions, ideas, the fixed icons, and many other things that I have already forgotten.
 
 ## F. Tools used.
 

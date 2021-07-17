@@ -45,8 +45,16 @@ note(s):
 
 1. [Harmless] Grease: delete spurious 324 opcode.
 2. [Minor, Implementation] Charm Person: add Display String 1476 = Charmed. Simplify implementation of racial immunities.
-3. [Minor] Obscuring Mist: same fixes as Cleric's version. Corresponding scroll has incorrect inventory and header icons.
+3. [Minor] Obscuring Mist: same fixes as Cleric's version. Corresponding scroll has incorrect inventory and header icons. Fixed bam.
+
+note(s):
+* The scroll icon marked as fixed in [Spell Revisions](https://github.com/Gibberlings3/SpellRevisions).
+
 4. [Minor] Monster Summoning I: corrected power 6 -> 0 of summoning effect. Corresponding scroll has incorrect inventory and header icons.
+
+note(s):
+* The scroll icon marked as fixed in [Spell Revisions](https://github.com/Gibberlings3/SpellRevisions).
+
 5. [Minor] Protection from Petrification: display string "Gaze Reflection" -> "Protection from Petrification".
 6. [Major] Expeditious Retreat: resist_dispel is all over the place. Standardized -> 3.
 7. [Harmless] True Strike: opcodes' target preset (2) -> self (1). Spurious 321 and 206 opcodes removed.
@@ -131,6 +139,7 @@ note(s):
 13. [Harmless] Spell Deflection: repeated 233 opcode.
 14. [Harmless, Implementation] Fire Burst: spurious repetition of protection from immunity. Removed it from main spell. Use EE damage opcode features.
 15. [Major] Mestil's Acid Sheath: same problem as Fire Shield.
+16. [Minor] Waves of Fatigue: fixed bam.
 
 ### Level 6.
 
@@ -138,7 +147,7 @@ note(s):
 2. [Major] Globe of Invulnerability: fix description that duration is 2 turns. Missing spell protections: Ice Storm.
 3. [Harmless] Tenser's Transformation: play visual effect resist/dispel 2 -> 3.
 4. [Major] Flesh to Stone: Main spell: the second remove spell type opcode for k1#haste has inconsistent resist_dispel, timing mode limited and a duration. The cast spell opcode is resist_dispel = 1 -> 2. In the aux spell all opcodes have permanent timing, but with a duration 12, which is harmless, but technically incorrect. Contrary to what is explicitly stated in the description, all opcodes have resist_dispel 1.
-5. [Harmless] Banishment: Use Eff against non-existent row in gender.ids removed from spell and aux spell.
+5. [Harmless] Banishment: Use Eff against non-existent row in gender.ids removed from spell and aux spell. Fixed bam.
 6. [Major] Protection from Magic Energy: contrary to what is stated, no creatures are immune to this spell; fixed description.
 7. [Major] Pierce Magic: incorrect duration of display portrait and play sound opcodes. Mind Blank is incorrectly listed as dispelled.
 8. [Major] True Seeing: fixes as in the cleric version.
@@ -150,7 +159,7 @@ note(s):
 14. [Minor] Conjure Fire Elemental: same problem as Conjure Lesser Fire Elemental, with wrong probabilities in first visual opcode. Summoning eff power 6 -> 0.
 15. [Minor] Conjure Air Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
 16. [Minor] Conjure Earth Elemental: see Conjure Fire Elemental. Summoning eff power 6 -> 0.
-17. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2. Summoning eff power 3 -> 0.
+17. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2. Summoning eff power 3 -> 0. Fixed bam.
 18. [Harmless] Summon Nishruu: summoning eff power 8 -> 0.
 
 ### Level 7.
@@ -159,7 +168,7 @@ note(s):
 2. [Major] Ruby Ray of Reversal: Mind Blank is incorrectly listed as dispelled. Opcodes have power 7 which is inconsistent with other spell protection removals. Changed to 0.
 3. [Major] Khelben's Warding Whip: duration of second remove portrait icon opcode incorrect. Mind Blank is incorrectly listed as dispelled. Aux spell dispelling Spell Shield lacks delayed opcodes. Opcodes have power 7 which is inconsistent with other spell protection removals. Changed to 0.
 4. [Harmless] Monster Summoning VII: summoning eff power 6 -> 0.
-5. [Harmless] Summon Death Knight: summoning eff power 7 -> 0.
+5. [Harmless] Summon Death Knight: summoning eff power 7 -> 0. Fixed bam.
 6. [Major] Simbul's Spell Sequencer: aux spell opcode 258 resist_dispel 1 -> 2.
 7. [Major] Chaos: Opcodes have save penalty -6 instead of -4 and hold opcode has no save. Add display icon for Hold, Sleep and Berserk effects, and string for Hold. Misses immunity by chaotic commands.
 8. [Implementation] Delayed Blast Fireball: use EE damage opcode features.
@@ -218,7 +227,7 @@ note(s):
 9. [Harmless] Cause Light Wounds: power of opcodes 4 -> 1.
 10. [Major, Implementation] Sunscorch: change documentation to explicitly mention that a save vs. spell (not vs. breath, as rolled to halve the damage) will avoid blindness. Use EE features of damage opcode.
 11. [Major] Regenerate Light Wounds: resist_dispel -> 3. Only headers 7 and higher have Display String "Regenerating" -- added missing opcodes.
-12. [Minor] Obscuring mist: remove spurious 284 opcode with probability 0. resist dispel -> 2 for 0 and 164 opcodes, as the penalties are from critters being inside the cloud and thus not blocked by mr or dispellable.
+12. [Minor] Obscuring mist: remove spurious 284 opcode with probability 0. resist dispel -> 2 for 0 and 164 opcodes, as the penalties are from critters being inside the cloud and thus not blocked by mr or dispellable. Fixed bam.
 
 ### Level 2.
 
@@ -249,7 +258,7 @@ note(s):
 7. [Harmless, Implementation] Holy Smite: first header has a spurious Use Eff mask_evil opcode. Holy Smite no longer targets only evils. Use EE features of damage opcode.
 8. [Major, Implementation] Unholy Blight: first header has a spurious Use Eff mask_good opcode. Unholy Blight no longer targets only goody two-shoes. Base thac0 penalty, Lighting Effects and Play Sound opcodes lack saves. All the save penalty opcodes have an undocumented penalty -2 -- all the more because Holy Smite does not have this penalty for its blindness effect. Use EE features of damage opcode.
 9. [Minor] Cure Serious Wounds: add remove intoxicated icon opcode since the spell also cures intoxication.
-10. [Major] Gust of Wind: sleep opcode resist_dispel 0 -> 1. Sleep opcode gained special = 130 (Unconscious) for icon and strref.
+10. [Major] Gust of Wind: sleep opcode resist_dispel 0 -> 1. Sleep opcode gained special = 130 (Unconscious) for icon and strref. Fixed bam.
 
 note(s):
 * contrary to the druid version, it does *not* dispel insect swarms. It also has a *documented* penalty of -2 to the saves.
@@ -301,14 +310,14 @@ note(s):
 8. [Major] Dolorous Decay: play visual effect has a save penalty -5 -> -4. Damage amount of disease was 2 -> 1. Second display icon has timing mode 4. It seems this should be timing 1. Mention in description it bypasses mr.
 9. [Harmless] Physical Mirror: power of opcodes in aux spell sppr613d 1 -> 6.
 10. [Major] Regeneration: the description explicitly mentions the possibility of dispellability but opcodes have resist_dispel 0 -> 3. Description fix that duration is 3 turns.
-11. [Harmless] Banishment: same problems as wizard's Banishment.
+11. [Harmless] Banishment: same problems as wizard's Banishment. Fixed bam.
 12. [Harmless] Conjure Air Elemental: summoning eff power 6 -> 0.
 13. [Harmless] Conjure Earth Elemental: summoning eff power 6 -> 0.
 14. [Harmless] Animate Skeleton Warrior: Use Eff resist/dispel 3 -> 2, power 0 -> 6.
 
 ### Level 7.
 
-1. [Harmless] Summon Shambling Mound: summoning eff power 8 -> 0.
+1. [Harmless] Summon Shambling Mound: summoning eff power 8 -> 0. Fixed bam.
 2. [Harmless] Summon Death Knight: summoning eff power 7 -> 0.
 3. [Severe] Nature's Beauty: removed undocumented slay opcode. Added display string "Charmed" opcode.
 4. [Implementation] Fire Storm: use EE features of damage opcode.
