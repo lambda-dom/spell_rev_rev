@@ -7,7 +7,7 @@ Revisions (patches and tweaks) for Spell Revisions.
 This is a standard WeiDU mod, so no special instructions, but to recap: if you either `git clone` or download the latest public release, just copy the mod to your Baldur's Gate install and `weinstall spell_rev_rev` in the command line (or use an automatic installer like PI).
 
 note(s):
-* if you are downloading the mod by clicking the code button at the GitHub page, then the main folder is named "spell_rev_rev-main" -- this is a GitHub thingy. Rename it to "spell_rev_rev" or else the mod will not work.
+* if you are downloading the mod by clicking the code button at the GitHub page, then the main folder is named "spell_rev_rev-main" -- this is a GitHub thingy. Rename it to "spell_rev_rev" or else the mod will not work. Similarly, public releases may append the version to the folder name, just rename the main folder to "spell_rev_rev" and you are good to go.
 
 ## B. Requirements.
 
