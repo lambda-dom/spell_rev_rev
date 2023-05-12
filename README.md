@@ -2,6 +2,10 @@
 
 Revisions (patches and tweaks) for Spell Revisions.
 
+# Deprecation notice.
+
+This repo is now deprecated. All the SR fixes are included in the most recent version v4.19rc1 and the tweaks have been moved to [Spell Revisions Tweaks](https://github.com/lambda-dom/spell_rev_tweaks).
+
 ## A. Installation.
 
 This is a standard WeiDU mod, so no special instructions, but to recap: if you either `git clone` or download the latest public release, just copy the mod to your Baldur's Gate install and `weinstall spell_rev_rev` in the command line (or use an automatic installer like PI).
